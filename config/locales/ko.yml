@@ -1,0 +1,124 @@
+# Files in the config/locales directory are used for internationalization and
+# are automatically loaded by Rails. If you want to use locales other than
+# English, add the necessary files in this directory.
+#
+# To use the locales, use `I18n.t`:
+#
+#     I18n.t "hello"
+#
+# In views, this is aliased to just `t`:
+#
+#     <%= t("hello") %>
+#
+# To use a different locale, set it with `I18n.locale`:
+#
+#     I18n.locale = :es
+#
+# This would use the information in config/locales/es.yml.
+#
+# To learn more about the API, please read the Rails Internationalization guide
+# at https://guides.rubyonrails.org/i18n.html.
+#
+# Be aware that YAML interprets the following case-insensitive strings as
+# booleans: `true`, `false`, `on`, `off`, `yes`, `no`. Therefore, these strings
+# must be quoted to be interpreted as strings. For example:
+#
+#     en:
+#       "yes": yup
+#       enabled: "ON"
+
+ko:
+  messages:
+    success:
+      created: "%{resource}가 성공적으로 생성되었습니다."
+      updated: "%{resource}가 성공적으로 수정되었습니다."
+      deleted: "%{resource}가 성공적으로 삭제되었습니다."
+      saved: "저장되었습니다."
+      sent: "전송되었습니다."
+      logged_in: "로그인되었습니다."
+      logged_out: "로그아웃되었습니다."
+      registered: "회원가입이 완료되었습니다."
+      password_reset: "비밀번호가 재설정되었습니다."
+      password_reset_instructions_sent: "비밀번호 재설정 안내가 전송되었습니다 (해당 이메일 주소의 사용자가 존재하는 경우)."
+      password_updated: "비밀번호가 업데이트되었습니다."
+    errors:
+      not_found: "요청한 리소스를 찾을 수 없습니다."
+      unauthorized: "접근 권한이 없습니다."
+      forbidden: "금지된 요청입니다."
+      invalid_credentials: "잘못된 로그인 정보입니다."
+      passwords_did_not_match: "비밀번호가 일치하지 않습니다."
+      password_reset_link_invalid: "비밀번호 재설정 링크가 유효하지 않거나 만료되었습니다."
+      rate_limit_exceeded: "나중에 다시 시도해주세요."
+      oauth_failed: "계정 연동에 실패했습니다. 다시 시도해주세요."
+      request_expired: "요청이 만료되었습니다. 다시 시도해주세요."
+    warnings:
+    info:
+
+  errors:
+    messages:
+      required: "필수 항목입니다."
+      blank: "입력해주세요."
+      taken: "이미 사용 중입니다."
+      confirmation: "가 일치하지 않습니다."
+      validation_failed:
+        one: "1개의 오류로 인해 %{resource} 저장에 실패했습니다:"
+        other: "%{count}개의 오류로 인해 %{resource} 저장에 실패했습니다:"
+
+  confirmations:
+    delete: "정말로 삭제하시겠습니까?"
+    delete_resource: "정말로 이 %{resource}를 삭제하시겠습니까?"
+    logout: "로그아웃 하시겠습니까?"
+    cancel_changes: "변경사항을 취소하시겠습니까?"
+    leave_page: "이 페이지를 떠나시겠습니까? 저장하지 않은 변경사항이 손실될 수 있습니다."
+    reset_form: "폼을 초기화하시겠습니까?"
+    permanent_action: "이 작업은 영구적이며 되돌릴 수 없습니다. 계속하시겠습니까?"
+
+  forms:
+    labels:
+      name: "이름"
+      email_address: "이메일"
+      password: "비밀번호"
+      password_confirmation: "비밀번호 확인"
+    placeholders:
+      name: "이름을 입력하세요"
+      email_address: "이메일 주소를 입력하세요"
+      password: "비밀번호를 입력하세요"
+      password_confirmation: "비밀번호를 다시 입력하세요"
+      new_password: "새 비밀번호를 입력하세요"
+      repeat_password: "새 비밀번호를 다시 입력하세요"
+    buttons:
+      sign_up: "회원가입"
+      sign_in: "로그인"
+      forgot_password: "비밀번호 찾기"
+      reset_password: "비밀번호 재설정"
+      email_reset_instructions: "비밀번호 재설정 안내 이메일 보내기"
+      save: "저장"
+
+  activerecord:
+    models:
+      user: "사용자"
+    attributes:
+      user:
+        name: "이름"
+        email_address: "이메일"
+        password: "비밀번호"
+        password_confirmation: "비밀번호"
+    enums:
+
+  emails:
+    common:
+      greeting: "안녕하세요"
+      regards: "감사합니다"
+      signature: "팀 드림"
+      footer: "이 이메일은 자동으로 발송된 메일입니다."
+    welcome:
+      subject: "가입을 환영합니다!"
+      title: "환영합니다!"
+      body: "저희 서비스에 가입해주셔서 감사합니다."
+      get_started: "시작하기"
+    password_reset:
+      subject: "비밀번호 재설정"
+      title: "비밀번호 재설정"
+      body: "비밀번호 재설정을 요청하셨습니다."
+      reset_button: "비밀번호 재설정"
+      expire_notice: "이 링크는 15분 후 만료됩니다."

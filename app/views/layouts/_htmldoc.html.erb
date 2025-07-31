@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <title><%= content_for(:title) || "Console" %></title>
+
+    <%= render "layouts/head" %>
+    <%= yield :head %>
+  </head>
+
+  <body class="min-h-screen bg-gray-100">
+    <%= render "layouts/shared/alert" %>
+    <%= yield %>
+
+    <%= turbo_frame_tag "modal" %>
+  </body>
+</html>
