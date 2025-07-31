@@ -1,0 +1,31 @@
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+
+<meta name="description" content="개인의 일상, 목표, 성과를 체계적으로 기록하고 관리할 수 있는 프라이빗 라이프 대시보드">
+<meta name="keywords" content="라이프로그, 인생기록, 개인대시보드, 일기, 목표관리, 성과추적, 프라이빗, 자기계발">
+<meta name="author" content="JoungSik">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="Console - 나만의 인생 기록을 위한 프라이빗 대시보드">
+<meta property="og:description" content="개인의 일상, 목표, 성과를 체계적으로 기록하고 관리할 수 있는 프라이빗 라이프 대시보드">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://console.joungsik.com">
+<meta property="og:image" content="https://console.joungsik.com/icon.png">
+<meta property="og:image:width" content="512">
+<meta property="og:image:height" content="512">
+<meta property="og:locale" content="ko_KR">
+
+<%= csrf_meta_tags %>
+<%= csp_meta_tag %>
+
+<%= yield :head %>
+
+<%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
+<%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
+
+<link rel="icon" href="/icon.png" type="image/png">
+<link rel="apple-touch-icon" href="/icon.png">
+
+<%# Includes all stylesheet files in app/assets/stylesheets %>
+<%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+<%= javascript_importmap_tags %>
