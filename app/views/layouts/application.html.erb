@@ -1,0 +1,9 @@
+<%= render "layouts/htmldoc" do %>
+  <%= render "layouts/header" %>
+  <%= render "layouts/sidebar" %>
+  <%= render "layouts/bottom_nav" %>
+
+  <main class="pt-24 px-4 md:px-6 pb-20 md:pb-8 md:ml-64">
+    <%= yield %>
+  </main>
+<% end %>
