@@ -2,6 +2,11 @@ class User < ApplicationRecord
   has_secure_password
   has_many :sessions, dependent: :destroy
 
+  has_many :collections, dependent: :destroy
+  has_many :collection_links, through: :collections, source: :links
+
+  has_many :links, dependent: :destroy
+
   encrypts :email_address, deterministic: true
   encrypts :name
 
