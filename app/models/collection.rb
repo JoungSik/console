@@ -1,4 +1,6 @@
 class Collection < ApplicationRecord
+  include Hashable
+
   belongs_to :user
   has_many :links, dependent: :nullify
 

@@ -1,4 +1,6 @@
 class Link < ApplicationRecord
+  include Hashable
+
   belongs_to :user
   belongs_to :collection, optional: true, counter_cache: :links_count
 
