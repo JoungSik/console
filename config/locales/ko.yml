@@ -90,6 +90,15 @@ ko:
       request_expired: "요청이 만료되었습니다. 다시 시도해주세요."
     warnings:
     info:
+    common:
+      created_ago: "%{time_ago} 전에 생성됨"
+      updated_ago: "%{time_ago} 전에 수정됨"
+      no_items: "항목이 없습니다."
+      untitled: "제목 없음"
+      first_item_description: "첫 번째 %{resource}를 만들어 보세요."
+    collections:
+      links_count: "링크 (%{count}개)"
+      no_links: "이 컬렉션에는 아직 링크가 없습니다."
 
   errors:
     messages:
@@ -129,7 +138,6 @@ ko:
       forgot_password: "비밀번호 찾기"
       reset_password: "비밀번호 재설정"
       email_reset_instructions: "비밀번호 재설정 안내 이메일 보내기"
-      save: "저장"
 
   activerecord:
     models:
@@ -159,27 +167,42 @@ ko:
               invalid_url_format: "올바른 URL 형식이 아닙니다. http:// 또는 https://로 시작해야 합니다."
     enums:
 
-  collections:
-    index:
-      title: "컬렉션"
-      new_collection: "새 컬렉션"
-      no_collections: "컬렉션이 없습니다"
-      no_collections_description: "첫 번째 컬렉션을 만들어 보세요."
-    show:
-      back_to_collections: "컬렉션 목록으로"
-      edit_collection: "컬렉션 수정"
-      delete_collection: "컬렉션 삭제"
-      links_count: "링크 (%{count}개)"
-      no_links: "이 컬렉션에는 아직 링크가 없습니다."
-      created_ago: "%{time_ago} 전에 생성됨"
-      delete_confirmation: "정말로 이 컬렉션을 삭제하시겠습니까?"
-    collection:
-      public: "공개"
-      private: "비공개"
-      show: "보기"
-      edit: "수정"
-      delete: "삭제"
-      untitled: "제목 없음"
+  actions:
+    show: "보기"
+    edit: "수정"
+    delete: "삭제"
+    create: "만들기"
+    update: "수정"
+    new: "새로 만들기"
+    back: "뒤로"
+    cancel: "취소"
+    save: "저장"
+
+  # 공통 상태/레이블
+  status:
+    public: "공개"
+    private: "비공개"
+
+  # 공통 템플릿 패턴들
+  templates:
+    titles:
+      index: "%{resource}"
+      my_index: "내 %{resource}"
+      new: "새 %{resource} 만들기"
+      edit: "%{resource} 수정"
+      show: "%{resource} 보기"
+    actions:
+      new_resource: "새 %{resource}"
+      new_resource_create: "새 %{resource} 만들기"
+      edit_resource: "%{resource} 수정"
+      delete_resource: "%{resource} 삭제"
+      create_resource: "%{resource} 만들기"
+      update_resource: "%{resource} 수정"
+      back_to_resources: "%{resource} 목록으로"
+      back_to_my_resources: "내 %{resource}으로"
+    empty_states:
+      no_resources: "%{resource}이 없습니다"
+      no_my_resources: "아직 %{resource}이 없습니다"
 
   emails:
     common:
