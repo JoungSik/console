@@ -13,6 +13,10 @@ Rails.application.routes.draw do
 
   resources :collections, only: %i[ index show ]
 
+  namespace :mypage do
+    resources :collections
+  end
+
   mount Rswag::Ui::Engine => "/api-docs"
   mount Rswag::Api::Engine => "/api-docs"
 end
