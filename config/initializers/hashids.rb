@@ -3,19 +3,19 @@
 class HashidsConfig
   SETTINGS = {
     development: {
-      salt: 'dev-salt-key',
+      salt: "dev-salt-key",
       min_length: 6,
-      alphabet: 'abcdefghijklmnopqrstuvwxyz0123456789'
+      alphabet: "abcdefghijklmnopqrstuvwxyz0123456789"
     },
     test: {
-      salt: 'test-salt-for-consistent-results',
+      salt: "test-salt-for-consistent-results",
       min_length: 6,
-      alphabet: 'abcdefghijklmnopqrstuvwxyz0123456789'
+      alphabet: "abcdefghijklmnopqrstuvwxyz0123456789"
     },
     production: {
       salt: Rails.application.credentials.hashids_salt,
       min_length: 8,
-      alphabet: 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+      alphabet: "abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
     }
   }.freeze
 
