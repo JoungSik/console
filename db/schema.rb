@@ -15,6 +15,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_30_021843) do
     t.string "title", limit: 100, null: false
     t.text "description"
     t.boolean "is_public", default: false, null: false
+    t.integer "links_count", default: 0, null: false
     t.integer "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
