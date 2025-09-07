@@ -60,4 +60,23 @@ RSpec.configure do |config|
   config.filter_rails_from_backtrace!
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
+
+  config.before(:suite) do
+    setup_test_encryption_keys
+  end
+
+  private
+
+  def setup_test_encryption_keys
+    Rails.application.configure do
+      config.active_record.encryption.deterministic_key =
+        ENV['RAILS_TEST_ENCRYPTION_DETERMINISTIC_KEY'] || 'test_deterministic_key_for_testing_only'
+
+      config.active_record.encryption.primary_key =
+        ENV['RAILS_TEST_ENCRYPTION_PRIMARY_KEY'] || 'test_primary_key_for_testing_purposes'
+
+      config.active_record.encryption.key_derivation_salt =
+        ENV['RAILS_TEST_ENCRYPTION_KEY_DERIVATION_SALT'] || 'test_salt_for_key_derivation_testing'
+    end
+  end
 end
