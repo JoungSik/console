@@ -1,12 +1,8 @@
-<% content_for :title, t('collections.index.title') %>
+<% content_for :title, t('templates.titles.index', resource: t('activerecord.models.collection')) %>
 
 <div class="w-full">
-  <% if notice.present? %>
-    <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-md inline-block" id="notice"><%= notice %></p>
-  <% end %>
-
   <div class="flex justify-between items-center">
-    <h1 class="font-bold text-4xl"><%= t('collections.index.title') %></h1>
+    <h1 class="font-bold text-4xl"><%= t('templates.titles.index', resource: t('activerecord.models.collection')) %></h1>
   </div>
 
   <div id="collections" class="mt-8">
@@ -25,8 +21,8 @@
         <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m0 0l4-4m-4 4l4 4m6-4h8" />
         </svg>
-        <h3 class="mt-2 text-sm font-medium text-gray-900"><%= t('collections.index.no_collections') %></h3>
-        <p class="mt-1 text-sm text-gray-500"><%= t('collections.index.no_collections_description') %></p>
+        <h3 class="mt-2 text-sm font-medium text-gray-900"><%= t('templates.empty_states.no_resources', resource: t('activerecord.models.collection')) %></h3>
+        <p class="mt-1 text-sm text-gray-500"><%= t('messages.common.first_item_description', resource: t('activerecord.models.collection')) %></p>
       </div>
     <% end %>
   </div>
