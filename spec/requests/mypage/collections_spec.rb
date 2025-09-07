@@ -13,8 +13,15 @@ require 'rails_helper'
 # sticking to rails and rspec-rails APIs to keep things simple and stable.
 
 RSpec.describe "/mypage/collections", type: :request do
+  let(:user) { User.create!(name: 'Test User', email_address: 'test@example.com', password: 'password') }
+
+  before do
+    # Create a session for the user and set it in Current
+    @session = user.sessions.create!(user_agent: 'test', ip_address: '127.0.0.1')
+    allow(Current).to receive(:session).and_return(@session)
+  end
   # This should return the minimal set of attributes required to create a valid
-  # Mypage::Collection. As you add validations to Mypage::Collection, be sure to
+  # Collection. As you add validations to Collection, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) {
     skip("Add a hash of attributes valid for your model")
@@ -26,7 +33,7 @@ RSpec.describe "/mypage/collections", type: :request do
 
   describe "GET /index" do
     it "renders a successful response" do
-      Mypage::Collection.create! valid_attributes
+      Collection.create! valid_attributes
       get mypage_collections_url
       expect(response).to be_successful
     end
@@ -34,7 +41,7 @@ RSpec.describe "/mypage/collections", type: :request do
 
   describe "GET /show" do
     it "renders a successful response" do
-      collection = Mypage::Collection.create! valid_attributes
+      collection = Collection.create! valid_attributes
       get mypage_collection_url(collection)
       expect(response).to be_successful
     end
@@ -49,7 +56,7 @@ RSpec.describe "/mypage/collections", type: :request do
 
   describe "GET /edit" do
     it "renders a successful response" do
-      collection = Mypage::Collection.create! valid_attributes
+      collection = Collection.create! valid_attributes
       get edit_mypage_collection_url(collection)
       expect(response).to be_successful
     end
@@ -57,23 +64,23 @@ RSpec.describe "/mypage/collections", type: :request do
 
   describe "POST /create" do
     context "with valid parameters" do
-      it "creates a new Mypage::Collection" do
+      it "creates a new Collection" do
         expect {
           post mypage_collections_url, params: { mypage_collection: valid_attributes }
-        }.to change(Mypage::Collection, :count).by(1)
+        }.to change(Collection, :count).by(1)
       end
 
       it "redirects to the created mypage_collection" do
         post mypage_collections_url, params: { mypage_collection: valid_attributes }
-        expect(response).to redirect_to(mypage_collection_url(Mypage::Collection.last))
+        expect(response).to redirect_to(mypage_collection_url(Collection.last))
       end
     end
 
     context "with invalid parameters" do
-      it "does not create a new Mypage::Collection" do
+      it "does not create a new Collection" do
         expect {
           post mypage_collections_url, params: { mypage_collection: invalid_attributes }
-        }.to change(Mypage::Collection, :count).by(0)
+        }.to change(Collection, :count).by(0)
       end
 
       it "renders a response with 422 status (i.e. to display the 'new' template)" do
@@ -90,14 +97,14 @@ RSpec.describe "/mypage/collections", type: :request do
       }
 
       it "updates the requested mypage_collection" do
-        collection = Mypage::Collection.create! valid_attributes
+        collection = Collection.create! valid_attributes
         patch mypage_collection_url(collection), params: { mypage_collection: new_attributes }
         collection.reload
         skip("Add assertions for updated state")
       end
 
       it "redirects to the mypage_collection" do
-        collection = Mypage::Collection.create! valid_attributes
+        collection = Collection.create! valid_attributes
         patch mypage_collection_url(collection), params: { mypage_collection: new_attributes }
         collection.reload
         expect(response).to redirect_to(mypage_collection_url(collection))
@@ -106,7 +113,7 @@ RSpec.describe "/mypage/collections", type: :request do
 
     context "with invalid parameters" do
       it "renders a response with 422 status (i.e. to display the 'edit' template)" do
-        collection = Mypage::Collection.create! valid_attributes
+        collection = Collection.create! valid_attributes
         patch mypage_collection_url(collection), params: { mypage_collection: invalid_attributes }
         expect(response).to have_http_status(:unprocessable_content)
       end
@@ -115,14 +122,14 @@ RSpec.describe "/mypage/collections", type: :request do
 
   describe "DELETE /destroy" do
     it "destroys the requested mypage_collection" do
-      collection = Mypage::Collection.create! valid_attributes
+      collection = Collection.create! valid_attributes
       expect {
         delete mypage_collection_url(collection)
-      }.to change(Mypage::Collection, :count).by(-1)
+      }.to change(Collection, :count).by(-1)
     end
 
     it "redirects to the mypage_collections list" do
-      collection = Mypage::Collection.create! valid_attributes
+      collection = Collection.create! valid_attributes
       delete mypage_collection_url(collection)
       expect(response).to redirect_to(mypage_collections_url)
     end
