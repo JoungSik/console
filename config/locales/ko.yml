@@ -99,6 +99,8 @@ ko:
     collections:
       links_count: "링크 (%{count}개)"
       no_links: "이 컬렉션에는 아직 링크가 없습니다."
+    links:
+      invalid_url: "유효하지 않은 URL"
 
   errors:
     messages:

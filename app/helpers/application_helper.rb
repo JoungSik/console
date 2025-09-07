@@ -17,4 +17,23 @@ module ApplicationHelper
 
     options
   end
+
+  def safe_url(url)
+    return nil if url.blank?
+
+    uri = URI.parse(url)
+    return nil unless %w[http https].include?(uri.scheme)
+
+    url
+  rescue URI::InvalidURIError
+    nil
+  end
+
+  def safe_link_to(url, options = {}, &block)
+    if safe_url(url)
+      link_to(url, options, &block)
+    else
+      content_tag(:div, options.except(:target, :rel), &block)
+    end
+  end
 end
