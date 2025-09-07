@@ -9,6 +9,8 @@ class Collection < ApplicationRecord
 
   before_validation :sanitize_description
 
+  scope :is_public, -> { where(is_public: true) }
+
   private
 
   def sanitize_description
