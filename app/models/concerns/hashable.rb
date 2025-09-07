@@ -19,7 +19,7 @@ module Hashable
 
     def find_by_hashid!(hashid)
       record = find_by_hashid(hashid)
-      raise ActiveRecord::RecordNotFound, t("messages.errors.not_found") unless record
+      raise ActiveRecord::RecordNotFound, I18n.t("messages.errors.not_found") unless record
 
       record
     end
