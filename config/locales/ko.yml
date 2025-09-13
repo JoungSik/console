@@ -230,3 +230,11 @@ ko:
       body: "비밀번호 재설정을 요청하셨습니다."
       reset_button: "비밀번호 재설정"
       expire_notice: "이 링크는 15분 후 만료됩니다."
+
+  navigation:
+    home: "홈"
+    collections: "컬렉션"
+    my_collections: "내 컬렉션"
+    profile: "프로필"
+    login: "로그인"
+    logout: "로그아웃"

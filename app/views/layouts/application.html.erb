@@ -1,5 +1,20 @@
 <%= render "layouts/htmldoc" do %>
-  <main class="p-8">
-    <%= yield %>
-  </main>
+  <% unless turbo_native_app? %>
+    <!-- 데스크탑 사이드바 네비게이션 -->
+    <%= render "layouts/desktop_sidebar" %>
+
+    <!-- 모바일 바톰 네비게이션 -->
+    <%= render "layouts/mobile_bottom_nav" %>
+  <% end %>
+
+  <!-- 메인 콘텐츠 영역 -->
+  <div class="<%= turbo_native_app? ? '' : 'lg:pl-64' %>">
+    <main class="p-8">
+      <%= yield %>
+    </main>
+    <!-- 모바일 웹에서만 하단 여백 확보 -->
+    <% unless turbo_native_app? %>
+      <div class="lg:hidden h-16"></div>
+    <% end %>
+  </div>
 <% end %>

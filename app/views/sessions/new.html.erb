@@ -3,7 +3,7 @@
 
     <h1 class="font-bold text-4xl text-center mb-6"><%= t("forms.buttons.sign_in") %></h1>
 
-    <%= form_with url: session_url, class: "contents" do |form| %>
+    <%= form_with url: session_url, class: "contents", data: { turbo_action: "replace" } do |form| %>
       <div class="my-5">
         <%= form.email_field :email_address, required: true, autofocus: true, autocomplete: "email",
                              placeholder: t("forms.placeholders.email_address"), value: params[:email_address],
