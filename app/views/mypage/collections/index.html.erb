@@ -1,16 +1,13 @@
 <% content_for :title, t('templates.titles.my_index', resource: t('activerecord.models.collection')) %>
 
 <div class="w-full">
-  <div class="flex justify-between items-center">
-    <h1 class="font-bold text-4xl"><%= t('templates.titles.my_index', resource: t('activerecord.models.collection')) %></h1>
-    <%= link_to new_mypage_collection_path, class: "rounded-lg py-3 px-5 bg-blue-600 text-white font-medium hover:bg-blue-500 transition-colors" do %>
-      <%= t('templates.actions.new_resource_create', resource: t('activerecord.models.collection')) %>
-    <% end %>
+  <div class="flex justify-center sm:justify-start">
+    <h1 class="font-bold text-2xl sm:text-4xl"><%= t('templates.titles.my_index', resource: t('activerecord.models.collection')) %></h1>
   </div>
 
   <div id="collections" class="mt-8">
     <% if @collections.any? %>
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 lg:gap-6">
         <% @collections.each do |collection| %>
           <div class="group relative">
             <%= link_to mypage_collection_path(collection), class: "block hover:scale-105 transition-transform duration-200" do %>
@@ -26,12 +23,14 @@
         </svg>
         <h3 class="mt-2 text-sm font-medium text-gray-900"><%= t('templates.empty_states.no_my_resources', resource: t('activerecord.models.collection')) %></h3>
         <p class="mt-1 text-sm text-gray-500"><%= t('messages.common.first_item_description', resource: t('activerecord.models.collection')) %></p>
-        <div class="mt-6">
-          <%= link_to new_mypage_collection_path, class: "inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700" do %>
-            <%= t('templates.actions.new_resource_create', resource: t('activerecord.models.collection')) %>
-          <% end %>
-        </div>
       </div>
     <% end %>
   </div>
 </div>
+
+<!-- FAB (Floating Action Button) -->
+<%= link_to new_mypage_collection_path, class: "fixed bottom-6 right-6 w-14 h-14 bg-blue-600 hover:bg-blue-700 text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-200 flex items-center justify-center z-50" do %>
+  <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+  </svg>
+<% end %>
