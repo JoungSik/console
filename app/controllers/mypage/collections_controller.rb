@@ -66,7 +66,8 @@ class Mypage::CollectionsController < Mypage::ApplicationController
 
   # Only allow a list of trusted parameters through.
   def collection_params
-    params.require(:collection).permit(:title, :description, :is_public)
-          .merge(user: current_user)
+    params.require(:collection).permit(:title, :description, :is_public,
+                                       links_attributes: [ :id, :title, :url, :description, :_destroy ])
+          .merge(user_id: current_user.id)
   end
 end
