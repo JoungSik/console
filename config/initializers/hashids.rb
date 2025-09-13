@@ -13,7 +13,7 @@ class HashidsConfig
       alphabet: "abcdefghijklmnopqrstuvwxyz0123456789"
     },
     production: {
-      salt: Rails.application.credentials.hashids_salt || ENV['HASHIDS_SALT'] || 'fallback-salt-for-build',
+      salt: Rails.application.credentials.hashids_salt || ENV["HASHIDS_SALT"] || "fallback-salt-for-build",
       min_length: 8,
       alphabet: "abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
     }
