@@ -1,6 +1,6 @@
-<div id="<%= dom_id collection %>" class="w-full bg-white p-4 rounded-lg border shadow-sm">
-  <div class="space-y-2">
-    <h3 class="text-lg font-semibold text-gray-900 truncate">
+<div id="<%= dom_id collection %>" class="w-full bg-white p-4 sm:p-5 rounded-lg border shadow-sm hover:shadow-md transition-shadow">
+  <div class="space-y-3">
+    <h3 class="text-base sm:text-lg font-semibold text-gray-900 truncate">
       <%= collection.title.presence || t('messages.common.untitled') %>
     </h3>
     
@@ -10,11 +10,11 @@
       </p>
     <% end %>
     
-    <div class="flex items-center space-x-2 text-xs text-gray-500">
-      <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium <%= collection.is_public? ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800' %>">
+    <div class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 text-xs text-gray-500">
+      <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium <%= collection.is_public? ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800' %> w-fit">
         <%= collection.is_public? ? t('status.public') : t('status.private') %>
       </span>
-      <span><%= t('messages.common.created_ago', time_ago: time_ago_in_words(collection.created_at)) %></span>
+      <span class="text-xs"><%= t('messages.common.created_ago', time_ago: time_ago_in_words(collection.created_at)) %></span>
     </div>
   </div>
 </div>
