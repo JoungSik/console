@@ -134,6 +134,13 @@ ko:
       password_confirmation: "비밀번호를 다시 입력하세요"
       new_password: "새 비밀번호를 입력하세요"
       repeat_password: "새 비밀번호를 다시 입력하세요"
+      collection:
+        title: "컬렉션 제목을 입력하세요"
+        description: "컬렉션에 대한 설명을 입력하세요"
+      link:
+        title: "링크 제목을 입력하세요"
+        url: "https://example.com"
+        description: "링크에 대한 설명을 입력하세요"
     buttons:
       sign_up: "회원가입"
       sign_in: "로그인"

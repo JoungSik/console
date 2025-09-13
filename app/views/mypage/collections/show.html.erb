@@ -55,6 +55,9 @@
                   <p class="text-sm <%= safe_url(link.url) ? 'text-gray-500' : 'text-red-500' %> truncate mt-1">
                     <%= safe_url(link.url) ? link.url : t('messages.links.invalid_url') %>
                   </p>
+                  <% if link.description.present? %>
+                    <p class="text-sm text-gray-600 mt-2 line-clamp-2"><%= simple_format(link.description) %></p>
+                  <% end %>
                 <% end %>
               </div>
             <% end %>
