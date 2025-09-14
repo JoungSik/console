@@ -1,0 +1,55 @@
+<%= form_with(model: todo_list, class: "space-y-6", data: { controller: "nested-form", nested_form_wrapper_selector_value: "#todos" }) do |form| %>
+  <% if todo_list.errors.any? %>
+    <div id="error_explanation" class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-md">
+      <h2 class="font-medium mb-2"><%= t('errors.messages.validation_failed', count: todo_list.errors.count, resource: t('navigation.todo_links')) %></h2>
+      <ul class="text-sm space-y-1">
+        <% todo_list.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="space-y-4">
+    <div>
+      <%= form.label :title, t('activerecord.attributes.todo_list.title'), class: "block text-sm font-medium text-gray-700 mb-1" %>
+      <%= form.text_field :title,
+                          placeholder: t('forms.placeholders.todo_list.title'),
+                          class: "w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" %>
+    </div>
+
+    <div class="flex items-center">
+      <%= form.check_box :archive,
+                         { checked: todo_list.archived_at.present?, class: "h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded" },
+                         "1", "0" %>
+      <%= form.label :archive, t('activerecord.attributes.todo_list.archive'), class: "ml-2 block text-sm text-gray-900" %>
+    </div>
+
+    <div class="space-y-4">
+      <h3 class="text-lg font-medium text-gray-900"><%= t('activerecord.models.todo') %></h3>
+      <div id="todos" data-turbo-permanent>
+        <%= form.fields_for :todos do |todo_fields| %>
+          <%= render 'todo_fields', form: todo_fields %>
+        <% end %>
+      </div>
+
+      <%= link_to t('templates.actions.new_resource_create', resource: t('activerecord.models.todo')), "#",
+                  data: {
+                    action: "click->nested-form#add_association",
+                    nested_form_target: "addButton"
+                  },
+                  class: "inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+
+      <template data-nested-form-target="template">
+        <%= form.fields_for :todos, Todo.new, child_index: 'NEW_RECORD' do |todo_fields| %>
+          <%= render 'todo_fields', form: todo_fields %>
+        <% end %>
+      </template>
+    </div>
+  </div>
+
+  <div class="flex justify-end">
+    <%= form.submit todo_list.persisted? ? t('templates.actions.update_resource', resource: t('navigation.todo_links')) : t('templates.actions.create_resource', resource: t('navigation.todo_links')),
+                    class: "inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+  </div>
+<% end %>
