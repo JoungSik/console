@@ -5,7 +5,7 @@ class User < ApplicationRecord
   has_many :collections, dependent: :destroy
   has_many :collection_links, through: :collections, source: :links
 
-  has_many :links, dependent: :destroy
+  has_many :todo_lists, dependent: :destroy
 
   encrypts :email_address, deterministic: true
   encrypts :name

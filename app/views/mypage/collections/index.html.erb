@@ -28,9 +28,4 @@
   </div>
 </div>
 
-<!-- FAB (Floating Action Button) -->
-<%= link_to new_mypage_collection_path, class: "fixed #{turbo_native_app? ? 'bottom-6' : 'bottom-20 lg:bottom-6'} right-6 w-14 h-14 bg-blue-600 hover:bg-blue-700 text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-200 flex items-center justify-center z-40" do %>
-  <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
-  </svg>
-<% end %>
+<%= render "layouts/shared/floating_action_button", path: new_mypage_collection_path %>
