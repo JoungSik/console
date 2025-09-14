@@ -18,10 +18,10 @@ module NavigationHelper
     # 로그인한 사용자만 볼 수 있는 메뉴
     if authenticated?
       items << {
-        name: t("navigation.my_collections"),
-        path: mypage_collections_path,
-        icon: "folder-open",
-        active_paths: [ mypage_collections_path ]
+        name: t("navigation.todo_links"),
+        path: todo_lists_path,
+        icon: "layout-list",
+        active_paths: [ todo_lists_path ]
       }
       items << {
         name: t("navigation.profile"),
