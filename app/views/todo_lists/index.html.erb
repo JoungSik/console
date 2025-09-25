@@ -1,6 +1,6 @@
 <% content_for :title, t('navigation.todo_links') %>
 
-<div class="w-full" data-controller="tabs">
+<div class="w-full">
   <% if notice.present? %>
     <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-md inline-block" id="notice"><%= notice %></p>
   <% end %>
@@ -9,27 +9,26 @@
     <!-- Tab Navigation -->
     <div class="border-b border-gray-200">
       <nav class="-mb-px flex space-x-8">
-        <button data-action="click->tabs#switchTab"
-                data-tabs-target="tab"
-                data-tab-name="active"
-                class="tab-button border-indigo-500 text-indigo-600 whitespace-nowrap py-2 px-1 border-b-2 font-medium text-sm">
+        <%= link_to todo_lists_path,
+            class: "whitespace-nowrap py-2 px-1 border-b-2 font-medium text-sm #{params[:archive].blank? ? 'border-indigo-500 text-indigo-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'}" do %>
+          전체
+        <% end %>
+        <%= link_to todo_lists_path(archive: '0'),
+            class: "whitespace-nowrap py-2 px-1 border-b-2 font-medium text-sm #{params[:archive] == '0' ? 'border-indigo-500 text-indigo-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'}" do %>
           사용중인 목록
-        </button>
-        <button data-action="click->tabs#switchTab"
-                data-tabs-target="tab"
-                data-tab-name="archived"
-                class="tab-button border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-2 px-1 border-b-2 font-medium text-sm">
+        <% end %>
+        <%= link_to todo_lists_path(archive: '1'),
+            class: "whitespace-nowrap py-2 px-1 border-b-2 font-medium text-sm #{params[:archive] == '1' ? 'border-indigo-500 text-indigo-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'}" do %>
           보관중
-        </button>
+        <% end %>
       </nav>
     </div>
 
-    <!-- Active Todo Lists -->
-    <div data-tabs-target="content" data-tab-name="active" class="tab-content mt-6">
-      <% active_lists = @todo_lists.select { |list| list.archived_at.nil? } %>
-      <% if active_lists.any? %>
+    <!-- Todo Lists Content -->
+    <div class="mt-6">
+      <% if @todo_lists.any? %>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 lg:gap-6">
-          <% active_lists.each do |todo_list| %>
+          <% @todo_lists.each do |todo_list| %>
             <div class="group relative">
               <%= link_to todo_list, class: "block" do %>
                 <%= render todo_list %>
@@ -42,32 +41,19 @@
           <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
           </svg>
-          <h3 class="mt-2 text-sm font-medium text-gray-900">사용중인 목록이 없습니다</h3>
-          <p class="mt-1 text-sm text-gray-500">새로운 할 일 목록을 만들어보세요</p>
-        </div>
-      <% end %>
-    </div>
-
-    <!-- Archived Todo Lists -->
-    <div data-tabs-target="content" data-tab-name="archived" class="tab-content mt-6 hidden">
-      <% archived_lists = @todo_lists.select { |list| list.archived_at.present? } %>
-      <% if archived_lists.any? %>
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 lg:gap-6">
-          <% archived_lists.each do |todo_list| %>
-            <div class="group relative">
-              <%= link_to todo_list, class: "block" do %>
-                <%= render todo_list %>
-              <% end %>
-            </div>
-          <% end %>
-        </div>
-      <% else %>
-        <div class="text-center py-12">
-          <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-          </svg>
-          <h3 class="mt-2 text-sm font-medium text-gray-900">보관중인 목록이 없습니다</h3>
-          <p class="mt-1 text-sm text-gray-500">완료된 목록들을 보관해보세요</p>
+          <h3 class="mt-2 text-sm font-medium text-gray-900">
+            <%= case params[:archive]
+                when '1' then '보관중인 목록이 없습니다'
+                when '0' then '사용중인 목록이 없습니다'
+                else '할 일 목록이 없습니다'
+                end %>
+          </h3>
+          <p class="mt-1 text-sm text-gray-500">
+            <%= case params[:archive]
+                when '1' then '완료된 목록들을 보관해보세요'
+                else '새로운 할 일 목록을 만들어보세요'
+                end %>
+          </p>
         </div>
       <% end %>
     </div>
