@@ -4,6 +4,7 @@ class TodoListsController < ApplicationController
   # GET /todo_lists or /todo_lists.json
   def index
     @todo_lists = TodoList.includes(:not_completed_todos).where(user: current_user)
+    @todo_lists = @todo_lists.public_send(params[:archive] == "1" ? :archived : :not_archived) if params[:archive].present?
   end
 
   # GET /todo_lists/1 or /todo_lists/1.json

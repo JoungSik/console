@@ -6,4 +6,7 @@ class TodoList < ApplicationRecord
   has_many :not_completed_todos, -> { not_completed }, class_name: "Todo"
 
   validates :title, presence: true, length: { maximum: 100 }
+
+  scope :archived, -> { where.not(archived_at: nil) }
+  scope :not_archived, -> { where(archived_at: nil) }
 end
