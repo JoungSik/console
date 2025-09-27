@@ -1,12 +1,12 @@
 <!-- 데스크탑 사이드바 네비게이션 -->
 <div class="hidden lg:flex lg:w-64 lg:flex-col lg:fixed lg:inset-y-0">
   <!-- 사이드바 콘텐츠 -->
-  <div class="flex flex-col flex-grow bg-white border-r border-gray-200 pt-5 overflow-y-auto">
+  <div class="flex flex-col flex-grow bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 pt-5 overflow-y-auto transition-colors duration-200">
     <!-- 로고/브랜드 영역 -->
     <div class="flex items-center flex-shrink-0 px-4">
       <%= link_to root_path, class: "flex items-center" do %>
         <img src="/icon.png" alt="Console" class="w-8 h-8 mr-3" />
-        <span class="text-xl font-semibold text-gray-900">Console</span>
+        <span class="text-xl font-semibold text-gray-900 dark:text-white transition-colors duration-200">Console</span>
       <% end %>
     </div>
 
@@ -14,7 +14,7 @@
     <nav class="mt-8 flex-1 px-2 space-y-1" aria-label="Sidebar">
       <% navigation_items.each do |item| %>
         <% is_active = navigation_item_active?(item) %>
-        <%= link_to item[:path], class: "group flex items-center px-2 py-2 text-sm font-medium rounded-md transition-colors duration-150 #{is_active ? 'bg-blue-100 text-blue-900 border-blue-600' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'}" do %>
+        <%= link_to item[:path], class: "group flex items-center px-2 py-2 text-sm font-medium rounded-md transition-colors duration-150 #{is_active ? 'bg-blue-100 dark:bg-blue-900 text-blue-900 dark:text-blue-100' : 'text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white'}" do %>
           <div class="mr-3 flex-shrink-0 h-6 w-6">
             <%= lucide_icon item[:icon], class: "w-full h-full text-current" %>
           </div>
@@ -25,21 +25,21 @@
 
     <!-- 하단 사용자 정보 (로그인한 경우) -->
     <% if authenticated? %>
-      <div class="flex-shrink-0 border-t border-gray-200 p-4">
+      <div class="flex-shrink-0 border-t border-gray-200 dark:border-gray-700 p-4">
         <div class="flex items-center">
-          <div class="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center">
-            <svg class="w-5 h-5 text-gray-600" fill="currentColor" viewBox="0 0 20 20">
+          <div class="w-8 h-8 bg-gray-300 dark:bg-gray-600 rounded-full flex items-center justify-center">
+            <svg class="w-5 h-5 text-gray-600 dark:text-gray-300" fill="currentColor" viewBox="0 0 20 20">
               <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
             </svg>
           </div>
           <div class="ml-3 flex-1 min-w-0">
-            <p class="text-sm font-medium text-gray-900 truncate">
+            <p class="text-sm font-medium text-gray-900 dark:text-white truncate">
               <%= @current_user.name || @current_user.email_address %>
             </p>
-            <p class="text-xs text-gray-500">
+            <p class="text-xs text-gray-500 dark:text-gray-400">
               <%= link_to t('navigation.logout'), session_path,
                   data: { turbo_method: :delete, turbo_confirm: t('confirmations.logout') },
-                  class: "text-gray-500 hover:text-gray-700" %>
+                  class: "text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300" %>
             </p>
           </div>
         </div>

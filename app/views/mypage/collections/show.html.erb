@@ -2,7 +2,7 @@
 
 <div class="w-full">
   <div class="mb-6">
-    <%= link_to mypage_collections_path, class: "inline-flex items-center text-sm text-gray-500 hover:text-gray-700" do %>
+    <%= link_to mypage_collections_path, class: "inline-flex items-center text-sm text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300" do %>
       <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
       </svg>
@@ -10,26 +10,26 @@
     <% end %>
   </div>
 
-  <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+  <div class="bg-white dark:bg-gray-800 shadow-lg rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700">
     <div class="p-6 sm:p-8">
       <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-6">
         <div class="flex-1 min-w-0">
-          <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 break-words">
+          <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white break-words">
             <%= @collection.title.presence || t('messages.common.untitled') %>
           </h1>
 
           <div class="mt-2 flex items-center">
-            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium <%= @collection.is_public? ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800' %>">
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium <%= @collection.is_public? ? 'bg-green-100 dark:bg-green-800 text-green-800 dark:text-green-100' : 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200' %>">
               <%= @collection.is_public? ? t('status.public') : t('status.private') %>
             </span>
-            <span class="ml-2 text-sm text-gray-500">
+            <span class="ml-2 text-sm text-gray-500 dark:text-gray-400">
               <%= t('messages.common.created_ago', time_ago: time_ago_in_words(@collection.created_at)) %>
             </span>
           </div>
 
           <!-- 모바일 전용 액션 버튼 -->
           <div class="mt-4 sm:hidden flex gap-2">
-            <%= link_to edit_mypage_collection_path(@collection), class: "flex-1 inline-flex items-center justify-center px-3 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 transition-colors" do %>
+            <%= link_to edit_mypage_collection_path(@collection), class: "flex-1 inline-flex items-center justify-center px-3 py-2 border border-gray-300 dark:border-gray-600 shadow-sm text-sm font-medium rounded-md text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors" do %>
               <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
               </svg>
@@ -46,7 +46,7 @@
 
         <!-- 데스크톱에서만 보이는 액션 버튼 -->
         <div class="mt-4 sm:mt-0 sm:ml-6 flex-shrink-0 hidden sm:flex gap-3">
-          <%= link_to edit_mypage_collection_path(@collection), class: "inline-flex items-center justify-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50" do %>
+          <%= link_to edit_mypage_collection_path(@collection), class: "inline-flex items-center justify-center px-3 py-2 border border-gray-300 dark:border-gray-600 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600" do %>
             <%= t('templates.actions.edit_resource', resource: t('activerecord.models.collection')) %>
           <% end %>
           <%= button_to @collection, method: :delete, class: "inline-flex items-center justify-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-red-600 hover:bg-red-700", data: { turbo_confirm: t('confirmations.delete_resource', resource: t('activerecord.models.collection')) } do %>
@@ -57,23 +57,23 @@
 
       <% if @collection.description.present? %>
         <div class="prose prose-sm sm:prose max-w-none mb-8">
-          <p class="text-gray-700 leading-relaxed"><%= simple_format(@collection.description) %></p>
+          <p class="text-gray-700 dark:text-gray-300 leading-relaxed"><%= simple_format(@collection.description) %></p>
         </div>
       <% end %>
 
       <% if @collection.links.any? %>
-        <div class="border-t pt-6">
-          <h2 class="text-lg font-semibold text-gray-900 mb-4"><%= t('messages.collections.links_count', count: @collection.links.count) %></h2>
+        <div class="border-t border-gray-200 dark:border-gray-700 pt-6">
+          <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4"><%= t('messages.collections.links_count', count: @collection.links.count) %></h2>
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
             <% @collection.links.each do |link| %>
-              <div class="border rounded-lg p-4 hover:shadow-md transition-shadow">
+              <div class="border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-700 rounded-lg p-4 hover:shadow-md transition-shadow">
                 <%= safe_link_to link.url, target: "_blank", rel: "noopener", class: "block" do %>
-                  <h3 class="font-medium text-gray-900 truncate"><%= link.title.presence || t('messages.common.untitled') %></h3>
-                  <p class="text-sm <%= safe_url(link.url) ? 'text-gray-500' : 'text-red-500' %> truncate mt-1">
+                  <h3 class="font-medium text-gray-900 dark:text-white truncate"><%= link.title.presence || t('messages.common.untitled') %></h3>
+                  <p class="text-sm <%= safe_url(link.url) ? 'text-gray-500 dark:text-gray-400' : 'text-red-500 dark:text-red-400' %> truncate mt-1">
                     <%= safe_url(link.url) ? link.url : t('messages.links.invalid_url') %>
                   </p>
                   <% if link.description.present? %>
-                    <p class="text-sm text-gray-600 mt-2 line-clamp-2"><%= simple_format(link.description) %></p>
+                    <p class="text-sm text-gray-600 dark:text-gray-300 mt-2 line-clamp-2"><%= simple_format(link.description) %></p>
                   <% end %>
                 <% end %>
               </div>
@@ -81,8 +81,8 @@
           </div>
         </div>
       <% else %>
-        <div class="text-center py-8 border-t">
-          <p class="text-gray-500"><%= t('messages.collections.no_links') %></p>
+        <div class="text-center py-8 border-t border-gray-200 dark:border-gray-700">
+          <p class="text-gray-500 dark:text-gray-400"><%= t('messages.collections.no_links') %></p>
         </div>
       <% end %>
     </div>

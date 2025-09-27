@@ -1,17 +1,17 @@
-<div id="<%= dom_id todo_list %>" class="w-full bg-white p-4 sm:p-5 rounded-lg border shadow-sm hover:shadow-md transition-shadow">
+<div id="<%= dom_id todo_list %>" class="w-full bg-white dark:bg-gray-800 p-4 sm:p-5 rounded-lg border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-md transition-shadow">
   <div class="space-y-3">
-    <h3 class="text-base sm:text-lg font-semibold text-gray-900 truncate">
+    <h3 class="text-base sm:text-lg font-semibold text-gray-900 dark:text-white truncate">
       <%= todo_list.title.presence || t('messages.common.untitled') %>
     </h3>
 
     <% if todo_list.archived_at.present? %>
-        <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-800 w-fit">
+        <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 w-fit">
           <%= t('messages.todo_lists.archived') %>
         </span>
     <% end %>
 
     <% if todo_list.not_completed_todos.any? %>
-      <div class="border-t pt-3 space-y-2">
+      <div class="border-t border-gray-200 dark:border-gray-700 pt-3 space-y-2">
         <div class="space-y-1 max-h-24 overflow-y-auto">
           <% todo_list.not_completed_todos.each do |todo| %>
             <div class="flex items-center gap-2 text-xs">
@@ -23,10 +23,10 @@
                     </svg>
                   </div>
                 <% else %>
-                  <div class="w-3 h-3 border border-gray-300 rounded"></div>
+                  <div class="w-3 h-3 border border-gray-300 dark:border-gray-600 rounded"></div>
                 <% end %>
               </div>
-              <span class="text-gray-700 truncate <%= todo.completed? ? 'line-through text-gray-500' : '' %>">
+              <span class="text-gray-700 dark:text-gray-300 truncate <%= todo.completed? ? 'line-through text-gray-500 dark:text-gray-400' : '' %>">
                 <%= todo.title %>
               </span>
             </div>
@@ -34,8 +34,8 @@
         </div>
       </div>
     <% else %>
-      <div class="border-t pt-3">
-        <p class="text-xs text-gray-500 italic"><%= t('messages.todo_lists.no_todos') %></p>
+      <div class="border-t border-gray-200 dark:border-gray-700 pt-3">
+        <p class="text-xs text-gray-500 dark:text-gray-400 italic"><%= t('messages.todo_lists.no_todos') %></p>
       </div>
     <% end %>
   </div>

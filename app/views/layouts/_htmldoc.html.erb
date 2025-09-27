@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" class="h-full">
   <head>
     <title><%= content_for(:title) || "Console" %></title>
 
@@ -7,7 +7,7 @@
     <%= yield :head %>
   </head>
 
-  <body class="min-h-screen bg-gray-100">
+  <body class="min-h-screen bg-gray-100 dark:bg-gray-900 transition-colors duration-200">
     <%= render "layouts/shared/alert" %>
     <%= yield %>
 

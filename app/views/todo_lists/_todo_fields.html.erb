@@ -1,23 +1,23 @@
-<div class="todo-fields border border-gray-200 rounded-md p-4 space-y-3" data-nested-form-target="item">
+<div class="todo-fields border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 rounded-md p-4 space-y-3" data-nested-form-target="item">
   <%= form.hidden_field :id %>
 
   <div>
-    <%= form.label :title, t('activerecord.attributes.todo.title'), class: "block text-sm font-medium text-gray-700 mb-1" %>
+    <%= form.label :title, t('activerecord.attributes.todo.title'), class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" %>
     <%= form.text_field :title,
                         placeholder: t('forms.placeholders.todo.title'),
-                        class: "w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" %>
+                        class: "w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" %>
   </div>
 
   <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
     <div class="flex items-center">
-      <%= form.check_box :completed, class: "h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300 rounded" %>
-      <%= form.label :completed, t('activerecord.attributes.todo.completed'), class: "ml-2 block text-sm text-gray-900" %>
+      <%= form.check_box :completed, class: "h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 rounded" %>
+      <%= form.label :completed, t('activerecord.attributes.todo.completed'), class: "ml-2 block text-sm text-gray-900 dark:text-white" %>
     </div>
 
     <div>
-      <%= form.label :due_date, t('activerecord.attributes.todo.due_date'), class: "block text-sm font-medium text-gray-700 mb-1" %>
+      <%= form.label :due_date, t('activerecord.attributes.todo.due_date'), class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" %>
       <%= form.date_field :due_date,
-                          class: "w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" %>
+                          class: "w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" %>
     </div>
   </div>
 
@@ -25,6 +25,6 @@
     <%= form.hidden_field :_destroy, value: "0", data: { nested_form_target: "destroyField" } %>
     <%= link_to t('templates.actions.delete_resource', resource: t('activerecord.models.todo')), "#",
                 data: { action: "click->nested-form#remove_association" },
-                class: "text-sm text-red-600 hover:text-red-800" %>
+                class: "text-sm text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300" %>
   </div>
 </div>
