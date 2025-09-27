@@ -2,7 +2,7 @@
 
 <div class="w-full">
   <div class="flex justify-center sm:justify-start">
-    <h1 class="font-bold text-2xl sm:text-4xl"><%= t('templates.titles.my_index', resource: t('activerecord.models.collection')) %></h1>
+    <h1 class="font-bold text-2xl sm:text-4xl text-gray-900 dark:text-white"><%= t('templates.titles.my_index', resource: t('activerecord.models.collection')) %></h1>
   </div>
 
   <div id="collections" class="mt-8">
@@ -18,11 +18,11 @@
       </div>
     <% else %>
       <div class="text-center py-12">
-        <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <svg class="mx-auto h-12 w-12 text-gray-400 dark:text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m0 0l4-4m-4 4l4 4m6-4h8" />
         </svg>
-        <h3 class="mt-2 text-sm font-medium text-gray-900"><%= t('templates.empty_states.no_my_resources', resource: t('activerecord.models.collection')) %></h3>
-        <p class="mt-1 text-sm text-gray-500"><%= t('messages.common.first_item_description', resource: t('activerecord.models.collection')) %></p>
+        <h3 class="mt-2 text-sm font-medium text-gray-900 dark:text-white"><%= t('templates.empty_states.no_my_resources', resource: t('activerecord.models.collection')) %></h3>
+        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400"><%= t('messages.common.first_item_description', resource: t('activerecord.models.collection')) %></p>
       </div>
     <% end %>
   </div>

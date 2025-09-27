@@ -2,7 +2,7 @@
 
 <div class="w-full">
   <div class="mb-6">
-    <%= link_to todo_lists_path, class: "inline-flex items-center text-sm text-gray-500 hover:text-gray-700" do %>
+    <%= link_to todo_lists_path, class: "inline-flex items-center text-sm text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300" do %>
       <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
       </svg>
@@ -10,16 +10,16 @@
     <% end %>
   </div>
 
-  <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+  <div class="bg-white dark:bg-gray-800 shadow-lg rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700">
     <div class="p-6 sm:p-8">
       <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-6">
         <div class="flex-1 min-w-0">
-          <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 break-words">
+          <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white break-words">
             <%= @todo_list.title.presence || t('messages.common.untitled') %>
           </h1>
 
           <% if @todo_list.archived_at.present? %>
-              <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+              <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200">
                 <%= t('messages.todo_lists.archived') %>
               </span>
           <% end %>
@@ -27,18 +27,18 @@
 
         <div class="mt-4 sm:mt-0 sm:ml-6 flex-shrink-0">
           <div class="flex space-x-2">
-            <%= link_to t('actions.edit'), edit_todo_list_path(@todo_list), class: "inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+            <%= link_to t('actions.edit'), edit_todo_list_path(@todo_list), class: "inline-flex items-center px-3 py-2 border border-gray-300 dark:border-gray-600 shadow-sm text-sm font-medium rounded-md text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
             <%= button_to t('actions.delete'), @todo_list, method: :delete, class: "inline-flex items-center px-3 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500", data: { turbo_confirm: t('confirmations.delete_resource', resource: t('navigation.todo_links')) } %>
           </div>
         </div>
       </div>
 
       <% if @todo_list.todos.any? %>
-        <div class="border-t pt-6">
-          <h2 class="text-lg font-semibold text-gray-900 mb-4"><%= t('messages.todo_lists.todos_count', count: @todo_list.todos.count) %></h2>
+        <div class="border-t border-gray-200 dark:border-gray-700 pt-6">
+          <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4"><%= t('messages.todo_lists.todos_count', count: @todo_list.todos.count) %></h2>
           <div class="space-y-3">
             <% @todo_list.todos.each do |todo| %>
-              <div class="border rounded-lg p-4 hover:shadow-md transition-shadow <%= todo.completed? ? 'bg-gray-50' : 'bg-white' %>">
+              <div class="border border-gray-200 dark:border-gray-700 rounded-lg p-4 hover:shadow-md transition-shadow <%= todo.completed? ? 'bg-gray-50 dark:bg-gray-700' : 'bg-white dark:bg-gray-800' %>">
                 <div class="flex items-start gap-3">
                   <div class="flex-shrink-0 mt-0.5">
                     <% if todo.completed? %>
@@ -48,15 +48,15 @@
                         </svg>
                       </div>
                     <% else %>
-                      <div class="w-5 h-5 border-2 border-gray-300 rounded"></div>
+                      <div class="w-5 h-5 border-2 border-gray-300 dark:border-gray-600 rounded"></div>
                     <% end %>
                   </div>
                   <div class="flex-1 min-w-0">
-                    <h3 class="font-medium <%= todo.completed? ? 'text-gray-500 line-through' : 'text-gray-900' %>">
+                    <h3 class="font-medium <%= todo.completed? ? 'text-gray-500 dark:text-gray-400 line-through' : 'text-gray-900 dark:text-white' %>">
                       <%= todo.title %>
                     </h3>
                     <% if todo.due_date.present? %>
-                      <p class="text-sm text-gray-500 mt-1">
+                      <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">
                         <%= t('activerecord.attributes.todo.due_date') %>: <%= l(todo.due_date, format: :short) %>
                       </p>
                     <% end %>
@@ -67,8 +67,8 @@
           </div>
         </div>
       <% else %>
-        <div class="text-center py-8 border-t">
-          <p class="text-gray-500"><%= t('messages.todo_lists.no_todos') %></p>
+        <div class="text-center py-8 border-t border-gray-200 dark:border-gray-700">
+          <p class="text-gray-500 dark:text-gray-400"><%= t('messages.todo_lists.no_todos') %></p>
         </div>
       <% end %>
     </div>
