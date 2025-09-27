@@ -47,71 +47,13 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
-      - name: Get image information
-        id: image-info
-        run: |
-          echo "image-digest=${{ steps.build.outputs.digest }}" >> $GITHUB_OUTPUT
-          echo "image-tags=${{ steps.meta.outputs.tags }}" >> $GITHUB_OUTPUT
-          echo "image-url=ghcr.io/${{ github.repository }}:${{ github.sha }}" >> $GITHUB_OUTPUT
-          echo "image-latest=ghcr.io/${{ github.repository }}:latest" >> $GITHUB_OUTPUT
-          echo "image-size=$(docker image inspect ${{ steps.meta.outputs.tags }} --format='{{.Size}}' | head -1)" >> $GITHUB_OUTPUT
-          echo "build-time=$(date -u +'%Y-%m-%d %H:%M:%S UTC')" >> $GITHUB_OUTPUT
-
       - name: Send Slack notification
-        uses: 8398a7/action-slack@v3
-        with:
-          status: ${{ job.status }}
-          custom_payload: |
-            {
-              "text": "🐳 Docker 이미지 빌드 완료",
-              "attachments": [
-                {
-                  "color": "${{ job.status == 'success' && 'good' || 'danger' }}",
-                  "fields": [
-                    {
-                      "title": "Repository",
-                      "value": "${{ github.repository }}",
-                      "short": true
-                    },
-                    {
-                      "title": "Branch",
-                      "value": "${{ github.ref_name }}",
-                      "short": true
-                    },
-                    {
-                      "title": "Commit",
-                      "value": "<${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }}|${{ github.sha }}>",
-                      "short": true
-                    },
-                    {
-                      "title": "Image URL (SHA)",
-                      "value": "`${{ steps.image-info.outputs.image-url }}`",
-                      "short": false
-                    },
-                    {
-                      "title": "Image URL (Latest)",
-                      "value": "`${{ steps.image-info.outputs.image-latest }}`",
-                      "short": false
-                    },
-                    {
-                      "title": "Image Digest",
-                      "value": "${{ steps.image-info.outputs.image-digest }}",
-                      "short": false
-                    },
-                    {
-                      "title": "Build Time",
-                      "value": "${{ steps.image-info.outputs.build-time }}",
-                      "short": true
-                    },
-                    {
-                      "title": "Registry",
-                      "value": "ghcr.io",
-                      "short": true
-                    }
-                  ]
-                }
-              ]
-            }
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        run: |
+          # 7자리 SHA 추출
+          SHORT_SHA=$(echo "${{ github.sha }}" | cut -c1-7)
+
+          # Slack 메시지 전송
+          curl -X POST -H 'Content-type: application/json' \
+            --data "{\"text\":\"🐳 Docker 이미지 빌드 완료\n\nImage: \`ghcr.io/${{ github.repository }}:${SHORT_SHA}\`\nActions: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}\"}" \
+            ${{ secrets.SLACK_WEBHOOK_URL }}
         if: always()
