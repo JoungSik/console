@@ -1,24 +1,16 @@
 <% content_for :title, t('navigation.todo_links') %>
 
 <div class="w-full">
-  <% if notice.present? %>
-    <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-md inline-block" id="notice"><%= notice %></p>
-  <% end %>
-
   <div class="mt-8">
     <!-- Tab Navigation -->
     <div class="border-b border-gray-200">
       <nav class="-mb-px flex space-x-8">
         <%= link_to todo_lists_path,
-            class: "whitespace-nowrap py-2 px-1 border-b-2 font-medium text-sm #{params[:archive].blank? ? 'border-indigo-500 text-indigo-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'}" do %>
-          전체
-        <% end %>
-        <%= link_to todo_lists_path(archive: '0'),
-            class: "whitespace-nowrap py-2 px-1 border-b-2 font-medium text-sm #{params[:archive] == '0' ? 'border-indigo-500 text-indigo-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'}" do %>
-          사용중인 목록
+                    class: "whitespace-nowrap py-2 px-1 border-b-2 font-medium text-sm #{params[:archive].blank? ? 'border-indigo-500 text-indigo-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'}" do %>
+          사용중
         <% end %>
         <%= link_to todo_lists_path(archive: '1'),
-            class: "whitespace-nowrap py-2 px-1 border-b-2 font-medium text-sm #{params[:archive] == '1' ? 'border-indigo-500 text-indigo-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'}" do %>
+                    class: "whitespace-nowrap py-2 px-1 border-b-2 font-medium text-sm #{params[:archive] == '1' ? 'border-indigo-500 text-indigo-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'}" do %>
           보관중
         <% end %>
       </nav>
@@ -44,8 +36,7 @@
           <h3 class="mt-2 text-sm font-medium text-gray-900">
             <%= case params[:archive]
                 when '1' then '보관중인 목록이 없습니다'
-                when '0' then '사용중인 목록이 없습니다'
-                else '할 일 목록이 없습니다'
+                else '사용중인 목록이 없습니다'
                 end %>
           </h3>
           <p class="mt-1 text-sm text-gray-500">

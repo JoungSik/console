@@ -35,7 +35,8 @@ jobs:
             type=raw,value=latest,enable={{is_default_branch}}
 
       - name: Build and push Docker image
-        uses: docker/build-push-action@v5
+        id: build
+        uses: docker/build-push-action@v6
         with:
           context: .
           push: true
@@ -45,3 +46,72 @@ jobs:
             RAILS_MASTER_KEY=${{ secrets.RAILS_MASTER_KEY }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+
+      - name: Get image information
+        id: image-info
+        run: |
+          echo "image-digest=${{ steps.build.outputs.digest }}" >> $GITHUB_OUTPUT
+          echo "image-tags=${{ steps.meta.outputs.tags }}" >> $GITHUB_OUTPUT
+          echo "image-url=ghcr.io/${{ github.repository }}:${{ github.sha }}" >> $GITHUB_OUTPUT
+          echo "image-latest=ghcr.io/${{ github.repository }}:latest" >> $GITHUB_OUTPUT
+          echo "image-size=$(docker image inspect ${{ steps.meta.outputs.tags }} --format='{{.Size}}' | head -1)" >> $GITHUB_OUTPUT
+          echo "build-time=$(date -u +'%Y-%m-%d %H:%M:%S UTC')" >> $GITHUB_OUTPUT
+
+      - name: Send Slack notification
+        uses: 8398a7/action-slack@v3
+        with:
+          status: ${{ job.status }}
+          custom_payload: |
+            {
+              "text": "🐳 Docker 이미지 빌드 완료",
+              "attachments": [
+                {
+                  "color": "${{ job.status == 'success' && 'good' || 'danger' }}",
+                  "fields": [
+                    {
+                      "title": "Repository",
+                      "value": "${{ github.repository }}",
+                      "short": true
+                    },
+                    {
+                      "title": "Branch",
+                      "value": "${{ github.ref_name }}",
+                      "short": true
+                    },
+                    {
+                      "title": "Commit",
+                      "value": "<${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }}|${{ github.sha }}>",
+                      "short": true
+                    },
+                    {
+                      "title": "Image URL (SHA)",
+                      "value": "`${{ steps.image-info.outputs.image-url }}`",
+                      "short": false
+                    },
+                    {
+                      "title": "Image URL (Latest)",
+                      "value": "`${{ steps.image-info.outputs.image-latest }}`",
+                      "short": false
+                    },
+                    {
+                      "title": "Image Digest",
+                      "value": "${{ steps.image-info.outputs.image-digest }}",
+                      "short": false
+                    },
+                    {
+                      "title": "Build Time",
+                      "value": "${{ steps.image-info.outputs.build-time }}",
+                      "short": true
+                    },
+                    {
+                      "title": "Registry",
+                      "value": "ghcr.io",
+                      "short": true
+                    }
+                  ]
+                }
+              ]
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        if: always()
