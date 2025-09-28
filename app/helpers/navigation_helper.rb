@@ -6,17 +6,17 @@ module NavigationHelper
         path: root_path,
         icon: "home",
         active_paths: [ root_path ]
-      },
-      {
-        name: t("navigation.collections"),
-        path: collections_path,
-        icon: "folder",
-        active_paths: [ collections_path, mypage_collections_path ]
       }
     ]
 
     # 로그인한 사용자만 볼 수 있는 메뉴
     if authenticated?
+      items << {
+        name: t("navigation.collections"),
+        path: collections_path,
+        icon: "folder",
+        active_paths: [ collections_path, mypage_collections_path ]
+      }
       items << {
         name: t("navigation.todo_links"),
         path: todo_lists_path,
