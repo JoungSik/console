@@ -1,4 +1,4 @@
-class TodoListsController < ApplicationController
+class Mypage::TodoListsController < Mypage::ApplicationController
   before_action :set_todo_list, only: %i[ show edit update destroy ]
 
   # GET /todo_lists or /todo_lists.json
@@ -26,8 +26,8 @@ class TodoListsController < ApplicationController
 
     respond_to do |format|
       if @todo_list.save
-        format.html { redirect_to @todo_list, notice: t("messages.success.created", resource: t("navigation.todo_links")) }
-        format.json { render :show, status: :created, location: @todo_list }
+        format.html { redirect_to [ :mypage, @todo_list ], notice: t("messages.success.created", resource: t("navigation.todo_links")) }
+        format.json { render :show, status: :created, location: [ :mypage, @todo_list ] }
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @todo_list.errors, status: :unprocessable_entity }
@@ -39,8 +39,8 @@ class TodoListsController < ApplicationController
   def update
     respond_to do |format|
       if @todo_list.update(todo_list_params)
-        format.html { redirect_to @todo_list, notice: t("messages.success.updated", resource: t("navigation.todo_links")) }
-        format.json { render :show, status: :ok, location: @todo_list }
+        format.html { redirect_to [ :mypage, @todo_list ], notice: t("messages.success.updated", resource: t("navigation.todo_links")) }
+        format.json { render :show, status: :ok, location: [ :mypage, @todo_list ] }
       else
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @todo_list.errors, status: :unprocessable_entity }
@@ -53,7 +53,7 @@ class TodoListsController < ApplicationController
     @todo_list.destroy!
 
     respond_to do |format|
-      format.html { redirect_to todo_lists_path, status: :see_other, notice: t("messages.success.deleted", resource: t("navigation.todo_links")) }
+      format.html { redirect_to mypage_todo_lists_path, status: :see_other, notice: t("messages.success.deleted", resource: t("navigation.todo_links")) }
       format.json { head :no_content }
     end
   end

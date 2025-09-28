@@ -19,9 +19,9 @@ module NavigationHelper
       }
       items << {
         name: t("navigation.todo_links"),
-        path: todo_lists_path,
+        path: mypage_todo_lists_path,
         icon: "layout-list",
-        active_paths: [ todo_lists_path ]
+        active_paths: [ mypage_todo_lists_path ]
       }
       items << {
         name: t("navigation.profile"),

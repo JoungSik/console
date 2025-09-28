@@ -12,7 +12,7 @@ require 'rails_helper'
 # of tools you can use to make these specs even more expressive, but we're
 # sticking to rails and rspec-rails APIs to keep things simple and stable.
 
-RSpec.describe "/todo_lists", type: :request do
+RSpec.describe "/mypage/todo_lists", type: :request do
   let(:user) { User.create!(name: 'Test User', email_address: 'test@example.com', password: 'password') }
 
   before do
@@ -34,7 +34,7 @@ RSpec.describe "/todo_lists", type: :request do
   describe "GET /index" do
     it "renders a successful response" do
       TodoList.create! valid_attributes
-      get todo_lists_url
+      get mypage_todo_lists_url
       expect(response).to be_successful
     end
   end
@@ -42,14 +42,14 @@ RSpec.describe "/todo_lists", type: :request do
   describe "GET /show" do
     it "renders a successful response" do
       todo_list = TodoList.create! valid_attributes
-      get todo_list_url(todo_list)
+      get mypage_todo_list_url(todo_list)
       expect(response).to be_successful
     end
   end
 
   describe "GET /new" do
     it "renders a successful response" do
-      get new_todo_list_url
+      get new_mypage_todo_list_url
       expect(response).to be_successful
     end
   end
@@ -57,7 +57,7 @@ RSpec.describe "/todo_lists", type: :request do
   describe "GET /edit" do
     it "renders a successful response" do
       todo_list = TodoList.create! valid_attributes
-      get edit_todo_list_url(todo_list)
+      get edit_mypage_todo_list_url(todo_list)
       expect(response).to be_successful
     end
   end
@@ -66,25 +66,25 @@ RSpec.describe "/todo_lists", type: :request do
     context "with valid parameters" do
       it "creates a new TodoList" do
         expect {
-          post todo_lists_url, params: { todo_list: valid_attributes }
+          post mypage_todo_lists_url, params: { todo_list: valid_attributes }
         }.to change(TodoList, :count).by(1)
       end
 
       it "redirects to the created todo_list" do
-        post todo_lists_url, params: { todo_list: valid_attributes }
-        expect(response).to redirect_to(todo_list_url(TodoList.last))
+        post mypage_todo_lists_url, params: { todo_list: valid_attributes }
+        expect(response).to redirect_to(mypage_todo_list_url(TodoList.last))
       end
     end
 
     context "with invalid parameters" do
       it "does not create a new TodoList" do
         expect {
-          post todo_lists_url, params: { todo_list: invalid_attributes }
+          post mypage_todo_lists_url, params: { todo_list: invalid_attributes }
         }.to change(TodoList, :count).by(0)
       end
 
       it "renders a response with 422 status (i.e. to display the 'new' template)" do
-        post todo_lists_url, params: { todo_list: invalid_attributes }
+        post mypage_todo_lists_url, params: { todo_list: invalid_attributes }
         expect(response).to have_http_status(:unprocessable_content)
       end
     end
@@ -98,23 +98,23 @@ RSpec.describe "/todo_lists", type: :request do
 
       it "updates the requested todo_list" do
         todo_list = TodoList.create! valid_attributes
-        patch todo_list_url(todo_list), params: { todo_list: new_attributes }
+        patch mypage_todo_list_url(todo_list), params: { todo_list: new_attributes }
         todo_list.reload
         skip("Add assertions for updated state")
       end
 
       it "redirects to the todo_list" do
         todo_list = TodoList.create! valid_attributes
-        patch todo_list_url(todo_list), params: { todo_list: new_attributes }
+        patch mypage_todo_list_url(todo_list), params: { todo_list: new_attributes }
         todo_list.reload
-        expect(response).to redirect_to(todo_list_url(todo_list))
+        expect(response).to redirect_to(mypage_todo_list_url(todo_list))
       end
     end
 
     context "with invalid parameters" do
       it "renders a response with 422 status (i.e. to display the 'edit' template)" do
         todo_list = TodoList.create! valid_attributes
-        patch todo_list_url(todo_list), params: { todo_list: invalid_attributes }
+        patch mypage_todo_list_url(todo_list), params: { todo_list: invalid_attributes }
         expect(response).to have_http_status(:unprocessable_content)
       end
     end
@@ -124,14 +124,14 @@ RSpec.describe "/todo_lists", type: :request do
     it "destroys the requested todo_list" do
       todo_list = TodoList.create! valid_attributes
       expect {
-        delete todo_list_url(todo_list)
+        delete mypage_todo_list_url(todo_list)
       }.to change(TodoList, :count).by(-1)
     end
 
     it "redirects to the todo_lists list" do
       todo_list = TodoList.create! valid_attributes
-      delete todo_list_url(todo_list)
-      expect(response).to redirect_to(todo_lists_url)
+      delete mypage_todo_list_url(todo_list)
+      expect(response).to redirect_to(mypage_todo_lists_url)
     end
   end
 end
