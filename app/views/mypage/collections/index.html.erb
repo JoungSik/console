@@ -1,12 +1,11 @@
 <% content_for :title, t('templates.titles.my_index', resource: t('activerecord.models.collection')) %>
 
 <div class="w-full">
-  <div class="flex justify-center sm:justify-start">
-    <h1 class="font-bold text-2xl sm:text-4xl text-gray-900 dark:text-white"><%= t('templates.titles.my_index', resource: t('activerecord.models.collection')) %></h1>
-  </div>
+  <%= render 'shared/collections_tabs' %>
 
-  <div id="collections" class="mt-8">
-    <% if @collections.any? %>
+  <!-- 컬렉션 목록 -->
+  <div id="collections" class="mt-6">
+    <% if @collections&.any? %>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 lg:gap-6">
         <% @collections.each do |collection| %>
           <div class="group relative">
@@ -21,8 +20,8 @@
         <svg class="mx-auto h-12 w-12 text-gray-400 dark:text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m0 0l4-4m-4 4l4 4m6-4h8" />
         </svg>
-        <h3 class="mt-2 text-sm font-medium text-gray-900 dark:text-white"><%= t('templates.empty_states.no_my_resources', resource: t('activerecord.models.collection')) %></h3>
-        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400"><%= t('messages.common.first_item_description', resource: t('activerecord.models.collection')) %></p>
+        <h3 class="mt-2 text-sm font-medium text-gray-900 dark:text-white">내 컬렉션이 없습니다</h3>
+        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">첫 번째 컬렉션을 만들어보세요</p>
       </div>
     <% end %>
   </div>

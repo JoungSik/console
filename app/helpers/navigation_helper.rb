@@ -11,7 +11,7 @@ module NavigationHelper
         name: t("navigation.collections"),
         path: collections_path,
         icon: "folder",
-        active_paths: [ collections_path ]
+        active_paths: [ collections_path, mypage_collections_path ]
       }
     ]
 
