@@ -25,7 +25,7 @@ class Mypage::CollectionsController < Mypage::ApplicationController
 
     respond_to do |format|
       if @collection.save
-        format.html { redirect_to mypage_collection_path(@collection), notice: t("messages.success.created", resource: t("activerecord.models.collection")) }
+        format.html { redirect_to mypage_collection_path(@collection), notice: created_flash_message(t("activerecord.models.collection")) }
         format.json { render :show, status: :created, location: @collection }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -38,7 +38,7 @@ class Mypage::CollectionsController < Mypage::ApplicationController
   def update
     respond_to do |format|
       if @collection.update(collection_params)
-        format.html { redirect_to mypage_collection_path(@collection), notice: t("messages.success.updated", resource: t("activerecord.models.collection")) }
+        format.html { redirect_to mypage_collection_path(@collection), notice: updated_flash_message(t("activerecord.models.collection")) }
         format.json { render :show, status: :ok, location: @collection }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -52,7 +52,7 @@ class Mypage::CollectionsController < Mypage::ApplicationController
     @collection.destroy!
 
     respond_to do |format|
-      format.html { redirect_to mypage_collections_path, status: :see_other, notice: t("messages.success.deleted", resource: t("activerecord.models.collection")) }
+      format.html { redirect_to mypage_collections_path, status: :see_other, notice: deleted_flash_message(t("activerecord.models.collection")) }
       format.json { head :no_content }
     end
   end

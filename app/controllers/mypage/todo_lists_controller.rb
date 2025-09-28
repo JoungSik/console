@@ -26,7 +26,7 @@ class Mypage::TodoListsController < Mypage::ApplicationController
 
     respond_to do |format|
       if @todo_list.save
-        format.html { redirect_to [ :mypage, @todo_list ], notice: t("messages.success.created", resource: t("navigation.todo_links")) }
+        format.html { redirect_to [ :mypage, @todo_list ], notice: created_flash_message(t("activerecord.models.todo_list")) }
         format.json { render :show, status: :created, location: [ :mypage, @todo_list ] }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -39,7 +39,7 @@ class Mypage::TodoListsController < Mypage::ApplicationController
   def update
     respond_to do |format|
       if @todo_list.update(todo_list_params)
-        format.html { redirect_to [ :mypage, @todo_list ], notice: t("messages.success.updated", resource: t("navigation.todo_links")) }
+        format.html { redirect_to [ :mypage, @todo_list ], notice: updated_flash_message(t("activerecord.models.todo_list")) }
         format.json { render :show, status: :ok, location: [ :mypage, @todo_list ] }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -53,7 +53,7 @@ class Mypage::TodoListsController < Mypage::ApplicationController
     @todo_list.destroy!
 
     respond_to do |format|
-      format.html { redirect_to mypage_todo_lists_path, status: :see_other, notice: t("messages.success.deleted", resource: t("navigation.todo_links")) }
+      format.html { redirect_to mypage_todo_lists_path, status: :see_other, notice: deleted_flash_message(t("activerecord.models.todo_list")) }
       format.json { head :no_content }
     end
   end
