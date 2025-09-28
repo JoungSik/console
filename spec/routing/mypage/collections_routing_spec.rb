@@ -18,7 +18,6 @@ RSpec.describe Mypage::CollectionsController, type: :routing do
       expect(get: "/mypage/collections/1/edit").to route_to("mypage/collections#edit", id: "1")
     end
 
-
     it "routes to #create" do
       expect(post: "/mypage/collections").to route_to("mypage/collections#create")
     end
