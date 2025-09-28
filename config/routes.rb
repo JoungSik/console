@@ -15,7 +15,9 @@ Rails.application.routes.draw do
 
   namespace :mypage do
     resources :collections
-    resources :todo_lists
+    resources :todo_lists do
+      resources :todos, only: %i[ update destroy ]
+    end
   end
 
   mount Rswag::Ui::Engine => "/api-docs"
