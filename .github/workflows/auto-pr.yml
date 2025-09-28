@@ -1,10 +1,12 @@
-name: Auto PR with Commit List
+name: Create PR with Commit List
 
 on:
-  push:
-    branches-ignore:
-      - main
-      - dev
+  workflow_dispatch:    # 수동 실행으로만 PR 생성
+    inputs:
+      branch:
+        description: 'PR을 생성할 브랜치명'
+        required: true
+        type: string
 
 jobs:
   create-pr:
@@ -17,6 +19,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
+          ref: ${{ inputs.branch }}
           fetch-depth: 0  # 전체 히스토리를 가져와서 커밋 비교 가능
 
       - name: Get commit list and PR info
@@ -24,7 +27,7 @@ jobs:
         run: |
           # 기본 브랜치 (main)와 비교하여 커밋 목록 가져오기
           BASE_BRANCH="main"
-          CURRENT_BRANCH="${{ github.ref_name }}"
+          CURRENT_BRANCH="${{ inputs.branch }}"
 
           # 원격 브랜치 정보 가져오기
           git fetch origin ${BASE_BRANCH}:${BASE_BRANCH} || git fetch origin ${BASE_BRANCH}
@@ -78,7 +81,7 @@ jobs:
       - name: Check if PR already exists
         id: check-pr
         run: |
-          EXISTING_PR=$(gh pr list --head "${{ github.ref_name }}" --base "${{ steps.pr-info.outputs.base-branch }}" --json number --jq '.[0].number // empty')
+          EXISTING_PR=$(gh pr list --head "${{ inputs.branch }}" --base "${{ steps.pr-info.outputs.base-branch }}" --json number --jq '.[0].number // empty')
           echo "existing-pr=${EXISTING_PR}" >> $GITHUB_OUTPUT
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -90,18 +93,14 @@ jobs:
             --title "${{ steps.pr-info.outputs.pr-title }}" \
             --body-file pr_body.md \
             --base "${{ steps.pr-info.outputs.base-branch }}" \
-            --head "${{ github.ref_name }}"
+            --head "${{ inputs.branch }}"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Update existing Pull Request
+      - name: Skip if PR already exists
         if: steps.check-pr.outputs.existing-pr != ''
         run: |
-          gh pr edit ${{ steps.check-pr.outputs.existing-pr }} \
-            --body-file pr_body.md
-          echo "✅ 기존 PR #${{ steps.check-pr.outputs.existing-pr }}의 본문을 업데이트했습니다."
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          echo "ℹ️ PR #${{ steps.check-pr.outputs.existing-pr }}이 이미 존재합니다. 워크플로우를 건너뜁니다."
 
       - name: Comment on PR creation
         if: steps.check-pr.outputs.existing-pr == ''
