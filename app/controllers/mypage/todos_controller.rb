@@ -1,5 +1,6 @@
 class Mypage::TodosController < ApplicationController
   before_action :set_todo, only: %i[ update destroy ]
+  before_action -> { authorize @todo }, only: %i[ update destroy ]
 
   # PATCH/PUT /mypage/todos/1 or /mypage/todos/1.json
   def update
