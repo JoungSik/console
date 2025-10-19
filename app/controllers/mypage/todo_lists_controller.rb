@@ -1,5 +1,6 @@
 class Mypage::TodoListsController < Mypage::ApplicationController
   before_action :set_todo_list, only: %i[ show edit update destroy ]
+  before_action -> { authorize @todo_list }, only: %i[ update destroy ]
 
   # GET /todo_lists or /todo_lists.json
   def index

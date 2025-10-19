@@ -1,5 +1,6 @@
 class Mypage::CollectionsController < Mypage::ApplicationController
   before_action :set_collection, only: %i[ show edit update destroy ]
+  before_action -> { authorize @collection, policy_class: Mypage::CollectionPolicy }, only: %i[ edit update destroy ]
 
   # GET /mypage/collections or /mypage/collections.json
   def index
