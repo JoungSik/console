@@ -26,19 +26,21 @@
     </div>
 
     <div class="space-y-4">
-      <h3 class="text-lg font-medium text-gray-900 dark:text-white"><%= t('activerecord.models.todo') %></h3>
+      <div class="flex items-center justify-between">
+        <h3 class="text-lg font-medium text-gray-900 dark:text-white"><%= t('activerecord.models.todo') %></h3>
+        <%= link_to t('templates.actions.new_resource_create', resource: t('activerecord.models.todo')), "#",
+                    data: {
+                      action: "click->nested-form#add_association",
+                      nested_form_target: "addButton"
+                    },
+                    class: "inline-flex items-center px-3 py-2 border border-gray-300 dark:border-gray-600 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+      </div>
+
       <div id="todos" data-turbo-permanent>
         <%= form.fields_for :todos do |todo_fields| %>
           <%= render 'todo_fields', form: todo_fields %>
         <% end %>
       </div>
-
-      <%= link_to t('templates.actions.new_resource_create', resource: t('activerecord.models.todo')), "#",
-                  data: {
-                    action: "click->nested-form#add_association",
-                    nested_form_target: "addButton"
-                  },
-                  class: "inline-flex items-center px-3 py-2 border border-gray-300 dark:border-gray-600 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
 
       <template data-nested-form-target="template">
         <%= form.fields_for :todos, Todo.new, child_index: 'NEW_RECORD' do |todo_fields| %>
