@@ -6,13 +6,13 @@ export default class extends Controller {
 
   add_association(event) {
     event.preventDefault()
-    
+
     const content = this.templateTarget.innerHTML.replace(/NEW_RECORD/g, new Date().getTime())
-    const wrapper = this.wrapperSelectorValue ? 
-      document.querySelector(this.wrapperSelectorValue) : 
+    const wrapper = this.wrapperSelectorValue ?
+      document.querySelector(this.wrapperSelectorValue) :
       this.element.querySelector('[data-nested-form-target="item"]').parentElement
-    
-    wrapper.insertAdjacentHTML('beforeend', content)
+
+    wrapper.insertAdjacentHTML('afterbegin', content)
   }
 
   remove_association(event) {
