@@ -18,6 +18,10 @@ gem "stimulus-rails"
 gem "tailwindcss-rails"
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 gem "jbuilder"
+# Database-backed Active Job backend [https://github.com/rails/solid_queue]
+gem "solid_queue"
+# Mission Control for Rails Jobs [https://github.com/rails/mission_control-jobs]
+gem "mission_control-jobs"
 # Use Redis adapter to run Action Cable in production
 # gem "redis", ">= 4.0.1"
 
