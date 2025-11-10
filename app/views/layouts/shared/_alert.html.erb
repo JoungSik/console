@@ -1,13 +1,13 @@
 <% if notice.present? %>
   <div data-controller="alert" data-alert-target="alert" data-alert-duration-value="3000"
-       class="fixed top-0 left-0 right-0 bg-green-600 text-white p-4 z-50 shadow-lg">
+       class="fixed top-4 right-4 bg-green-600 dark:bg-green-700 text-white p-3 z-50 shadow-lg rounded-lg max-w-sm">
     <div class="flex items-center justify-between">
       <div class="flex items-center">
-        <%= lucide_icon "check-circle", class: "w-5 h-5 mr-2" %>
-        <p><%= notice %></p>
+        <%= lucide_icon "check-circle", class: "w-4 h-4 mr-2" %>
+        <p class="text-sm"><%= notice %></p>
       </div>
-      <button data-action="click->alert#close" class="ml-4 hover:opacity-75">
-        <%= lucide_icon "x", class: "w-5 h-5" %>
+      <button data-action="click->alert#close" class="ml-3 hover:opacity-75">
+        <%= lucide_icon "x", class: "w-4 h-4" %>
       </button>
     </div>
   </div>
@@ -15,14 +15,14 @@
 
 <% if alert.present? %>
   <div data-controller="alert" data-alert-target="alert" data-alert-duration-value="5000"
-       class="fixed top-0 left-0 right-0 bg-red-600 text-white p-4 z-50 shadow-lg">
+       class="fixed top-4 right-4 bg-red-600 dark:bg-red-700 text-white p-3 z-50 shadow-lg rounded-lg max-w-sm">
     <div class="flex items-center justify-between">
       <div class="flex items-center">
-        <%= lucide_icon "circle-alert", class: "w-5 h-5 mr-2" %>
-        <p><%= alert %></p>
+        <%= lucide_icon "circle-alert", class: "w-4 h-4 mr-2" %>
+        <p class="text-sm"><%= alert %></p>
       </div>
-      <button data-action="click->alert#close" class="ml-4 hover:opacity-75">
-        <%= lucide_icon "x", class: "w-5 h-5" %>
+      <button data-action="click->alert#close" class="ml-3 hover:opacity-75">
+        <%= lucide_icon "x", class: "w-4 h-4" %>
       </button>
     </div>
   </div>
