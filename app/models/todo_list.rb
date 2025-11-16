@@ -9,4 +9,8 @@ class TodoList < ApplicationRecord
 
   scope :archived, -> { where.not(archived_at: nil) }
   scope :not_archived, -> { where(archived_at: nil) }
+
+  def displayed_todos
+    archived_at ? todos : not_completed_todos
+  end
 end
