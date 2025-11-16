@@ -10,10 +10,10 @@
         </span>
     <% end %>
 
-    <% if todo_list.not_completed_todos.any? %>
+    <% if todo_list.displayed_todos.any? %>
       <div class="border-t border-gray-200 dark:border-gray-700 pt-3 space-y-2">
         <div class="space-y-1 max-h-24 overflow-y-auto">
-          <% todo_list.not_completed_todos.each do |todo| %>
+          <% todo_list.displayed_todos.each do |todo| %>
             <div class="flex items-center gap-2 text-xs">
               <div class="flex-shrink-0">
                 <% if todo.completed? %>

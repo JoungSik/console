@@ -4,7 +4,7 @@ class Mypage::TodoListsController < Mypage::ApplicationController
 
   # GET /todo_lists or /todo_lists.json
   def index
-    @todo_lists = TodoList.includes(:not_completed_todos).where(user: current_user)
+    @todo_lists = TodoList.includes(:todos, :not_completed_todos).where(user: current_user)
     @todo_lists = @todo_lists.public_send(params[:archive].presence ? :archived : :not_archived)
   end
 
