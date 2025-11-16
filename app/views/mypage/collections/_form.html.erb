@@ -10,6 +10,11 @@
     </div>
   <% end %>
 
+  <div class="flex justify-end mb-6">
+    <%= form.submit collection.persisted? ? t('templates.actions.update_resource', resource: t('activerecord.models.collection')) : t('templates.actions.create_resource', resource: t('activerecord.models.collection')),
+                    class: "inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+  </div>
+
   <div class="space-y-4">
     <div>
       <%= form.label :title, t('activerecord.attributes.collection.title'), class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" %>
@@ -32,19 +37,21 @@
     </div>
 
     <div class="space-y-4">
-      <h3 class="text-lg font-medium text-gray-900 dark:text-white"><%= t('activerecord.models.link') %></h3>
+      <div class="flex items-center justify-between">
+        <h3 class="text-lg font-medium text-gray-900 dark:text-white"><%= t('activerecord.models.link') %></h3>
+        <%= link_to t('templates.actions.new_resource_create', resource: t('activerecord.models.link')), "#",
+                    data: {
+                      action: "click->nested-form#add_association",
+                      nested_form_target: "addButton"
+                    },
+                    class: "inline-flex items-center px-3 py-2 border border-gray-300 dark:border-gray-600 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+      </div>
+
       <div id="links" data-turbo-permanent>
         <%= form.fields_for :links do |link_fields| %>
           <%= render 'link_fields', form: link_fields %>
         <% end %>
       </div>
-
-      <%= link_to t('templates.actions.new_resource_create', resource: t('activerecord.models.link')), "#", 
-                  data: { 
-                    action: "click->nested-form#add_association",
-                    nested_form_target: "addButton"
-                  },
-                  class: "inline-flex items-center px-3 py-2 border border-gray-300 dark:border-gray-600 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
 
       <template data-nested-form-target="template">
         <%= form.fields_for :links, Link.new, child_index: 'NEW_RECORD' do |link_fields| %>
@@ -52,10 +59,5 @@
         <% end %>
       </template>
     </div>
-  </div>
-
-  <div class="flex justify-end">
-    <%= form.submit collection.persisted? ? t('templates.actions.update_resource', resource: t('activerecord.models.collection')) : t('templates.actions.create_resource', resource: t('activerecord.models.collection')),
-                    class: "inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
   </div>
 <% end %>
