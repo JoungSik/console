@@ -35,7 +35,7 @@
               </svg>
               <%= t('templates.actions.edit_resource', resource: t('activerecord.models.collection')) %>
             <% end %>
-            <%= button_to @collection, method: :delete, class: "flex-1 inline-flex items-center justify-center px-3 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 transition-colors", data: { turbo_confirm: t('confirmations.delete_resource', resource: t('activerecord.models.collection')) } do %>
+            <%= button_to mypage_collection_path(@collection), method: :delete, class: "flex-1 inline-flex items-center justify-center px-3 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 transition-colors", data: { turbo_confirm: t('confirmations.delete_resource', resource: t('activerecord.models.collection')) } do %>
               <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
               </svg>
@@ -49,7 +49,7 @@
           <%= link_to edit_mypage_collection_path(@collection), class: "inline-flex items-center justify-center px-3 py-2 border border-gray-300 dark:border-gray-600 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600" do %>
             <%= t('templates.actions.edit_resource', resource: t('activerecord.models.collection')) %>
           <% end %>
-          <%= button_to @collection, method: :delete, class: "inline-flex items-center justify-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-red-600 hover:bg-red-700", data: { turbo_confirm: t('confirmations.delete_resource', resource: t('activerecord.models.collection')) } do %>
+          <%= button_to mypage_collection_path(@collection), method: :delete, class: "inline-flex items-center justify-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-red-600 hover:bg-red-700", data: { turbo_confirm: t('confirmations.delete_resource', resource: t('activerecord.models.collection')) } do %>
             <%= t('templates.actions.delete_resource', resource: t('activerecord.models.collection')) %>
           <% end %>
         </div>
