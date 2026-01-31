@@ -93,16 +93,20 @@ export default class extends Controller {
       const subscription = await registration.pushManager.getSubscription()
 
       if (subscription) {
-        // 서버에서 구독 삭제
-        if (this.subscriptionId) {
-          await fetch(`${this.subscribeUrlValue}/${this.subscriptionId}`, {
-            method: "DELETE",
-            headers: {
-              "Content-Type": "application/json",
-              "X-CSRF-Token": this.getCsrfToken()
-            }
-          })
+        // subscriptionId가 없으면 서버 삭제 불가 - 오류 표시
+        if (!this.subscriptionId) {
+          this.showStatus("구독 정보를 찾을 수 없습니다. 다시 구독 후 취소해주세요.", "error")
+          return
         }
+
+        // 서버에서 구독 삭제
+        await fetch(`${this.subscribeUrlValue}/${this.subscriptionId}`, {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRF-Token": this.getCsrfToken()
+          }
+        })
 
         // 브라우저에서 구독 취소
         await subscription.unsubscribe()

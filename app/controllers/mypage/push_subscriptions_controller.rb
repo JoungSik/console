@@ -1,7 +1,5 @@
 # Web Push 구독 관리 컨트롤러
 class Mypage::PushSubscriptionsController < Mypage::ApplicationController
-  skip_forgery_protection
-
   # POST /mypage/push_subscriptions
   def create
     subscription = Current.user.push_subscriptions.find_or_initialize_by(

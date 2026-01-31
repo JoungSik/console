@@ -25,6 +25,11 @@ Rails.application.routes.draw do
   # Service Worker는 루트 경로에서 제공
   get "/service-worker.js", to: "service_worker#index", as: :service_worker
 
+  # Service Worker 전용 엔드포인트 (CSRF 토큰 없이 호출됨)
+  namespace :service_worker do
+    resources :push_subscriptions, only: %i[ create ]
+  end
+
   mount Rswag::Ui::Engine => "/api-docs"
   mount Rswag::Api::Engine => "/api-docs"
 
