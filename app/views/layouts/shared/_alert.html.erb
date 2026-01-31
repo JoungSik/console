@@ -1,12 +1,12 @@
 <% if notice.present? %>
   <div data-controller="alert" data-alert-target="alert" data-alert-duration-value="3000"
-       class="fixed top-4 right-4 bg-green-600 dark:bg-green-700 text-white p-3 z-50 shadow-lg rounded-lg max-w-sm">
-    <div class="flex items-center justify-between">
-      <div class="flex items-center">
-        <%= lucide_icon "check-circle", class: "w-4 h-4 mr-2" %>
-        <p class="text-sm"><%= notice %></p>
+       class="fixed top-4 right-4 bg-green-600 dark:bg-green-700 text-white p-4 z-50 shadow-lg rounded-lg max-w-md">
+    <div class="flex items-start gap-3">
+      <div class="flex-shrink-0">
+        <%= lucide_icon "check-circle", class: "w-5 h-5" %>
       </div>
-      <button data-action="click->alert#close" class="ml-3 hover:opacity-75">
+      <p class="text-sm flex-1"><%= notice %></p>
+      <button data-action="click->alert#close" class="flex-shrink-0 hover:opacity-75">
         <%= lucide_icon "x", class: "w-4 h-4" %>
       </button>
     </div>
@@ -15,13 +15,13 @@
 
 <% if alert.present? %>
   <div data-controller="alert" data-alert-target="alert" data-alert-duration-value="5000"
-       class="fixed top-4 right-4 bg-red-600 dark:bg-red-700 text-white p-3 z-50 shadow-lg rounded-lg max-w-sm">
-    <div class="flex items-center justify-between">
-      <div class="flex items-center">
-        <%= lucide_icon "circle-alert", class: "w-4 h-4 mr-2" %>
-        <p class="text-sm"><%= alert %></p>
+       class="fixed top-4 right-4 bg-red-600 dark:bg-red-700 text-white p-4 z-50 shadow-lg rounded-lg max-w-md">
+    <div class="flex items-start gap-3">
+      <div class="flex-shrink-0">
+        <%= lucide_icon "circle-alert", class: "w-5 h-5" %>
       </div>
-      <button data-action="click->alert#close" class="ml-3 hover:opacity-75">
+      <p class="text-sm flex-1"><%= alert %></p>
+      <button data-action="click->alert#close" class="flex-shrink-0 hover:opacity-75">
         <%= lucide_icon "x", class: "w-4 h-4" %>
       </button>
     </div>
