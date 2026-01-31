@@ -1,17 +1,17 @@
 # Web Push 구독 관리 컨트롤러
 class Mypage::PushSubscriptionsController < Mypage::ApplicationController
+  skip_forgery_protection
+
   # POST /mypage/push_subscriptions
   def create
     subscription = Current.user.push_subscriptions.find_or_initialize_by(
       endpoint: subscription_params[:endpoint]
     )
 
-    subscription.assign_attributes(
+    if subscription.update(
       p256dh_key: subscription_params[:p256dh_key],
       auth_key: subscription_params[:auth_key]
     )
-
-    if subscription.save
       render json: { id: subscription.id, status: "subscribed" }, status: :created
     else
       render json: { errors: subscription.errors.full_messages }, status: :unprocessable_entity

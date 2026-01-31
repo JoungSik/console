@@ -9,7 +9,7 @@ export default class extends Controller {
   }
 
   connect() {
-    this.subscriptionId = null
+    this.subscriptionId = localStorage.getItem('pushSubscriptionId')
     this.checkSupport()
     this.checkSubscription()
   }
@@ -62,11 +62,8 @@ export default class extends Controller {
         return
       }
 
-      // Service Worker 등록
-      const registration = await navigator.serviceWorker.register("/service-worker.js", {
-        scope: "/"
-      })
-      await navigator.serviceWorker.ready
+      // Service Worker가 준비될 때까지 대기 (레이아웃에서 이미 등록됨)
+      const registration = await navigator.serviceWorker.ready
 
       // Push 구독 생성
       const subscription = await registration.pushManager.subscribe({
@@ -77,6 +74,7 @@ export default class extends Controller {
       // 서버에 구독 정보 전송
       const response = await this.sendSubscriptionToServer(subscription)
       this.subscriptionId = response.id
+      localStorage.setItem('pushSubscriptionId', this.subscriptionId)
 
       this.showSubscribed()
       this.showStatus("알림 구독이 완료되었습니다!", "success")
@@ -108,6 +106,7 @@ export default class extends Controller {
         await subscription.unsubscribe()
       }
 
+      localStorage.removeItem('pushSubscriptionId')
       this.subscriptionId = null
       this.showUnsubscribed()
       this.showStatus("알림 구독이 취소되었습니다.", "success")

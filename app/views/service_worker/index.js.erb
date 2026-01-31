@@ -64,6 +64,16 @@ self.addEventListener("notificationclick", function(event) {
   );
 });
 
+// ArrayBuffer를 Base64로 변환 (루프 기반으로 스택 오버플로우 방지)
+function arrayBufferToBase64(buffer) {
+  let binary = "";
+  const bytes = new Uint8Array(buffer);
+  for (let i = 0; i < bytes.byteLength; i++) {
+    binary += String.fromCharCode(bytes[i]);
+  }
+  return btoa(binary);
+}
+
 // 구독 변경 처리
 self.addEventListener("pushsubscriptionchange", function(event) {
   event.waitUntil(
@@ -78,10 +88,8 @@ self.addEventListener("pushsubscriptionchange", function(event) {
           body: JSON.stringify({
             push_subscription: {
               endpoint: subscription.endpoint,
-              p256dh_key: btoa(String.fromCharCode.apply(null,
-                new Uint8Array(subscription.getKey("p256dh")))),
-              auth_key: btoa(String.fromCharCode.apply(null,
-                new Uint8Array(subscription.getKey("auth"))))
+              p256dh_key: arrayBufferToBase64(subscription.getKey("p256dh")),
+              auth_key: arrayBufferToBase64(subscription.getKey("auth"))
             }
           })
         });
