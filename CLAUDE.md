@@ -2,8 +2,6 @@
 
 ## Core
 - Answer in Korean
-- Only edit view files
-- No controller/model/service changes
 
 ## Project Structure
 ```
@@ -86,12 +84,6 @@ class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue
 - Custom CSS in app/assets/stylesheets/
 - Tailwind config: app/assets/tailwind/application.css
 
-## Allowed Files
-- *.html.erb (views)
-- *.css, *.scss (styles)
-- *.js (Stimulus controllers)
-- *.json.jbuilder (JSON views)
-
 ## Git Commit
 - 커밋 타입: `feat`, `fix`, `chore` 만 사용
   - `feat`: 새로운 기능
@@ -100,5 +92,3 @@ class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue
 
 ## Process
 1. Read CLAUDE.md first
-2. Check if request is view-related
-3. Inform user if non-view changes needed
