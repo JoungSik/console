@@ -1,0 +1,95 @@
+<% content_for(:title) { t('settings.mypage.title') } %>
+
+<div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  <!-- 페이지 헤더 -->
+  <div class="mb-8">
+    <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">
+      <%= t('settings.mypage.title') %>
+    </h1>
+  </div>
+
+  <!-- 프로필 정보 카드 -->
+  <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm mb-6">
+    <div class="p-6">
+      <div class="flex items-center mb-4">
+        <%= lucide_icon "user", class: "w-6 h-6 text-blue-600 dark:text-blue-400 mr-3" %>
+        <h2 class="text-lg font-semibold text-gray-900 dark:text-white">
+          <%= t('settings.profile.title') %>
+        </h2>
+      </div>
+
+      <p class="text-sm text-gray-600 dark:text-gray-400 mb-6">
+        <%= t('settings.profile.description') %>
+      </p>
+
+      <dl class="space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center">
+          <dt class="text-sm font-medium text-gray-700 dark:text-gray-300 sm:w-32">
+            <%= t('forms.labels.name') %>
+          </dt>
+          <dd class="mt-1 sm:mt-0 text-sm text-gray-900 dark:text-white">
+            <%= current_user.name %>
+          </dd>
+        </div>
+        <div class="flex flex-col sm:flex-row sm:items-center">
+          <dt class="text-sm font-medium text-gray-700 dark:text-gray-300 sm:w-32">
+            <%= t('forms.labels.email_address') %>
+          </dt>
+          <dd class="mt-1 sm:mt-0 text-sm text-gray-900 dark:text-white">
+            <%= current_user.email_address %>
+          </dd>
+        </div>
+      </dl>
+    </div>
+  </div>
+
+  <!-- 비밀번호 변경 카드 -->
+  <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm">
+    <div class="p-6">
+      <div class="flex items-center mb-4">
+        <%= lucide_icon "lock", class: "w-6 h-6 text-blue-600 dark:text-blue-400 mr-3" %>
+        <h2 class="text-lg font-semibold text-gray-900 dark:text-white">
+          <%= t('settings.password.title') %>
+        </h2>
+      </div>
+
+      <p class="text-sm text-gray-600 dark:text-gray-400 mb-6">
+        <%= t('settings.password.description') %>
+      </p>
+
+      <%= form_with url: mypage_user_path, method: :patch, scope: :user, class: "space-y-4" do |form| %>
+        <div>
+          <%= form.label :current_password, t('settings.password.current_password'),
+              class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" %>
+          <%= form.password_field :current_password,
+              required: true,
+              autocomplete: "current-password",
+              class: "w-full bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 rounded-md px-3 py-2 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" %>
+        </div>
+
+        <div>
+          <%= form.label :password, t('settings.password.new_password'),
+              class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" %>
+          <%= form.password_field :password,
+              required: true,
+              autocomplete: "new-password",
+              class: "w-full bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 rounded-md px-3 py-2 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" %>
+        </div>
+
+        <div>
+          <%= form.label :password_confirmation, t('settings.password.confirm_password'),
+              class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" %>
+          <%= form.password_field :password_confirmation,
+              required: true,
+              autocomplete: "new-password",
+              class: "w-full bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 rounded-md px-3 py-2 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" %>
+        </div>
+
+        <div class="pt-2">
+          <%= form.submit t('settings.password.change_button'),
+              class: "inline-flex items-center justify-center px-4 py-2 text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 dark:hover:bg-blue-500 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 dark:focus:ring-offset-gray-800" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
