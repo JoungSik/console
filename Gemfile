@@ -56,6 +56,9 @@ gem "pundit", "~> 2.5"
 # Cron job management [https://github.com/javan/whenever]
 gem "whenever", require: false
 
+# Web Push notifications [https://github.com/pushpad/web-push]
+gem "web-push"
+
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"

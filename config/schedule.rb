@@ -29,3 +29,8 @@ set :output, "log/cron.log"
 # every 1.day, at: '2:00 am' do
 #   rake "cleanup:old_records"
 # end
+
+# Todo 리마인더 - 매일 오전 9시에 실행
+every 1.day, at: "9:00 am" do
+  runner "CheckTodoRemindersJob.perform_later"
+end

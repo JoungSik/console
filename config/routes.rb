@@ -18,7 +18,12 @@ Rails.application.routes.draw do
     resources :todo_lists do
       resources :todos, only: %i[ update destroy ]
     end
+    resource :settings, only: %i[ show ]
+    resources :push_subscriptions, only: %i[ create destroy ]
   end
+
+  # Service Worker는 루트 경로에서 제공
+  get "/service-worker.js", to: "service_worker#index", as: :service_worker
 
   mount Rswag::Ui::Engine => "/api-docs"
   mount Rswag::Api::Engine => "/api-docs"
