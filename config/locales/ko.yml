@@ -257,12 +257,10 @@ ko:
     my_collections: "내 컬렉션"
     todo_links: "할 일 목록"
     mypage: "마이페이지"
-    settings: "설정"
     login: "로그인"
     logout: "로그아웃"
 
   settings:
-    title: "설정"
     mypage:
       title: "마이페이지"
     profile:
