@@ -318,6 +318,99 @@
 </div>
 ```
 
+#### 아이콘 헤더 카드 (설정/마이페이지용)
+
+```erb
+<div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm mb-6">
+  <div class="p-6">
+    <div class="flex items-center mb-4">
+      <%= lucide_icon "user", class: "w-6 h-6 text-blue-600 dark:text-blue-400 mr-3" %>
+      <h2 class="text-lg font-semibold text-gray-900 dark:text-white">
+        카드 제목
+      </h2>
+    </div>
+
+    <p class="text-sm text-gray-600 dark:text-gray-400 mb-6">
+      카드 설명 텍스트
+    </p>
+
+    <!-- 카드 내용 -->
+  </div>
+</div>
+```
+
+#### 정보 표시 카드 (프로필 정보 등)
+
+```erb
+<div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm mb-6">
+  <div class="p-6">
+    <div class="flex items-center mb-4">
+      <%= lucide_icon "user", class: "w-6 h-6 text-blue-600 dark:text-blue-400 mr-3" %>
+      <h2 class="text-lg font-semibold text-gray-900 dark:text-white">
+        프로필
+      </h2>
+    </div>
+
+    <p class="text-sm text-gray-600 dark:text-gray-400 mb-6">
+      계정 정보를 확인하세요.
+    </p>
+
+    <dl class="space-y-4">
+      <div class="flex flex-col sm:flex-row sm:items-center">
+        <dt class="text-sm font-medium text-gray-700 dark:text-gray-300 sm:w-32">
+          이름
+        </dt>
+        <dd class="mt-1 sm:mt-0 text-sm text-gray-900 dark:text-white">
+          홍길동
+        </dd>
+      </div>
+      <div class="flex flex-col sm:flex-row sm:items-center">
+        <dt class="text-sm font-medium text-gray-700 dark:text-gray-300 sm:w-32">
+          이메일
+        </dt>
+        <dd class="mt-1 sm:mt-0 text-sm text-gray-900 dark:text-white">
+          user@example.com
+        </dd>
+      </div>
+    </dl>
+  </div>
+</div>
+```
+
+#### 폼 카드 (비밀번호 변경 등)
+
+```erb
+<div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm mb-6">
+  <div class="p-6">
+    <div class="flex items-center mb-4">
+      <%= lucide_icon "lock", class: "w-6 h-6 text-blue-600 dark:text-blue-400 mr-3" %>
+      <h2 class="text-lg font-semibold text-gray-900 dark:text-white">
+        비밀번호 변경
+      </h2>
+    </div>
+
+    <p class="text-sm text-gray-600 dark:text-gray-400 mb-6">
+      폼 설명 텍스트
+    </p>
+
+    <%= form_with url: path, method: :patch, class: "space-y-4" do |form| %>
+      <div>
+        <%= form.label :field, "라벨",
+            class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" %>
+        <%= form.password_field :field,
+            required: true,
+            class: "w-full bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" %>
+      </div>
+
+      <div class="pt-2">
+        <%= form.submit "저장",
+            class: "inline-flex items-center justify-center px-4 py-2 text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 dark:hover:bg-blue-500 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 dark:focus:ring-offset-gray-800" %>
+      </div>
+    <% end %>
+  </div>
+</div>
+```
+
 ### 알림/알럿 (Alerts)
 
 #### 성공 알림
@@ -411,17 +504,101 @@
 
 ## 레이아웃
 
-### 컨테이너
+### 페이지 구조 원칙
+
+모든 페이지는 `application.html.erb` 레이아웃을 사용하며, 다음 구조를 따릅니다:
+- 데스크탑: 좌측 고정 사이드바 (w-64) + 메인 콘텐츠 영역
+- 모바일: 하단 고정 네비게이션 + 전체 너비 콘텐츠
+
+**메인 콘텐츠 영역은 항상 `w-full`을 사용합니다.**
+
+### 페이지 유형별 구조
+
+| 페이지 유형 | 컨테이너 | 내부 콘텐츠 | 예시 |
+|-------------|----------|-------------|------|
+| 리스트 페이지 | `w-full` | 그리드 카드 목록 | 컬렉션 목록, 할 일 목록 |
+| 설정/마이페이지 | `w-full` | 세로 카드 스택 | 마이페이지, 설정 |
+| 폼 페이지 | `w-full` | 단일 폼 카드 | 컬렉션 생성/편집 |
+| 인증 페이지 | `blank` 레이아웃 | 중앙 정렬 폼 | 로그인, 회원가입 |
+
+### 표준 페이지 템플릿
+
+#### 리스트 페이지 (컬렉션, 할 일 목록)
 
 ```erb
-<%# 전체 너비 컨테이너 %>
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-  <!-- 콘텐츠 -->
+<% content_for :title, "페이지 제목" %>
+
+<div class="w-full">
+  <%# 탭 네비게이션 (필요시) %>
+  <div class="border-b border-gray-200 dark:border-gray-700 mb-6">
+    <nav class="-mb-px flex space-x-8">
+      <!-- 탭 링크들 -->
+    </nav>
+  </div>
+
+  <%# 카드 그리드 %>
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 lg:gap-6">
+    <!-- 카드들 -->
+  </div>
+
+  <%# 빈 상태 (데이터 없을 때) %>
+  <div class="text-center py-12">
+    <svg class="mx-auto h-12 w-12 text-gray-400 dark:text-gray-500">...</svg>
+    <h3 class="mt-2 text-sm font-medium text-gray-900 dark:text-white">내용 없음</h3>
+    <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">설명 텍스트</p>
+  </div>
 </div>
 
-<%# 좁은 컨테이너 (폼 등) %>
-<div class="max-w-md mx-auto px-4">
-  <!-- 콘텐츠 -->
+<%# FAB (부동 액션 버튼) %>
+<%= render "layouts/shared/floating_action_button", path: new_path %>
+```
+
+#### 설정/마이페이지
+
+```erb
+<% content_for(:title) { "페이지 제목" } %>
+
+<div class="w-full">
+  <%# 페이지 헤더 %>
+  <div class="mb-8">
+    <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">
+      페이지 제목
+    </h1>
+  </div>
+
+  <%# 설정 카드 1 %>
+  <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm mb-6">
+    <div class="p-6">
+      <div class="flex items-center mb-4">
+        <%= lucide_icon "icon-name", class: "w-6 h-6 text-blue-600 dark:text-blue-400 mr-3" %>
+        <h2 class="text-lg font-semibold text-gray-900 dark:text-white">섹션 제목</h2>
+      </div>
+      <p class="text-sm text-gray-600 dark:text-gray-400 mb-6">섹션 설명</p>
+      <!-- 섹션 내용 -->
+    </div>
+  </div>
+
+  <%# 설정 카드 2... %>
+</div>
+```
+
+#### 폼 페이지 (생성/편집)
+
+```erb
+<% content_for :title, "폼 제목" %>
+
+<div class="w-full">
+  <%= form_with(model: resource, class: "space-y-6") do |form| %>
+    <%# 상단 액션 버튼 %>
+    <div class="flex justify-end mb-6">
+      <%= form.submit "저장", class: "..." %>
+    </div>
+
+    <%# 폼 필드들 %>
+    <div class="space-y-4">
+      <!-- 입력 필드들 -->
+    </div>
+  <% end %>
 </div>
 ```
 

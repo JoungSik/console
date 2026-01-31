@@ -24,10 +24,10 @@ module NavigationHelper
         active_paths: [ mypage_todo_lists_path ]
       }
       items << {
-        name: t("navigation.settings"),
-        path: mypage_settings_path,
-        icon: "settings",
-        active_paths: [ mypage_settings_path ]
+        name: t("navigation.mypage"),
+        path: mypage_user_path,
+        icon: "user",
+        active_paths: [ mypage_user_path ]
       }
     else
       items << {

@@ -21,7 +21,7 @@ Rails.application.routes.draw do
     resources :todo_lists do
       resources :todos, only: %i[ update destroy ]
     end
-    resource :settings, only: %i[ show ]
+    resource :user, only: %i[ show update ]
     resources :push_subscriptions, only: %i[ create destroy ]
   end
 
