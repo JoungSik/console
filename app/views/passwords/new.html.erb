@@ -7,11 +7,11 @@
       <div class="my-5">
         <%= form.email_field :email_address, required: true, autofocus: true, autocomplete: "email_address",
                              placeholder: t("forms.placeholders.email_address"), value: params[:email_address],
-                             class: "block shadow-sm rounded-md border border-gray-400 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-solid focus:outline-blue-600 px-3 py-2 mt-2 w-full" %>
+                             class: "block w-full bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 rounded-md px-3 py-2 mt-2 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" %>
       </div>
 
       <div class="col-span-6 sm:flex sm:items-center sm:gap-4">
-        <%= form.submit t("forms.buttons.email_reset_instructions"), class: "w-full text-center rounded-lg px-4 py-3 bg-blue-700 hover:bg-blue-600 text-white inline-block font-semibold cursor-pointer shadow-md transition duration-200 ease-in-out transform hover:scale-105" %>
+        <%= form.submit t("forms.buttons.email_reset_instructions"), class: "w-full text-center rounded-md px-4 py-3 bg-blue-600 hover:bg-blue-700 dark:hover:bg-blue-500 text-white font-medium cursor-pointer transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800" %>
       </div>
     <% end %>
   </div>
