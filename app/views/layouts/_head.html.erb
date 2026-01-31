@@ -29,3 +29,22 @@
 <%# Includes all stylesheet files in app/assets/stylesheets %>
 <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
 <%= javascript_importmap_tags %>
+
+<%# Service Worker 등록 %>
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function() {
+      navigator.serviceWorker.register('/service-worker.js', { scope: '/' })
+        .then(function(registration) {
+          <% if Rails.env.development? %>
+          console.log('ServiceWorker registration successful');
+          <% end %>
+        })
+        .catch(function(error) {
+          <% if Rails.env.development? %>
+          console.log('ServiceWorker registration failed:', error);
+          <% end %>
+        });
+    });
+  }
+</script>

@@ -256,6 +256,19 @@ ko:
     collections: "컬렉션"
     my_collections: "내 컬렉션"
     todo_links: "할 일 목록"
-    profile: "프로필"
+    settings: "설정"
     login: "로그인"
     logout: "로그아웃"
+
+  settings:
+    title: "설정"
+    push_notifications:
+      title: "푸시 알림"
+      description: "Todo 리마인더를 브라우저 푸시 알림으로 받을 수 있습니다. due_date가 설정된 Todo는 해당 날짜 오전 9시에 알림이 발송됩니다."
+      subscribe: "알림 구독"
+      unsubscribe: "알림 구독 취소"
+      status:
+        subscribed: "알림 구독이 완료되었습니다!"
+        unsubscribed: "알림 구독이 취소되었습니다."
+        not_supported: "이 브라우저는 푸시 알림을 지원하지 않습니다."
+        permission_denied: "알림 권한이 거부되었습니다. 브라우저 설정에서 허용해주세요."

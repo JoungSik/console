@@ -24,10 +24,10 @@ module NavigationHelper
         active_paths: [ mypage_todo_lists_path ]
       }
       items << {
-        name: t("navigation.profile"),
-        path: "#", # TODO: 프로필 페이지 구현 후 수정
-        icon: "user",
-        active_paths: []
+        name: t("navigation.settings"),
+        path: mypage_settings_path,
+        icon: "settings",
+        active_paths: [ mypage_settings_path ]
       }
     else
       items << {

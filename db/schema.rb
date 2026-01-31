@@ -10,68 +10,81 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_14_082606) do
+ActiveRecord::Schema[8.1].define(version: 2026_01_31_124924) do
   create_table "collections", force: :cascade do |t|
-    t.string "title", limit: 100, null: false
+    t.datetime "created_at", null: false
     t.text "description"
     t.boolean "is_public", default: false, null: false
     t.integer "links_count", default: 0, null: false
-    t.integer "user_id", null: false
-    t.datetime "created_at", null: false
+    t.string "title", limit: 100, null: false
     t.datetime "updated_at", null: false
+    t.integer "user_id", null: false
     t.index ["user_id"], name: "index_collections_on_user_id"
   end
 
   create_table "links", force: :cascade do |t|
-    t.string "title", limit: 100, null: false
-    t.text "url", null: false
-    t.text "description"
     t.integer "collection_id", null: false
-    t.string "favicon_url"
     t.datetime "created_at", null: false
+    t.text "description"
+    t.string "favicon_url"
+    t.string "title", limit: 100, null: false
     t.datetime "updated_at", null: false
+    t.text "url", null: false
     t.index ["collection_id"], name: "index_links_on_collection_id"
   end
 
-  create_table "sessions", force: :cascade do |t|
-    t.integer "user_id", null: false
-    t.string "ip_address"
-    t.string "user_agent"
+  create_table "push_subscriptions", force: :cascade do |t|
+    t.string "auth_key", null: false
     t.datetime "created_at", null: false
+    t.string "endpoint", null: false
+    t.string "p256dh_key", null: false
     t.datetime "updated_at", null: false
+    t.integer "user_id", null: false
+    t.index ["endpoint"], name: "index_push_subscriptions_on_endpoint", unique: true
+    t.index ["user_id"], name: "index_push_subscriptions_on_user_id"
+  end
+
+  create_table "sessions", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "ip_address"
+    t.datetime "updated_at", null: false
+    t.string "user_agent"
+    t.integer "user_id", null: false
     t.index ["user_id"], name: "index_sessions_on_user_id"
   end
 
   create_table "todo_lists", force: :cascade do |t|
-    t.string "title", limit: 100, null: false
-    t.integer "user_id", null: false
     t.datetime "archived_at"
     t.datetime "created_at", null: false
+    t.string "title", limit: 100, null: false
     t.datetime "updated_at", null: false
+    t.integer "user_id", null: false
     t.index ["user_id"], name: "index_todo_lists_on_user_id"
   end
 
   create_table "todos", force: :cascade do |t|
+    t.boolean "completed", default: false, null: false
+    t.datetime "created_at", null: false
+    t.date "due_date"
+    t.boolean "reminder_sent", default: false, null: false
     t.string "title", limit: 200, null: false
     t.integer "todo_list_id", null: false
-    t.boolean "completed", default: false, null: false
-    t.date "due_date"
-    t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["todo_list_id"], name: "index_todos_on_todo_list_id"
   end
 
   create_table "users", force: :cascade do |t|
-    t.string "name", null: false
-    t.string "email_address", null: false
-    t.string "password_digest", null: false
     t.datetime "created_at", null: false
+    t.string "email_address", null: false
+    t.string "name", null: false
+    t.string "password_digest", null: false
     t.datetime "updated_at", null: false
     t.index ["email_address"], name: "index_users_on_email_address", unique: true
   end
 
   add_foreign_key "collections", "users"
   add_foreign_key "links", "collections"
+  add_foreign_key "push_subscriptions", "users"
   add_foreign_key "sessions", "users"
   add_foreign_key "todo_lists", "users"
   add_foreign_key "todos", "todo_lists"
