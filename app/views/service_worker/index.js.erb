@@ -92,6 +92,10 @@ self.addEventListener("pushsubscriptionchange", function(event) {
               auth_key: arrayBufferToBase64(subscription.getKey("auth"))
             }
           })
+        }).then(function(response) {
+          if (!response.ok) {
+            throw new Error("Failed to update push subscription on server.");
+          }
         });
       })
   );

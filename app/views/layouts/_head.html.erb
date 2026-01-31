@@ -36,10 +36,14 @@
     window.addEventListener('load', function() {
       navigator.serviceWorker.register('/service-worker.js', { scope: '/' })
         .then(function(registration) {
+          <% if Rails.env.development? %>
           console.log('ServiceWorker registration successful');
+          <% end %>
         })
         .catch(function(error) {
+          <% if Rails.env.development? %>
           console.log('ServiceWorker registration failed:', error);
+          <% end %>
         });
     });
   }

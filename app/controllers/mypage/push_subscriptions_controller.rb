@@ -8,10 +8,7 @@ class Mypage::PushSubscriptionsController < Mypage::ApplicationController
       endpoint: subscription_params[:endpoint]
     )
 
-    if subscription.update(
-      p256dh_key: subscription_params[:p256dh_key],
-      auth_key: subscription_params[:auth_key]
-    )
+    if subscription.update(subscription_params.slice(:p256dh_key, :auth_key))
       render json: { id: subscription.id, status: "subscribed" }, status: :created
     else
       render json: { errors: subscription.errors.full_messages }, status: :unprocessable_entity

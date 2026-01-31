@@ -11,18 +11,18 @@ class Todo < ApplicationRecord
       .where(due_date: Date.current)
   }
 
-  # 리마인더 전송
+  # 리마인더 전송 (알림 전송 성공 시에만 reminder_sent 업데이트)
   def send_reminder!
     return if reminder_sent? || due_date.blank?
     return if completed?
 
     user = todo_list.user
-    user.send_push_notification(
+    if user.send_push_notification(
       title: "Todo 리마인더",
       body: title,
       url: "/mypage/todo_lists/#{todo_list_id}"
     )
-
-    update!(reminder_sent: true)
+      update!(reminder_sent: true)
+    end
   end
 end

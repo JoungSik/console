@@ -1,5 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 
+const PUSH_SUBSCRIPTION_ID_KEY = "pushSubscriptionId"
+
 // Web Push 구독 관리 컨트롤러
 export default class extends Controller {
   static targets = ["subscribeButton", "unsubscribeButton", "status"]
@@ -9,7 +11,7 @@ export default class extends Controller {
   }
 
   connect() {
-    this.subscriptionId = localStorage.getItem('pushSubscriptionId')
+    this.subscriptionId = localStorage.getItem(PUSH_SUBSCRIPTION_ID_KEY)
     this.checkSupport()
     this.checkSubscription()
   }
@@ -74,7 +76,7 @@ export default class extends Controller {
       // 서버에 구독 정보 전송
       const response = await this.sendSubscriptionToServer(subscription)
       this.subscriptionId = response.id
-      localStorage.setItem('pushSubscriptionId', this.subscriptionId)
+      localStorage.setItem(PUSH_SUBSCRIPTION_ID_KEY, this.subscriptionId)
 
       this.showSubscribed()
       this.showStatus("알림 구독이 완료되었습니다!", "success")
@@ -106,7 +108,7 @@ export default class extends Controller {
         await subscription.unsubscribe()
       }
 
-      localStorage.removeItem('pushSubscriptionId')
+      localStorage.removeItem(PUSH_SUBSCRIPTION_ID_KEY)
       this.subscriptionId = null
       this.showUnsubscribed()
       this.showStatus("알림 구독이 취소되었습니다.", "success")
