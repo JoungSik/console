@@ -5,10 +5,12 @@ class Todo < ApplicationRecord
 
   scope :not_completed, -> { where(completed: false) }
 
-  # due_date가 오늘이고 리마인더 미발송, 미완료인 Todo
-  scope :due_today_pending_reminder, -> {
-    where(reminder_sent: false, completed: false)
-      .where(due_date: Date.current)
+  # due_date가 오늘이거나 지난 미완료 작업 (비아카이브 TodoList만)
+  scope :overdue_pending_reminder, -> {
+    joins(:todo_list)
+      .where(reminder_sent: false, completed: false)
+      .where("due_date <= ?", Date.current)
+      .where(todo_lists: { archived_at: nil })
   }
 
   # 리마인더 전송 (알림 전송 성공 시에만 reminder_sent 업데이트)

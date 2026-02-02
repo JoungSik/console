@@ -2,6 +2,7 @@
 
 ## Core
 - Answer in Korean
+- 사용하지 않는 코드는 삭제 (dead code 정리)
 
 ## Project Structure
 ```
