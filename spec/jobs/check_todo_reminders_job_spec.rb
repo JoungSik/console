@@ -1,8 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe CheckTodoRemindersJob, type: :job do
-  let(:user) { User.create!(name: '테스트', email_address: 'test@example.com', password: 'password123') }
-  let(:todo_list) { TodoList.create!(title: '테스트 리스트', user: user) }
+  include_context 'with user and todo list'
 
   describe '#perform' do
     it '마감일이 지났거나 오늘인 Todo에 리마인더를 전송한다' do

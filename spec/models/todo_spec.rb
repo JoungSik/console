@@ -2,8 +2,9 @@ require 'rails_helper'
 
 RSpec.describe Todo, type: :model do
   describe '.overdue_pending_reminder' do
-    let(:user) { User.create!(name: '테스트', email_address: 'test@example.com', password: 'password123') }
-    let(:active_list) { TodoList.create!(title: '활성 리스트', user: user) }
+    include_context 'with user and todo list'
+
+    let(:active_list) { todo_list }
     let(:archived_list) { TodoList.create!(title: '아카이브 리스트', user: user, archived_at: Time.current) }
 
     it '마감일이 오늘인 미완료 Todo를 포함한다' do
