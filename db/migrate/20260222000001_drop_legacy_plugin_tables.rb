@@ -1,6 +1,8 @@
 # 플러그인 아키텍처 전환으로 엔진별 독립 DB로 이동 완료
 # primary DB에 남아있는 구 테이블 삭제
 class DropLegacyPluginTables < ActiveRecord::Migration[8.0]
+  # PRAGMA foreign_keys는 트랜잭션 내에서 무시되므로 DDL 트랜잭션 비활성화
+  disable_ddl_transaction!
   def up
     # SQLite FK 제약 일시 비활성화 (자식→부모 순서 무관하게 삭제)
     execute "PRAGMA foreign_keys = OFF"
