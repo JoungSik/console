@@ -1,8 +1,6 @@
 module Bookmark
   class Link < ApplicationRecord
-    self.table_name = "bookmark_links"
-
-    belongs_to :group, class_name: "Bookmark::Group", foreign_key: "bookmark_group_id", counter_cache: :links_count
+    belongs_to :group, counter_cache: :links_count
 
     validates :title, presence: true, length: { maximum: 100 }
     validates :url, presence: true, format: {

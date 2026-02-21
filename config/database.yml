@@ -14,6 +14,14 @@ development:
   primary:
     <<: *default
     database: storage/development.sqlite3
+  todo:
+    <<: *default
+    database: storage/development_todo.sqlite3
+    migrations_paths: engines/todo/db/migrate
+  bookmark:
+    <<: *default
+    database: storage/development_bookmark.sqlite3
+    migrations_paths: engines/bookmark/db/migrate
   queue:
     <<: *default
     database: storage/development_queue.sqlite3
@@ -23,6 +31,14 @@ test:
   primary:
     <<: *default
     database: storage/test.sqlite3
+  todo:
+    <<: *default
+    database: storage/test_todo.sqlite3
+    migrations_paths: engines/todo/db/migrate
+  bookmark:
+    <<: *default
+    database: storage/test_bookmark.sqlite3
+    migrations_paths: engines/bookmark/db/migrate
   queue:
     <<: *default
     database: storage/test_queue.sqlite3
@@ -32,6 +48,14 @@ production:
   primary:
     <<: *default
     database: "/storage/production.sqlite3"
+  todo:
+    <<: *default
+    database: "/storage/production_todo.sqlite3"
+    migrations_paths: engines/todo/db/migrate
+  bookmark:
+    <<: *default
+    database: "/storage/production_bookmark.sqlite3"
+    migrations_paths: engines/bookmark/db/migrate
   queue:
     <<: *default
     database: "/storage/production_queue.sqlite3"

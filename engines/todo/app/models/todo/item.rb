@@ -1,8 +1,6 @@
 module Todo
   class Item < ApplicationRecord
-    self.table_name = "todo_items"
-
-    belongs_to :list, class_name: "Todo::List", foreign_key: "todo_list_id"
+    belongs_to :list
 
     validates :title, presence: true, length: { maximum: 200 }
 
