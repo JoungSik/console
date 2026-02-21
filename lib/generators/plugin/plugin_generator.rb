@@ -127,9 +127,9 @@ class PluginGenerator < Rails::Generators::Base
 
   def update_database_yml
     # 각 환경의 queue: 섹션 앞에 삽입 (queue DB 경로로 환경 구분)
-    { "development" => ["storage/development_#{plugin_name}.sqlite3", "storage/development_queue.sqlite3"],
-      "test" => ["storage/test_#{plugin_name}.sqlite3", "storage/test_queue.sqlite3"],
-      "production" => ["\"/storage/production_#{plugin_name}.sqlite3\"", "\"/storage/production_queue.sqlite3\""] }.each do |_env, (plugin_db, queue_db)|
+    { "development" => [ "storage/development_#{plugin_name}.sqlite3", "storage/development_queue.sqlite3" ],
+      "test" => [ "storage/test_#{plugin_name}.sqlite3", "storage/test_queue.sqlite3" ],
+      "production" => [ "\"/storage/production_#{plugin_name}.sqlite3\"", "\"/storage/production_queue.sqlite3\"" ] }.each do |_env, (plugin_db, queue_db)|
       inject_into_file "config/database.yml",
                        db_config_block(plugin_db),
                        before: "  queue:\n    <<: *default\n    database: #{queue_db}\n"
