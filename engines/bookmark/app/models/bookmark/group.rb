@@ -2,9 +2,7 @@ module Bookmark
   class Group < ApplicationRecord
     include Bookmark::Hashable
 
-    self.table_name = "bookmark_groups"
-
-    has_many :links, foreign_key: "bookmark_group_id", dependent: :destroy
+    has_many :links, dependent: :destroy
     accepts_nested_attributes_for :links, reject_if: :all_blank, allow_destroy: true
 
     validates :title, presence: true, length: { maximum: 100 }

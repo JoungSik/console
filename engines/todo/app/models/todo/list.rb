@@ -1,8 +1,6 @@
 module Todo
   class List < ApplicationRecord
-    self.table_name = "todo_lists"
-
-    has_many :items, foreign_key: "todo_list_id", dependent: :destroy
+    has_many :items, dependent: :destroy
     accepts_nested_attributes_for :items, reject_if: :all_blank, allow_destroy: true
 
     validates :title, presence: true, length: { maximum: 100 }

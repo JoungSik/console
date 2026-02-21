@@ -1,37 +1,76 @@
-# This file should ensure the existence of records required to run the application in every environment (production,
-# development, test). The code here should be idempotent so that it can be executed at any point in every environment.
-# The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
-#
-# Example:
-#
-#   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
-#     MovieGenre.find_or_create_by!(name: genre_name)
-#   end
+# 코어 + 플러그인 시드 데이터
+# bin/rails db:seed 로 실행
 
-user = User.create_or_find_by(name: "test", email_address: "test@test.com", password: "qwer1234")
+# === 코어: 사용자 ===
+user = User.find_or_create_by!(email_address: "test@test.com") do |u|
+  u.name = "test"
+  u.password = "qwer1234"
+end
+puts "User: #{user.email_address}"
 
-# Public
-public_collection = Collection.create_or_find_by(title: "포털 사이트",
-                                                 description: "각종 포털 사이트 목록",
-                                                 is_public: true, user: user)
+# === Todo 엔진 ===
+list1 = Todo::List.find_or_create_by!(title: "오늘 할 일", user_id: user.id)
+[
+  { title: "장보기", completed: false, due_date: Date.current },
+  { title: "운동하기", completed: false, due_date: Date.current },
+  { title: "독서 30분", completed: true }
+].each do |attrs|
+  list1.items.find_or_create_by!(title: attrs[:title]) do |item|
+    item.completed = attrs[:completed]
+    item.due_date = attrs[:due_date]
+  end
+end
 
-public_links = [
-  { title: "Google", url: "https://www.google.com", description: "Google" },
-  { title: "Naver", url: "https://www.naver.com", description: "Naver" },
-  { title: "Daum", url: "https://www.daum.net", description: "Daum" }
-]
+list2 = Todo::List.find_or_create_by!(title: "이번 주 목표", user_id: user.id)
+[
+  { title: "프로젝트 마일스톤 완료", completed: false, due_date: Date.current.end_of_week },
+  { title: "코드 리뷰 3건", completed: true },
+  { title: "기술 블로그 글 작성", completed: false }
+].each do |attrs|
+  list2.items.find_or_create_by!(title: attrs[:title]) do |item|
+    item.completed = attrs[:completed]
+    item.due_date = attrs[:due_date]
+  end
+end
 
-public_links.each { Link.create_or_find_by!(it.merge(collection: public_collection, user: user)) }
+list3 = Todo::List.find_or_create_by!(title: "완료된 목록", user_id: user.id) do |l|
+  l.archived_at = Time.current
+end
+list3.items.find_or_create_by!(title: "환경 설정 완료") { |i| i.completed = true }
 
-# Private
-private_collection = Collection.create_or_find_by(title: "업무 사이트",
-                                                  description: "각종 업무에 필요한 사이트 목록",
-                                                  is_public: false, user: user)
+puts "Todo: #{Todo::List.count} lists, #{Todo::Item.count} items"
 
-private_links = [
-  { title: "GA", url: "https://analytics.google.com/analytics", description: "Google Analytics" },
-  { title: "Google Search Console", url: "https://search.google.com/search-console", description: "Google Search Console" },
-  { title: "Naver Search Advisor", url: "https://searchadvisor.naver.com/", description: "Naver Search Advisor" }
-]
+# === Bookmark 엔진 ===
+group1 = Bookmark::Group.find_or_create_by!(title: "포털 사이트", user_id: user.id) do |g|
+  g.description = "각종 포털 사이트 목록"
+  g.is_public = true
+end
+[
+  { title: "Google", url: "https://www.google.com", description: "구글 검색" },
+  { title: "Naver", url: "https://www.naver.com", description: "네이버" },
+  { title: "Daum", url: "https://www.daum.net", description: "다음" }
+].each do |attrs|
+  group1.links.find_or_create_by!(title: attrs[:title]) do |link|
+    link.url = attrs[:url]
+    link.description = attrs[:description]
+  end
+end
 
-private_links.each { Link.create_or_find_by!(it.merge(collection: private_collection, user: user)) }
+group2 = Bookmark::Group.find_or_create_by!(title: "업무 사이트", user_id: user.id) do |g|
+  g.description = "각종 업무에 필요한 사이트 목록"
+  g.is_public = false
+end
+[
+  { title: "Google Analytics", url: "https://analytics.google.com/analytics", description: "GA" },
+  { title: "Google Search Console", url: "https://search.google.com/search-console", description: "GSC" },
+  { title: "Naver Search Advisor", url: "https://searchadvisor.naver.com/", description: "NSA" }
+].each do |attrs|
+  group2.links.find_or_create_by!(title: attrs[:title]) do |link|
+    link.url = attrs[:url]
+    link.description = attrs[:description]
+  end
+end
+
+puts "Bookmark: #{Bookmark::Group.count} groups, #{Bookmark::Link.count} links"
+
+puts "Seed 완료!"

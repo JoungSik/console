@@ -23,17 +23,30 @@ lib/
 engines/                # 플러그인 엔진들
 ├── todo/               # 할 일 목록 (Todo::List, Todo::Item)
 └── bookmark/           # 북마크 (Bookmark::Group, Bookmark::Link)
-script/
-└── new_plugin.sh       # 새 플러그인 생성 자동화 스크립트
+lib/generators/plugin/  # 플러그인 생성 제너레이터
 ```
 
 ### Plugin Convention
+- **새 플러그인 생성은 반드시 Rails generator 사용**: `bin/rails generate plugin <name> <label> [--icon=box] [--position=100]`
 - Engine은 `isolate_namespace`로 격리
+- 플러그인별 독립 SQLite DB (`connects_to database:`)
 - `PluginRegistry.register`로 네비게이션 자동 등록
 - `Console::PluginInterface`로 코어 사용자 정보 접근
 - 레이아웃에서 메인 앱 라우트 헬퍼는 `main_app.` 접두사 사용
 - Engine 뷰에서 자체 라우트 헬퍼는 엔진명 접두사 사용 (예: `todo.lists_path`, `bookmark.groups_path`)
-- 모델 테이블명은 `self.table_name` 명시, FK는 `foreign_key:` 옵션 명시
+- 테이블명에 네임스페이스 접두사 불필요 (DB 분리됨, `table_name_prefix = ""` 설정 완료)
+
+### Plugin Generator
+```bash
+# 생성 (Gemfile, routes.rb, database.yml, Dockerfile 자동 업데이트)
+bin/rails generate plugin note 메모 --icon=notebook --position=30
+
+# 삭제 (모든 변경 자동 되돌림)
+bin/rails destroy plugin note 메모
+
+# dry-run (변경 없이 미리보기)
+bin/rails generate plugin note 메모 --pretend
+```
 
 ## Tech Stack
 - Rails 8.1.2 with ERB templates

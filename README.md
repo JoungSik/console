@@ -42,15 +42,20 @@ bin/rails test     # 테스트 실행
 
 ## 새 플러그인 추가
 
+Rails generator로 플러그인 scaffold를 생성합니다. Engine 파일 생성과 함께 `Gemfile`, `config/routes.rb`, `config/database.yml`, `Dockerfile`이 자동 업데이트됩니다.
+
 ```bash
-script/new_plugin.sh <plugin_name> <label> [icon] [position]
+# 생성
+bin/rails generate plugin <name> <label> [--icon=<lucide_icon>] [--position=<number>]
 
 # 예시
-script/new_plugin.sh note "메모" "notebook" 30
+bin/rails generate plugin note 메모 --icon=notebook --position=30
+
+# 삭제 (모든 변경 자동 되돌림)
+bin/rails destroy plugin note 메모
 ```
 
 생성 후:
-1. `Gemfile`에 `gem "<plugin_name>", path: "engines/<plugin_name>"` 추가
-2. `config/routes.rb`에 `mount <Module>::Engine, at: "/<mount_path>"` 추가
-3. `Dockerfile`에 gemspec COPY 추가
-4. `bundle install` 실행
+1. `bundle install` 실행
+2. 모델, 컨트롤러, 뷰, 마이그레이션 작성
+3. `bin/rails db:migrate` 실행

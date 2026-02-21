@@ -1,11 +1,13 @@
 class CreateTodoLists < ActiveRecord::Migration[8.0]
   def change
-    create_table :todo_lists do |t|
+    create_table :lists do |t|
       t.string :title, null: false, limit: 100
-      t.references :user, null: false, foreign_key: true
+      t.integer :user_id, null: false
       t.datetime :archived_at
 
       t.timestamps
     end
+
+    add_index :lists, :user_id
   end
 end
