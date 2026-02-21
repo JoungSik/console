@@ -46,7 +46,7 @@ gem "thruster", require: false
 # Add icon lucide [https://github.com/heyvito/lucide-rails]
 gem "lucide-rails"
 
-gem "rspec-rails", "~> 8.0.2"
+gem "rspec-rails", "~> 8.0.3"
 gem "rswag"
 
 gem "pundit", "~> 2.5"
