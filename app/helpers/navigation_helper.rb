@@ -3,38 +3,36 @@ module NavigationHelper
     items = [
       {
         name: t("navigation.home"),
-        path: root_path,
+        path: main_app.root_path,
         icon: "home",
-        active_paths: [ root_path ]
+        active_paths: [ main_app.root_path ]
       }
     ]
 
     # 로그인한 사용자만 볼 수 있는 메뉴
     if authenticated?
-      items << {
-        name: t("navigation.collections"),
-        path: collections_path,
-        icon: "folder",
-        active_paths: [ collections_path, mypage_collections_path ]
-      }
-      items << {
-        name: t("navigation.todo_links"),
-        path: mypage_todo_lists_path,
-        icon: "layout-list",
-        active_paths: [ mypage_todo_lists_path ]
-      }
+      # 플러그인 레지스트리에서 동적으로 메뉴 추가
+      PluginRegistry.all.each do |plugin|
+        items << {
+          name: plugin.label,
+          path: plugin.path,
+          icon: plugin.icon,
+          active_paths: [ plugin.path ]
+        }
+      end
+
       items << {
         name: t("navigation.mypage"),
-        path: mypage_user_path,
+        path: main_app.mypage_user_path,
         icon: "user",
-        active_paths: [ mypage_user_path ]
+        active_paths: [ main_app.mypage_user_path ]
       }
     else
       items << {
         name: t("navigation.login"),
-        path: new_session_path,
+        path: main_app.new_session_path,
         icon: "log-in",
-        active_paths: [ new_session_path ]
+        active_paths: [ main_app.new_session_path ]
       }
     end
 
@@ -52,8 +50,8 @@ module NavigationHelper
     current_path = request.path
 
     # 홈페이지는 정확히 일치할 때만 활성화
-    if item[:path] == root_path
-      return current_path == root_path
+    if item[:path] == main_app.root_path
+      return current_path == main_app.root_path
     end
 
     # 다른 페이지들은 start_with 로직 사용

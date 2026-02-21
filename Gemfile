@@ -49,8 +49,6 @@ gem "lucide-rails"
 gem "rspec-rails", "~> 8.0.2"
 gem "rswag"
 
-gem "hashids"
-
 gem "pundit", "~> 2.5"
 
 # Cron job management [https://github.com/javan/whenever]
@@ -80,3 +78,7 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
 end
+
+# 플러그인 Engines
+gem "todo", path: "engines/todo"
+gem "bookmark", path: "engines/bookmark"

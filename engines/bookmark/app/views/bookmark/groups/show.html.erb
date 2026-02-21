@@ -1,0 +1,72 @@
+<div class="w-full">
+  <div class="mb-6">
+    <%= link_to bookmark.groups_path, class: "inline-flex items-center text-sm text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300" do %>
+      <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+      </svg>
+      북마크
+    <% end %>
+  </div>
+
+  <div class="bg-white dark:bg-gray-800 shadow-lg rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700">
+    <div class="p-6 sm:p-8">
+      <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-6">
+        <div class="flex-1 min-w-0">
+          <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white break-words">
+            <%= @group.title %>
+          </h1>
+          <% if @group.description.present? %>
+            <p class="mt-2 text-sm text-gray-600 dark:text-gray-400"><%= @group.description %></p>
+          <% end %>
+          <% if @group.is_public? %>
+            <span class="mt-2 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200">공개</span>
+          <% end %>
+        </div>
+
+        <div class="mt-4 sm:mt-0 sm:ml-6 flex-shrink-0 flex gap-3">
+          <%= link_to bookmark.edit_group_path(@group), class: "inline-flex items-center justify-center px-3 py-2 border border-gray-300 dark:border-gray-600 text-sm font-medium rounded-md text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors duration-200" do %>
+            수정
+          <% end %>
+          <%= button_to bookmark.group_path(@group), method: :delete, class: "inline-flex items-center justify-center px-3 py-2 text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 transition-colors duration-200", data: { turbo_confirm: "정말 삭제하시겠습니까?" } do %>
+            삭제
+          <% end %>
+        </div>
+      </div>
+
+      <% if @group.links.any? %>
+        <div class="border-t border-gray-200 dark:border-gray-700 pt-6 space-y-3">
+          <% @group.links.order(created_at: :desc).each do |link| %>
+            <div class="flex items-center justify-between p-3 rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-700">
+              <div class="flex items-center gap-3 min-w-0">
+                <% if link.favicon_url.present? %>
+                  <img src="<%= link.favicon_url %>" alt="" class="w-4 h-4 flex-shrink-0" loading="lazy">
+                <% else %>
+                  <svg class="w-4 h-4 text-gray-400 dark:text-gray-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path>
+                  </svg>
+                <% end %>
+                <div class="min-w-0">
+                  <a href="<%= link.url %>" target="_blank" rel="noopener noreferrer" class="text-sm font-medium text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors duration-200 truncate block">
+                    <%= link.title %>
+                  </a>
+                  <% if link.description.present? %>
+                    <p class="text-xs text-gray-500 dark:text-gray-400 truncate"><%= link.description %></p>
+                  <% end %>
+                </div>
+              </div>
+              <a href="<%= link.url %>" target="_blank" rel="noopener noreferrer" class="flex-shrink-0 ml-3 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                </svg>
+              </a>
+            </div>
+          <% end %>
+        </div>
+      <% else %>
+        <div class="text-center py-8 border-t border-gray-200 dark:border-gray-700">
+          <p class="text-gray-500 dark:text-gray-400">아직 링크가 없습니다.</p>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

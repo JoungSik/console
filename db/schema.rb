@@ -10,8 +10,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_01_31_124924) do
-  create_table "collections", force: :cascade do |t|
+ActiveRecord::Schema[8.1].define(version: 2026_02_21_000005) do
+  create_table "bookmark_groups", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.text "description"
     t.boolean "is_public", default: false, null: false
@@ -19,18 +19,19 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_31_124924) do
     t.string "title", limit: 100, null: false
     t.datetime "updated_at", null: false
     t.integer "user_id", null: false
-    t.index ["user_id"], name: "index_collections_on_user_id"
+    t.index ["is_public"], name: "index_bookmark_groups_on_is_public"
+    t.index ["user_id"], name: "index_bookmark_groups_on_user_id"
   end
 
-  create_table "links", force: :cascade do |t|
-    t.integer "collection_id", null: false
+  create_table "bookmark_links", force: :cascade do |t|
+    t.integer "bookmark_group_id", null: false
     t.datetime "created_at", null: false
     t.text "description"
     t.string "favicon_url"
     t.string "title", limit: 100, null: false
     t.datetime "updated_at", null: false
     t.text "url", null: false
-    t.index ["collection_id"], name: "index_links_on_collection_id"
+    t.index ["bookmark_group_id"], name: "index_bookmark_links_on_bookmark_group_id"
   end
 
   create_table "push_subscriptions", force: :cascade do |t|
@@ -53,16 +54,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_31_124924) do
     t.index ["user_id"], name: "index_sessions_on_user_id"
   end
 
-  create_table "todo_lists", force: :cascade do |t|
-    t.datetime "archived_at"
-    t.datetime "created_at", null: false
-    t.string "title", limit: 100, null: false
-    t.datetime "updated_at", null: false
-    t.integer "user_id", null: false
-    t.index ["user_id"], name: "index_todo_lists_on_user_id"
-  end
-
-  create_table "todos", force: :cascade do |t|
+  create_table "todo_items", force: :cascade do |t|
     t.boolean "completed", default: false, null: false
     t.datetime "created_at", null: false
     t.date "due_date"
@@ -70,7 +62,16 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_31_124924) do
     t.string "title", limit: 200, null: false
     t.integer "todo_list_id", null: false
     t.datetime "updated_at", null: false
-    t.index ["todo_list_id"], name: "index_todos_on_todo_list_id"
+    t.index ["todo_list_id"], name: "index_todo_items_on_todo_list_id"
+  end
+
+  create_table "todo_lists", force: :cascade do |t|
+    t.datetime "archived_at"
+    t.datetime "created_at", null: false
+    t.string "title", limit: 100, null: false
+    t.datetime "updated_at", null: false
+    t.integer "user_id", null: false
+    t.index ["user_id"], name: "index_todo_lists_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -82,10 +83,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_31_124924) do
     t.index ["email_address"], name: "index_users_on_email_address", unique: true
   end
 
-  add_foreign_key "collections", "users"
-  add_foreign_key "links", "collections"
+  add_foreign_key "bookmark_links", "bookmark_groups"
   add_foreign_key "push_subscriptions", "users"
   add_foreign_key "sessions", "users"
-  add_foreign_key "todo_lists", "users"
-  add_foreign_key "todos", "todo_lists"
+  add_foreign_key "todo_items", "todo_lists"
 end

@@ -35,6 +35,10 @@ RUN apt-get update -qq && \
 
 # Install application gems
 COPY Gemfile Gemfile.lock ./
+COPY engines/todo/todo.gemspec engines/todo/
+COPY engines/todo/lib/todo/version.rb engines/todo/lib/todo/
+COPY engines/bookmark/bookmark.gemspec engines/bookmark/
+COPY engines/bookmark/lib/bookmark/version.rb engines/bookmark/lib/bookmark/
 RUN bundle install && \
     rm -rf ~/.bundle/ "${BUNDLE_PATH}"/ruby/*/cache "${BUNDLE_PATH}"/ruby/*/bundler/gems/*/.git && \
     bundle exec bootsnap precompile --gemfile

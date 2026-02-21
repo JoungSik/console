@@ -4,15 +4,39 @@
 - Answer in Korean
 - 사용하지 않는 코드는 삭제 (dead code 정리)
 
-## Project Structure
+## Architecture
+코어 앱 + 플러그인(Rails Engine) 구조. 인증/세션만 코어가 담당하고, 기능은 독립 Engine으로 분리.
+
+### Project Structure
 ```
-app/views/        # ERB templates
-app/assets/       # CSS/JS assets
-app/javascript/   # Stimulus controllers
+app/                    # 코어 앱 (인증, 세션, 홈, 레이아웃)
+├── controllers/        # 코어 컨트롤러
+├── models/             # 코어 모델 (User, Session)
+├── views/layouts/      # 공유 레이아웃
+├── helpers/            # NavigationHelper 등
+├── assets/             # CSS/JS assets
+└── javascript/         # Stimulus controllers
+lib/
+├── plugin_registry.rb  # 플러그인 중앙 등록소
+└── console/
+    └── plugin_interface.rb  # 플러그인용 코어 인터페이스
+engines/                # 플러그인 엔진들
+├── todo/               # 할 일 목록 (Todo::List, Todo::Item)
+└── bookmark/           # 북마크 (Bookmark::Group, Bookmark::Link)
+script/
+└── new_plugin.sh       # 새 플러그인 생성 자동화 스크립트
 ```
 
+### Plugin Convention
+- Engine은 `isolate_namespace`로 격리
+- `PluginRegistry.register`로 네비게이션 자동 등록
+- `Console::PluginInterface`로 코어 사용자 정보 접근
+- 레이아웃에서 메인 앱 라우트 헬퍼는 `main_app.` 접두사 사용
+- Engine 뷰에서 자체 라우트 헬퍼는 엔진명 접두사 사용 (예: `todo.lists_path`, `bookmark.groups_path`)
+- 모델 테이블명은 `self.table_name` 명시, FK는 `foreign_key:` 옵션 명시
+
 ## Tech Stack
-- Rails 8.0.3 with ERB templates
+- Rails 8.1.2 with ERB templates
 - **Tailwind CSS** (tailwindcss-rails) - Use utility classes
 - Stimulus JS (stimulus-rails)
 - Turbo (turbo-rails)

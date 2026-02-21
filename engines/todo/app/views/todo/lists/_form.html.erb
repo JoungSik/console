@@ -1,0 +1,48 @@
+<%= form_with(model: list, url: list.persisted? ? todo.list_path(list) : todo.lists_path, class: "space-y-6", data: { controller: "nested-form", nested_form_wrapper_selector_value: "#items" }) do |form| %>
+  <% if list.errors.any? %>
+    <div class="bg-red-50 dark:bg-red-900 border border-red-200 dark:border-red-700 text-red-700 dark:text-red-100 px-4 py-3 rounded-md">
+      <h2 class="font-medium mb-2"><%= list.errors.count %>개의 오류가 있습니다</h2>
+      <ul class="text-sm space-y-1">
+        <% list.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="flex justify-end mb-6">
+    <%= form.submit list.persisted? ? "할 일 목록 수정" : "할 일 목록 만들기",
+                    class: "inline-flex items-center px-4 py-2 text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 dark:hover:bg-blue-500 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 dark:focus:ring-offset-gray-800" %>
+  </div>
+
+  <div class="space-y-4">
+    <div>
+      <%= form.label :title, "제목", class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" %>
+      <%= form.text_field :title, placeholder: "할 일 목록의 제목을 입력하세요", class: "w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" %>
+    </div>
+
+    <div class="flex items-center">
+      <%= form.check_box :archive, { checked: list.archived?, class: "h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 rounded" }, "1", "0" %>
+      <%= form.label :archive, "보관", class: "ml-2 block text-sm text-gray-900 dark:text-white" %>
+    </div>
+
+    <div class="space-y-4">
+      <div class="flex items-center justify-between">
+        <h3 class="text-lg font-medium text-gray-900 dark:text-white">할 일</h3>
+        <%= link_to "새 할 일 만들기", "#", data: { action: "click->nested-form#add_association", nested_form_target: "addButton" }, class: "inline-flex items-center px-3 py-2 border border-gray-300 dark:border-gray-600 text-sm font-medium rounded-md text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors duration-200" %>
+      </div>
+
+      <div id="items" data-turbo-permanent>
+        <%= form.fields_for :items do |item_fields| %>
+          <%= render "todo/lists/item_fields", form: item_fields %>
+        <% end %>
+      </div>
+
+      <template data-nested-form-target="template">
+        <%= form.fields_for :items, Todo::Item.new, child_index: 'NEW_RECORD' do |item_fields| %>
+          <%= render "todo/lists/item_fields", form: item_fields %>
+        <% end %>
+      </template>
+    </div>
+  </div>
+<% end %>

@@ -1,0 +1,53 @@
+<%= form_with(model: group, url: group.persisted? ? bookmark.group_path(group) : bookmark.groups_path, class: "space-y-6", data: { controller: "nested-form", nested_form_wrapper_selector_value: "#links" }) do |form| %>
+  <% if group.errors.any? %>
+    <div class="bg-red-50 dark:bg-red-900 border border-red-200 dark:border-red-700 text-red-700 dark:text-red-100 px-4 py-3 rounded-md">
+      <h2 class="font-medium mb-2"><%= group.errors.count %>개의 오류가 있습니다</h2>
+      <ul class="text-sm space-y-1">
+        <% group.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="flex justify-end mb-6">
+    <%= form.submit group.persisted? ? "북마크 그룹 수정" : "북마크 그룹 만들기",
+                    class: "inline-flex items-center px-4 py-2 text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 dark:hover:bg-blue-500 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 dark:focus:ring-offset-gray-800" %>
+  </div>
+
+  <div class="space-y-4">
+    <div>
+      <%= form.label :title, "제목", class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" %>
+      <%= form.text_field :title, placeholder: "북마크 그룹의 제목을 입력하세요", class: "w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" %>
+    </div>
+
+    <div>
+      <%= form.label :description, "설명", class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" %>
+      <%= form.text_area :description, rows: 3, placeholder: "그룹에 대한 설명 (선택사항)", class: "w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" %>
+    </div>
+
+    <div class="flex items-center">
+      <%= form.check_box :is_public, class: "h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 rounded" %>
+      <%= form.label :is_public, "공개", class: "ml-2 block text-sm text-gray-900 dark:text-white" %>
+    </div>
+
+    <div class="space-y-4">
+      <div class="flex items-center justify-between">
+        <h3 class="text-lg font-medium text-gray-900 dark:text-white">링크</h3>
+        <%= link_to "새 링크 추가", "#", data: { action: "click->nested-form#add_association", nested_form_target: "addButton" }, class: "inline-flex items-center px-3 py-2 border border-gray-300 dark:border-gray-600 text-sm font-medium rounded-md text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors duration-200" %>
+      </div>
+
+      <div id="links" data-turbo-permanent>
+        <%= form.fields_for :links do |link_fields| %>
+          <%= render "bookmark/groups/link_fields", form: link_fields %>
+        <% end %>
+      </div>
+
+      <template data-nested-form-target="template">
+        <%= form.fields_for :links, Bookmark::Link.new, child_index: 'NEW_RECORD' do |link_fields| %>
+          <%= render "bookmark/groups/link_fields", form: link_fields %>
+        <% end %>
+      </template>
+    </div>
+  </div>
+<% end %>

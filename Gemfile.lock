@@ -1,3 +1,15 @@
+PATH
+  remote: engines/bookmark
+  specs:
+    bookmark (0.1.0)
+      rails (>= 8.0)
+
+PATH
+  remote: engines/todo
+  specs:
+    todo (0.1.0)
+      rails (>= 8.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -118,7 +130,6 @@ GEM
       raabro (~> 1.4)
     globalid (1.3.0)
       activesupport (>= 6.1)
-    hashids (1.0.6)
     i18n (1.14.8)
       concurrent-ruby (~> 1.0)
     importmap-rails (2.2.3)
@@ -432,11 +443,11 @@ PLATFORMS
 
 DEPENDENCIES
   bcrypt (~> 3.1.21)
+  bookmark!
   bootsnap
   brakeman
   capybara
   debug
-  hashids
   importmap-rails
   jbuilder
   kamal
@@ -455,6 +466,7 @@ DEPENDENCIES
   stimulus-rails
   tailwindcss-rails
   thruster
+  todo!
   turbo-rails
   tzinfo-data
   web-console

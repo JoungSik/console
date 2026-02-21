@@ -1,0 +1,66 @@
+<div class="w-full">
+  <div class="mb-6">
+    <%= link_to todo.lists_path, class: "inline-flex items-center text-sm text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300" do %>
+      <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+      </svg>
+      할 일 목록
+    <% end %>
+  </div>
+
+  <div class="bg-white dark:bg-gray-800 shadow-lg rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700">
+    <div class="p-6 sm:p-8">
+      <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-6">
+        <div class="flex-1 min-w-0">
+          <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white break-words">
+            <%= @list.title.presence || '제목 없음' %>
+          </h1>
+          <% if @list.archived? %>
+            <span class="mt-2 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200">보관됨</span>
+          <% end %>
+        </div>
+
+        <div class="mt-4 sm:mt-0 sm:ml-6 flex-shrink-0 flex gap-3">
+          <%= link_to todo.edit_list_path(@list), class: "inline-flex items-center justify-center px-3 py-2 border border-gray-300 dark:border-gray-600 text-sm font-medium rounded-md text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors duration-200" do %>
+            수정
+          <% end %>
+          <%= button_to todo.list_path(@list), method: :delete, class: "inline-flex items-center justify-center px-3 py-2 text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 transition-colors duration-200", data: { turbo_confirm: "정말 삭제하시겠습니까?" } do %>
+            삭제
+          <% end %>
+        </div>
+      </div>
+
+      <% if @list.items.any? %>
+        <div class="border-t border-gray-200 dark:border-gray-700 pt-6 space-y-3">
+          <% @list.items.order(completed: :asc, created_at: :desc).each do |item| %>
+            <div class="flex items-center justify-between p-3 rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-700">
+              <div class="flex items-center gap-3">
+                <% if item.completed? %>
+                  <div class="w-5 h-5 bg-green-500 rounded border border-green-500 flex items-center justify-center">
+                    <svg class="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                      <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                    </svg>
+                  </div>
+                <% else %>
+                  <div class="w-5 h-5 border-2 border-gray-300 dark:border-gray-500 rounded"></div>
+                <% end %>
+                <span class="text-sm text-gray-900 dark:text-white <%= item.completed? ? 'line-through text-gray-500 dark:text-gray-400' : '' %>">
+                  <%= item.title %>
+                </span>
+              </div>
+              <% if item.due_date.present? %>
+                <span class="text-xs text-gray-500 dark:text-gray-400 <%= item.overdue? ? 'text-red-500 dark:text-red-400 font-medium' : '' %>">
+                  <%= item.due_date.strftime("%Y-%m-%d") %>
+                </span>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+      <% else %>
+        <div class="text-center py-8 border-t border-gray-200 dark:border-gray-700">
+          <p class="text-gray-500 dark:text-gray-400">아직 할 일이 없습니다.</p>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
