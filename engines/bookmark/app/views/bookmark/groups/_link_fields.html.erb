@@ -1,0 +1,23 @@
+<div class="item-fields border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 rounded-md p-4 space-y-3" data-nested-form-target="item">
+  <%= form.hidden_field :id %>
+
+  <div>
+    <%= form.label :title, "제목", class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" %>
+    <%= form.text_field :title, placeholder: "링크 제목을 입력하세요", class: "w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" %>
+  </div>
+
+  <div>
+    <%= form.label :url, "URL", class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" %>
+    <%= form.url_field :url, placeholder: "https://example.com", class: "w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" %>
+  </div>
+
+  <div>
+    <%= form.label :description, "설명", class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" %>
+    <%= form.text_field :description, placeholder: "링크에 대한 설명 (선택사항)", class: "w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" %>
+  </div>
+
+  <div class="flex justify-end">
+    <%= form.hidden_field :_destroy, value: "0", data: { nested_form_target: "destroyField" } %>
+    <%= link_to "링크 삭제", "#", data: { action: "click->nested-form#remove_association" }, class: "text-sm text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300" %>
+  </div>
+</div>

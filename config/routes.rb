@@ -11,16 +11,12 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   root "home#index"
 
+  # 인증
   resource :session
   resources :passwords, param: :token
 
-  resources :collections, only: %i[ index show ]
-
+  # 사용자 설정
   namespace :mypage do
-    resources :collections
-    resources :todo_lists do
-      resources :todos, only: %i[ update destroy ]
-    end
     resource :user, only: %i[ show update ]
     resources :push_subscriptions, only: %i[ create destroy ]
   end
@@ -32,6 +28,10 @@ Rails.application.routes.draw do
   namespace :service_worker do
     resources :push_subscriptions, only: %i[ create ]
   end
+
+  # 플러그인 Engine 마운트
+  mount Todo::Engine, at: "/todos"
+  mount Bookmark::Engine, at: "/bookmarks"
 
   mount Rswag::Ui::Engine => "/api-docs"
   mount Rswag::Api::Engine => "/api-docs"
