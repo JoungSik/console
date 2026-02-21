@@ -42,7 +42,7 @@ module Bookmark
     private
 
     def set_group
-      @group = Group.by_user(current_user_id).find(params[:id])
+      @group = Group.by_user(current_user_id).find_universal(params[:id])
     end
 
     def group_params

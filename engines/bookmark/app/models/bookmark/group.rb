@@ -1,5 +1,7 @@
 module Bookmark
   class Group < ApplicationRecord
+    include Bookmark::Hashable
+
     self.table_name = "bookmark_groups"
 
     has_many :links, foreign_key: "bookmark_group_id", dependent: :destroy
