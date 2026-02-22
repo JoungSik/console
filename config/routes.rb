@@ -33,8 +33,5 @@ Rails.application.routes.draw do
   mount Todo::Engine, at: "/todos"
   mount Bookmark::Engine, at: "/bookmarks"
 
-  mount Rswag::Ui::Engine => "/api-docs"
-  mount Rswag::Api::Engine => "/api-docs"
-
   mount MissionControl::Jobs::Engine, at: "/jobs"
 end
