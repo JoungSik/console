@@ -81,7 +81,7 @@ gathering1 = Settlement::Gathering.find_or_create_by!(title: "팀 회식", user_
   g.memo = "강남역 근처 고기집"
 end
 
-members1 = %w[김철수 이영희 박민수 정수진].map do |name|
+%w[김철수 이영희 박민수 정수진].each do |name|
   gathering1.members.find_or_create_by!(name: name)
 end
 
@@ -118,7 +118,7 @@ gathering2 = Settlement::Gathering.find_or_create_by!(title: "주말 여행", us
   g.memo = "속초 1박 2일"
 end
 
-members2 = %w[김철수 이영희 최준호].map do |name|
+%w[김철수 이영희 최준호].each do |name|
   gathering2.members.find_or_create_by!(name: name)
 end
 
