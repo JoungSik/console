@@ -22,7 +22,8 @@ module Bookmark
         label: "북마크",
         icon: "bookmark",
         path: "/bookmarks",
-        position: 20
+        position: 20,
+        dashboard_component: "Bookmark::DashboardComponent"
       )
     end
   end

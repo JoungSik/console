@@ -8,7 +8,8 @@ module Todo
         label: "할 일 목록",
         icon: "layout-list",
         path: "/todos",
-        position: 10
+        position: 10,
+        dashboard_component: "Todo::DashboardComponent"
       )
     end
   end

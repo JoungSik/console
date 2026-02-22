@@ -1,0 +1,38 @@
+<div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200">
+  <%# 헤더 %>
+  <div class="flex items-center justify-between px-4 py-3 border-b border-gray-200 dark:border-gray-700">
+    <div class="flex items-center gap-2">
+      <%= lucide_icon "receipt", class: "w-5 h-5 text-blue-600 dark:text-blue-400" %>
+      <h2 class="text-lg font-semibold text-gray-900 dark:text-white"><%= component.plugin_name %></h2>
+    </div>
+    <%= link_to "전체보기", settlement.root_path, class: "text-sm text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors duration-200" %>
+  </div>
+
+  <div class="px-4 py-4">
+    <%# 요약 통계 %>
+    <div class="bg-gray-50 dark:bg-gray-700 rounded-md px-2 py-2 text-center mb-4">
+      <div class="text-xl font-bold text-gray-900 dark:text-white"><%= component.gatherings_count %></div>
+      <div class="text-xs text-gray-600 dark:text-gray-400">모임</div>
+    </div>
+
+    <%# 최근 모임 %>
+    <% if component.recent_gatherings.any? %>
+      <h3 class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">최근 모임</h3>
+      <ul class="space-y-1.5">
+        <% component.recent_gatherings.each do |gathering| %>
+          <li class="flex items-center justify-between text-sm">
+            <span class="text-gray-900 dark:text-white truncate"><%= gathering.title %></span>
+            <div class="flex items-center gap-2 flex-shrink-0 ml-2">
+              <span class="text-xs text-gray-500 dark:text-gray-400"><%= gathering.members.size %>명</span>
+              <% if gathering.gathering_date %>
+                <span class="text-xs text-gray-500 dark:text-gray-400"><%= gathering.gathering_date.strftime("%m/%d") %></span>
+              <% end %>
+            </div>
+          </li>
+        <% end %>
+      </ul>
+    <% else %>
+      <p class="text-sm text-gray-500 dark:text-gray-400 text-center py-2">등록된 모임이 없습니다.</p>
+    <% end %>
+  </div>
+</div>
