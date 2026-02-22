@@ -3,7 +3,7 @@ require_relative "lib/settlement/version"
 Gem::Specification.new do |spec|
   spec.name        = "settlement"
   spec.version     = Settlement::VERSION
-  spec.authors     = ["Console"]
+  spec.authors     = [ "Console" ]
   spec.summary     = "정산 플러그인"
 
   spec.files = Dir.chdir(File.expand_path(__dir__)) do
