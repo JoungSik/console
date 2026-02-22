@@ -39,7 +39,7 @@ class Settlement::ItemTest < ActiveSupport::TestCase
     item.item_members.create!(member: @member3)
     item.item_members.create!(member: @member1)
 
-    assert_equal [@member1.id, @member3.id], item.members.pluck(:id)
+    assert_equal [ @member1.id, @member3.id ], item.members.pluck(:id)
   end
 
   test "이름 없으면 유효하지 않다" do

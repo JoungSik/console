@@ -30,7 +30,7 @@ class Settlement::RoundTest < ActiveSupport::TestCase
     item.item_members.create!(member: member1)
     item.item_members.create!(member: member2)
 
-    removed_member_ids = [member1.id]
+    removed_member_ids = [ member1.id ]
     Settlement::ItemMember.where(item_id: round.item_ids, member_id: removed_member_ids).destroy_all
     round.member_ids = round.member_ids - removed_member_ids
 
