@@ -11,7 +11,7 @@ class PasswordsTest < ActionDispatch::IntegrationTest
   end
 
   test "존재하는 이메일로 재설정을 요청하면 메일이 발송된다" do
-    assert_enqueued_email_with PasswordsMailer, :reset, args: [@user] do
+    assert_enqueued_email_with PasswordsMailer, :reset, args: [ @user ] do
       post passwords_url, params: { email_address: @user.email_address }
     end
     assert_redirected_to new_session_path
