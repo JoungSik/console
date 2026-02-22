@@ -1,4 +1,20 @@
-<div>
-  <h1 class="font-bold text-4xl text-gray-900 dark:text-white">Home#index</h1>
-  <p class="text-gray-600 dark:text-gray-300">Find me in app/views/home/index.html.erb</p>
+<div class="w-full">
+  <div class="mb-6">
+    <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">대시보드</h1>
+    <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">전체 현황을 한눈에 확인하세요.</p>
+  </div>
+
+  <% if @dashboard_components.present? %>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 lg:gap-6">
+      <% @dashboard_components.each do |component| %>
+        <%= render partial: component.partial_path, locals: component.locals %>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="text-center py-12">
+      <%= lucide_icon "layout-dashboard", class: "mx-auto h-12 w-12 text-gray-400 dark:text-gray-500" %>
+      <h3 class="mt-2 text-sm font-medium text-gray-900 dark:text-white">등록된 대시보드 위젯이 없습니다</h3>
+      <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">플러그인을 추가하면 여기에 위젯이 표시됩니다.</p>
+    </div>
+  <% end %>
 </div>

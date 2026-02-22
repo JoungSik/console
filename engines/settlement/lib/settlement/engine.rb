@@ -8,7 +8,8 @@ module Settlement
         label: "정산",
         icon: "receipt",
         path: "/settlements",
-        position: 30
+        position: 30,
+        dashboard_component: "Settlement::DashboardComponent"
       )
     end
   end
