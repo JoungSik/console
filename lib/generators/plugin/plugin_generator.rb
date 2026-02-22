@@ -20,6 +20,7 @@ class PluginGenerator < Rails::Generators::Base
     empty_directory "#{engine_path}/app/controllers/#{plugin_name}"
     empty_directory "#{engine_path}/app/models/#{plugin_name}"
     empty_directory "#{engine_path}/app/views/#{plugin_name}"
+    empty_directory "#{engine_path}/app/views/#{plugin_name}/dashboard"
     empty_directory "#{engine_path}/config"
     empty_directory "#{engine_path}/db/migrate"
     empty_directory "#{engine_path}/lib/#{plugin_name}"
@@ -75,7 +76,8 @@ class PluginGenerator < Rails::Generators::Base
               label: "#{label}",
               icon: "#{icon}",
               path: "/#{mount_path}",
-              position: #{position}
+              position: #{position},
+              dashboard_component: "#{module_name}::DashboardComponent"
             )
           end
         end
@@ -103,6 +105,44 @@ class PluginGenerator < Rails::Generators::Base
         end
       end
     RUBY
+  end
+
+  def create_dashboard_component
+    create_file "#{engine_path}/app/models/#{plugin_name}/dashboard_component.rb", <<~RUBY
+      # #{label} 대시보드 위젯 컴포넌트
+      module #{module_name}
+        class DashboardComponent < Console::DashboardComponent
+          def plugin_name = "#{label}"
+
+          def load_data
+            # TODO: 대시보드에 표시할 데이터를 로드하세요
+            self
+          end
+
+          def partial_path = "#{plugin_name}/dashboard/widget"
+        end
+      end
+    RUBY
+  end
+
+  def create_dashboard_view
+    create_file "#{engine_path}/app/views/#{plugin_name}/dashboard/_widget.html.erb", <<~ERB
+      <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200">
+        <%# 헤더 %>
+        <div class="flex items-center justify-between px-4 py-3 border-b border-gray-200 dark:border-gray-700">
+          <div class="flex items-center gap-2">
+            <%= lucide_icon "#{icon}", class: "w-5 h-5 text-blue-600 dark:text-blue-400" %>
+            <h2 class="text-lg font-semibold text-gray-900 dark:text-white"><%= component.plugin_name %></h2>
+          </div>
+          <%= link_to "전체보기", #{plugin_name}.root_path, class: "text-sm text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors duration-200" %>
+        </div>
+
+        <div class="px-4 py-4">
+          <%# TODO: 위젯 내용을 구현하세요 %>
+          <p class="text-sm text-gray-500 dark:text-gray-400 text-center py-2">위젯 내용을 구현하세요.</p>
+        </div>
+      </div>
+    ERB
   end
 
   def create_routes
