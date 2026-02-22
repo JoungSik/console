@@ -22,12 +22,5 @@ module Settlement
         members
       end
     end
-
-    # 멤버당 부담 금액 (올림 처리)
-    def per_person_amount
-      count = responsible_members.count
-      return 0 if count.zero?
-      (total.to_f / count).ceil
-    end
   end
 end

@@ -50,11 +50,7 @@ module Settlement
     # 항목에 태그된 참석자 업데이트 (gathering 소속 멤버만 허용)
     def update_item_members(item)
       member_ids = (params.dig(:item, :member_ids) || []).map(&:to_i)
-      valid_member_ids = @gathering.member_ids & member_ids
-      item.item_members.destroy_all
-      valid_member_ids.each do |member_id|
-        item.item_members.create!(member_id: member_id)
-      end
+      item.member_ids = @gathering.member_ids & member_ids
     end
   end
 end

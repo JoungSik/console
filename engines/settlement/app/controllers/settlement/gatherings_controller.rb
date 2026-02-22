@@ -16,11 +16,14 @@ module Settlement
     def create
       @gathering = Gathering.new(gathering_params)
 
-      if @gathering.save
-        # 주선자(현재 사용자)를 첫 번째 참석자로 자동 추가
-        @gathering.members.create(name: current_user_name)
+      begin
+        Gathering.transaction do
+          @gathering.save!
+          # 주선자(현재 사용자)를 첫 번째 참석자로 자동 추가
+          @gathering.members.create!(name: current_user_name)
+        end
         redirect_to settlement.gathering_path(@gathering), notice: "모임이 생성되었습니다."
-      else
+      rescue ActiveRecord::RecordInvalid
         render :new, status: :unprocessable_entity
       end
     end

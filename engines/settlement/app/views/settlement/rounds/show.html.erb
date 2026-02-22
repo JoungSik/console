@@ -81,7 +81,7 @@
                 <% unless item.is_shared || item.item_members.empty? %>
                   <p class="text-xs text-gray-400 dark:text-gray-500 mt-1">
                     <%= lucide_icon "user", class: "w-3 h-3 inline mr-0.5" %>
-                    <%= item.members.pluck(:name).join(", ") %>
+                    <%= item.members.map(&:name).join(", ") %>
                   </p>
                 <% end %>
               </div>

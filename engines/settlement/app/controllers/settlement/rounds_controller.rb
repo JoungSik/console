@@ -44,14 +44,13 @@ module Settlement
       valid_member_ids = @gathering.member_ids & member_ids
       removed_member_ids = @round.member_ids - valid_member_ids
 
-      # 제거된 멤버의 항목 태그도 함께 정리
-      if removed_member_ids.any?
-        ItemMember.where(item_id: @round.item_ids, member_id: removed_member_ids).destroy_all
-      end
+      Round.transaction do
+        # 제거된 멤버의 항목 태그도 함께 정리
+        if removed_member_ids.any?
+          ItemMember.where(item_id: @round.item_ids, member_id: removed_member_ids).destroy_all
+        end
 
-      @round.round_members.destroy_all
-      valid_member_ids.each do |member_id|
-        @round.round_members.create!(member_id: member_id)
+        @round.member_ids = valid_member_ids
       end
       redirect_to settlement.gathering_round_path(@gathering, @round), notice: "참석자가 수정되었습니다."
     end
@@ -63,7 +62,7 @@ module Settlement
     end
 
     def set_round
-      @round = @gathering.rounds.find(params[:id])
+      @round = @gathering.rounds.includes(items: :members).find(params[:id])
     end
 
     def round_params

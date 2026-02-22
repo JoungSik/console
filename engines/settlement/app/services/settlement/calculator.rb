@@ -26,7 +26,7 @@ module Settlement
 
     # 전체 총액
     def total_amount
-      gathering.rounds.sum { |round| round.total_amount }
+      gathering.total_amount
     end
 
     # 멤버별 부담 총액 { member => amount }

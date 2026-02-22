@@ -34,12 +34,6 @@ class Settlement::ItemTest < ActiveSupport::TestCase
     assert_equal 2, item.responsible_members.count
   end
 
-  test "per_person_amount 올림 처리" do
-    item = @round.items.create!(name: "피자", quantity: 1, amount: 10000)
-    # 3명이 나누면 3334원 (올림)
-    assert_equal 3334, item.per_person_amount
-  end
-
   test "이름 없으면 유효하지 않다" do
     item = @round.items.build(name: nil, amount: 1000)
     assert_not item.valid?

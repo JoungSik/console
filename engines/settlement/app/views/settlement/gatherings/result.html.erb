@@ -82,7 +82,7 @@
                 <span class="text-xs text-yellow-600 dark:text-yellow-400">(공통)</span>
               <% elsif item.item_members.any? %>
                 <span class="text-xs text-gray-400 dark:text-gray-500">
-                  (<%= item.members.pluck(:name).join(", ") %>)
+                  (<%= item.members.map(&:name).join(", ") %>)
                 </span>
               <% end %>
             </div>
