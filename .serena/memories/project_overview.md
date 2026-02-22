@@ -18,8 +18,7 @@
 - **백그라운드 잡**: Solid Queue + Mission Control
 - **인증**: bcrypt (has_secure_password)
 - **권한 관리**: Pundit
-- **테스트**: RSpec, Capybara, Selenium
-- **API 문서**: rswag/swagger
+- **테스트**: Minitest, Capybara, Selenium
 - **배포**: Kamal, Docker
 
 ## 프로젝트 구조

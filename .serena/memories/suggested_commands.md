@@ -18,13 +18,13 @@ bin/jobs
 ## 테스트
 ```bash
 # 전체 테스트 실행
-bundle exec rspec
+bin/rails test
 
 # 특정 파일 테스트
-bundle exec rspec spec/models/user_spec.rb
+bin/rails test test/models/user_test.rb
 
 # 특정 라인 테스트
-bundle exec rspec spec/models/user_spec.rb:10
+bin/rails test test/models/user_test.rb:10
 ```
 
 ## 코드 품질
@@ -75,8 +75,4 @@ bundle update
 bin/kamal deploy
 ```
 
-## API 문서
-```bash
-# Swagger 문서 생성
-bundle exec rake rswag:specs:swaggerize
-```
+

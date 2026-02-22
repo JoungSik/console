@@ -30,8 +30,8 @@
 - ES 모듈 (importmap)
 
 ## 테스트
-- RSpec 사용
-- 테스트 파일 위치: `spec/`
+- Minitest 사용
+- 테스트 파일 위치: `test/`
 
 ## 디자인 패턴
 - Service Object 패턴 선호

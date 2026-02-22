@@ -8,7 +8,7 @@
 
 2. **테스트 실행**
    ```bash
-   bundle exec rspec
+   bin/rails test
    ```
 
 3. **보안 검사** (선택적)
