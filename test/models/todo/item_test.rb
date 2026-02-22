@@ -2,7 +2,7 @@ require "test_helper"
 
 class Todo::ItemTest < ActiveSupport::TestCase
   setup do
-    @user = User.create!(name: "테스트", email_address: "test@example.com", password: "password123")
+    @user = users(:test_user)
     @list = Todo::List.create!(title: "테스트 리스트", user_id: @user.id)
     @item = @list.items.build(title: "테스트 할일")
   end
