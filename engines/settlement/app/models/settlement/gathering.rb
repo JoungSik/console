@@ -11,7 +11,6 @@ module Settlement
 
     scope :by_user, ->(user_id) { where(user_id: user_id) }
 
-    # 총 금액 합계
     def total_amount
       rounds.joins(:items).sum("items.amount * items.quantity")
     end

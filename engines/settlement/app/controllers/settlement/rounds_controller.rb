@@ -45,7 +45,6 @@ module Settlement
       removed_member_ids = @round.member_ids - valid_member_ids
 
       Round.transaction do
-        # 제거된 멤버의 항목 태그도 함께 정리
         if removed_member_ids.any?
           ItemMember.where(item_id: @round.item_ids, member_id: removed_member_ids).destroy_all
         end

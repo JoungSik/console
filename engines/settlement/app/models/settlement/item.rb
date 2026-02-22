@@ -8,13 +8,10 @@ module Settlement
     validates :quantity, presence: true, numericality: { greater_than: 0 }
     validates :amount, presence: true, numericality: { greater_than_or_equal_to: 0 }
 
-    # 항목 총액 (수량 x 금액)
     def total
       quantity * amount
     end
 
-    # 이 항목을 부담하는 멤버 목록 반환
-    # is_shared이면 라운드 전체 참석자, 태그가 있으면 태그된 멤버
     def responsible_members
       if is_shared || item_members.empty?
         round.members

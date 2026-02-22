@@ -7,10 +7,8 @@ module Settlement
 
     validates :name, presence: true, length: { maximum: 100 }
 
-    # 라운드 생성 시 모임의 전체 멤버를 자동 추가
     after_create :add_all_gathering_members
 
-    # 라운드 총 금액
     def total_amount
       items.sum("amount * quantity")
     end

@@ -34,6 +34,14 @@ class Settlement::ItemTest < ActiveSupport::TestCase
     assert_equal 2, item.responsible_members.count
   end
 
+  test "members는 id 순서로 반환된다" do
+    item = @round.items.create!(name: "소주", amount: 5000)
+    item.item_members.create!(member: @member3)
+    item.item_members.create!(member: @member1)
+
+    assert_equal [@member1.id, @member3.id], item.members.pluck(:id)
+  end
+
   test "이름 없으면 유효하지 않다" do
     item = @round.items.build(name: nil, amount: 1000)
     assert_not item.valid?

@@ -47,7 +47,6 @@ module Settlement
       params.require(:item).permit(:name, :quantity, :amount, :is_shared)
     end
 
-    # 항목에 태그된 참석자 업데이트 (gathering 소속 멤버만 허용)
     def update_item_members(item)
       member_ids = (params.dig(:item, :member_ids) || []).map(&:to_i)
       item.member_ids = @gathering.member_ids & member_ids
