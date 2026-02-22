@@ -115,6 +115,7 @@ ko:
       blank: "입력해주세요."
       taken: "이미 사용 중입니다."
       confirmation: "가 일치하지 않습니다."
+      inclusion: "올바른 값이 아닙니다."
       validation_failed:
         one: "1개의 오류로 인해 %{resource} 저장에 실패했습니다:"
         other: "%{count}개의 오류로 인해 %{resource} 저장에 실패했습니다:"

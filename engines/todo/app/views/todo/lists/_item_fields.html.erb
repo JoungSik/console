@@ -6,15 +6,26 @@
     <%= form.text_field :title, placeholder: "할 일 제목을 입력하세요", class: "w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" %>
   </div>
 
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-    <div class="flex items-center">
-      <%= form.check_box :completed, class: "h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 rounded" %>
-      <%= form.label :completed, "완료", class: "ml-2 block text-sm text-gray-900 dark:text-white" %>
-    </div>
+  <div>
+    <%= form.label :due_date, "마감일", class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" %>
+    <%= form.date_field :due_date, class: "w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" %>
+  </div>
 
-    <div>
-      <%= form.label :due_date, "마감일", class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" %>
-      <%= form.date_field :due_date, class: "w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" %>
+  <div data-controller="recurrence">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+      <div>
+        <%= form.label :recurrence, "반복", class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" %>
+        <%= form.select :recurrence,
+              options_for_select([["반복 안 함", ""]] + Todo::Item::RECURRENCE_LABELS.map { |k, v| [v, k] }, form.object&.recurrence),
+              {},
+              class: "w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent",
+              data: { recurrence_target: "select", action: "change->recurrence#toggle" } %>
+      </div>
+
+      <div data-recurrence-target="endsOnField" class="<%= 'hidden' unless form.object&.recurrence.present? %>">
+        <%= form.label :recurrence_ends_on, "반복 종료일", class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" %>
+        <%= form.date_field :recurrence_ends_on, class: "w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" %>
+      </div>
     </div>
   </div>
 

@@ -49,6 +49,11 @@
                 <span class="text-sm text-gray-900 dark:text-white <%= item.completed? ? 'line-through text-gray-500 dark:text-gray-400' : '' %>">
                   <%= item.title %>
                 </span>
+                <% if item.recurring? %>
+                  <span class="flex-shrink-0 text-gray-400 dark:text-gray-500" title="반복: <%= Todo::Item::RECURRENCE_LABELS[item.recurrence] %>">
+                    <%= lucide_icon "repeat", class: "w-4 h-4" %>
+                  </span>
+                <% end %>
                 <% if item.url? %>
                   <a href="<%= item.url %>" target="_blank" rel="noopener noreferrer"
                      class="flex-shrink-0 text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors duration-200"

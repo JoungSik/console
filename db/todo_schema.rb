@@ -10,17 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_02_22_000003) do
+ActiveRecord::Schema[8.1].define(version: 2026_02_22_000004) do
   create_table "items", force: :cascade do |t|
     t.boolean "completed", default: false, null: false
     t.datetime "created_at", null: false
     t.date "due_date"
     t.integer "list_id", null: false
+    t.string "recurrence"
+    t.date "recurrence_ends_on"
+    t.integer "recurrence_parent_id"
     t.boolean "reminder_sent", default: false, null: false
     t.string "title", limit: 200, null: false
     t.datetime "updated_at", null: false
     t.text "url"
     t.index ["list_id"], name: "index_items_on_list_id"
+    t.index ["recurrence_parent_id"], name: "index_items_on_recurrence_parent_id"
   end
 
   create_table "lists", force: :cascade do |t|
