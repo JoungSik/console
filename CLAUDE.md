@@ -41,7 +41,7 @@ lib/generators/plugin/  # 플러그인 생성 제너레이터
 
 ### Plugin Generator
 ```bash
-# 생성 (Gemfile, routes.rb, database.yml, Dockerfile 자동 업데이트)
+# 생성 (Gemfile, routes.rb, database.yml, Dockerfile, DashboardComponent, 위젯 뷰 자동 생성)
 bin/rails generate plugin note 메모 --icon=notebook --position=30
 
 # 삭제 (모든 변경 자동 되돌림)
