@@ -1,0 +1,56 @@
+<div class="w-full">
+  <div class="flex items-center justify-between mb-6">
+    <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">정산</h1>
+    <%= link_to settlement.new_gathering_path, class: "inline-flex items-center px-4 py-2 text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 dark:hover:bg-blue-500 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 dark:focus:ring-offset-gray-800" do %>
+      <%= lucide_icon "plus", class: "w-4 h-4 mr-1.5" %>
+      새 모임
+    <% end %>
+  </div>
+
+  <% if @gatherings.any? %>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 lg:gap-6">
+      <% @gatherings.each do |gathering| %>
+        <%= link_to settlement.gathering_path(gathering), class: "block group" do %>
+          <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200 overflow-hidden p-4 sm:p-6">
+            <div class="flex items-start justify-between mb-2">
+              <h2 class="text-lg font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-200 truncate">
+                <%= gathering.title %>
+              </h2>
+              <%= lucide_icon "receipt", class: "w-5 h-5 text-gray-400 dark:text-gray-500 flex-shrink-0 ml-2" %>
+            </div>
+
+            <% if gathering.gathering_date.present? %>
+              <p class="text-sm text-gray-500 dark:text-gray-400 mb-2">
+                <%= lucide_icon "calendar", class: "w-3.5 h-3.5 inline mr-1" %>
+                <%= gathering.gathering_date.strftime("%Y년 %m월 %d일") %>
+              </p>
+            <% end %>
+
+            <div class="flex items-center gap-3 text-xs text-gray-500 dark:text-gray-400">
+              <span>
+                <%= lucide_icon "users", class: "w-3.5 h-3.5 inline mr-0.5" %>
+                참석자 <%= gathering.members.count %>명
+              </span>
+              <span>
+                <%= lucide_icon "layers", class: "w-3.5 h-3.5 inline mr-0.5" %>
+                라운드 <%= gathering.rounds.count %>개
+              </span>
+            </div>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="text-center py-12">
+      <%= lucide_icon "receipt", class: "mx-auto h-12 w-12 text-gray-400 dark:text-gray-500" %>
+      <h3 class="mt-2 text-sm font-medium text-gray-900 dark:text-white">모임이 없습니다</h3>
+      <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">첫 번째 모임을 만들어 정산을 시작하세요.</p>
+      <div class="mt-4">
+        <%= link_to settlement.new_gathering_path, class: "inline-flex items-center px-4 py-2 text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 dark:hover:bg-blue-500 transition-colors duration-200" do %>
+          <%= lucide_icon "plus", class: "w-4 h-4 mr-1.5" %>
+          새 모임 만들기
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>

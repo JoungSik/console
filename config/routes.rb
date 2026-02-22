@@ -30,6 +30,7 @@ Rails.application.routes.draw do
   end
 
   # 플러그인 Engine 마운트
+  mount Settlement::Engine, at: "/settlements"
   mount Todo::Engine, at: "/todos"
   mount Bookmark::Engine, at: "/bookmarks"
 
