@@ -18,6 +18,12 @@
     </div>
   </div>
 
+  <div>
+    <%= form.label :url, "링크", class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" %>
+    <%= form.url_field :url, placeholder: "https://example.com (선택사항)",
+        class: "w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" %>
+  </div>
+
   <div class="flex justify-end">
     <%= form.hidden_field :_destroy, value: "0", data: { nested_form_target: "destroyField" } %>
     <%= link_to "할 일 삭제", "#", data: { action: "click->nested-form#remove_association" }, class: "text-sm text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300" %>
