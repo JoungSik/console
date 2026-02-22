@@ -35,15 +35,15 @@
           <% @list.items.order(completed: :asc, created_at: :desc).each do |item| %>
             <div class="flex items-center justify-between p-3 rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-700">
               <div class="flex items-center gap-3">
-                <%= button_to todo.list_item_path(@list, item), method: :patch, params: { item: { completed: !item.completed? } }, class: "flex-shrink-0" do %>
+                <%= button_to todo.list_item_path(@list, item), method: :patch, params: { item: { completed: !item.completed? } }, form_class: "flex-shrink-0", aria: { label: item.completed? ? "할 일 완료 해제" : "할 일 완료" } do %>
                   <% if item.completed? %>
-                    <div class="w-5 h-5 bg-green-500 rounded border border-green-500 flex items-center justify-center cursor-pointer">
+                    <div class="w-5 h-5 bg-green-500 rounded border border-green-500 flex items-center justify-center">
                       <svg class="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
                         <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
                       </svg>
                     </div>
                   <% else %>
-                    <div class="w-5 h-5 border-2 border-gray-300 dark:border-gray-500 rounded cursor-pointer hover:border-green-400 transition-colors duration-200"></div>
+                    <div class="w-5 h-5 border-2 border-gray-300 dark:border-gray-500 rounded hover:border-green-400 transition-colors duration-200"></div>
                   <% end %>
                 <% end %>
                 <span class="text-sm text-gray-900 dark:text-white <%= item.completed? ? 'line-through text-gray-500 dark:text-gray-400' : '' %>">
