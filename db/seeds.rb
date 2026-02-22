@@ -11,25 +11,27 @@ puts "User: #{user.email_address}"
 # === Todo 엔진 ===
 list1 = Todo::List.find_or_create_by!(title: "오늘 할 일", user_id: user.id)
 [
-  { title: "장보기", completed: false, due_date: Date.current },
-  { title: "운동하기", completed: false, due_date: Date.current },
+  { title: "장보기", completed: false, due_date: Date.current, url: "https://www.coupang.com" },
+  { title: "운동하기", completed: false, due_date: Date.current, url: "https://www.youtube.com/watch?v=example" },
   { title: "독서 30분", completed: true }
 ].each do |attrs|
   list1.items.find_or_create_by!(title: attrs[:title]) do |item|
     item.completed = attrs[:completed]
     item.due_date = attrs[:due_date]
+    item.url = attrs[:url]
   end
 end
 
 list2 = Todo::List.find_or_create_by!(title: "이번 주 목표", user_id: user.id)
 [
-  { title: "프로젝트 마일스톤 완료", completed: false, due_date: Date.current.end_of_week },
+  { title: "프로젝트 마일스톤 완료", completed: false, due_date: Date.current.end_of_week, url: "https://github.com" },
   { title: "코드 리뷰 3건", completed: true },
-  { title: "기술 블로그 글 작성", completed: false }
+  { title: "기술 블로그 글 작성", completed: false, url: "https://velog.io" }
 ].each do |attrs|
   list2.items.find_or_create_by!(title: attrs[:title]) do |item|
     item.completed = attrs[:completed]
     item.due_date = attrs[:due_date]
+    item.url = attrs[:url]
   end
 end
 

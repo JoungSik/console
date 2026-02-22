@@ -188,9 +188,14 @@ ko:
         title: "제목"
         completed: "완료"
         due_date: "마감일"
+        url: "링크"
     errors:
       models:
         link:
+          attributes:
+            url:
+              invalid_url_format: "올바른 URL 형식이 아닙니다. http:// 또는 https://로 시작해야 합니다."
+        todo/item:
           attributes:
             url:
               invalid_url_format: "올바른 URL 형식이 아닙니다. http:// 또는 https://로 시작해야 합니다."

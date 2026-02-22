@@ -48,7 +48,7 @@ module Todo
     def list_params
       params.require(:list).permit(
         :title, :archive,
-        items_attributes: [ :id, :title, :completed, :due_date, :_destroy ]
+        items_attributes: [ :id, :title, :completed, :due_date, :url, :_destroy ]
       ).tap do |p|
         archive_value = p.delete(:archive)
         if archive_value == "1"
