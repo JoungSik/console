@@ -7,12 +7,12 @@ module Todo
 
     def load_data
       lists = Todo::List.by_user(user_id).active
-      items = Todo::Item.where(list: lists)
+      incomplete_items = Todo::Item.where(list: lists).incomplete.order(created_at: :desc).to_a
 
       @lists_count = lists.count
-      @incomplete_count = items.incomplete.count
-      @overdue_count = items.overdue.count
-      @recent_items = items.incomplete.order(created_at: :desc).limit(5)
+      @incomplete_count = incomplete_items.size
+      @overdue_count = incomplete_items.count(&:overdue?)
+      @recent_items = incomplete_items.take(5)
       self
     end
 
