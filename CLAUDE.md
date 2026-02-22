@@ -21,7 +21,7 @@ lib/
 └── console/
     └── plugin_interface.rb  # 플러그인용 코어 인터페이스
 engines/                # 플러그인 엔진들
-├── todo/               # 할 일 목록 (Todo::List, Todo::Item - title, url, completed, due_date)
+├── todo/               # 할 일 목록 (Todo::List, Todo::Item - title, url, completed, due_date, recurrence, recurrence_ends_on)
 ├── bookmark/           # 북마크 (Bookmark::Group, Bookmark::Link)
 └── settlement/         # 정산 (Settlement::Gathering, Round, Member, Item, Calculator)
 lib/generators/plugin/  # 플러그인 생성 제너레이터
