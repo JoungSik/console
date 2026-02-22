@@ -6,6 +6,12 @@ PATH
       rails (>= 8.0)
 
 PATH
+  remote: engines/settlement
+  specs:
+    settlement (0.1.0)
+      rails (>= 8.0)
+
+PATH
   remote: engines/todo
   specs:
     todo (0.1.0)
@@ -426,6 +432,7 @@ DEPENDENCIES
   rails (~> 8.1.2)
   rubocop-rails-omakase
   selenium-webdriver
+  settlement!
   solid_queue
   sqlite3 (>= 2.1)
   stimulus-rails

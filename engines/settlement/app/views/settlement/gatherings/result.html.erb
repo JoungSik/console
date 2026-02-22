@@ -1,0 +1,121 @@
+<div class="w-full">
+  <div class="mb-6">
+    <%= link_to settlement.gathering_path(@gathering), class: "inline-flex items-center gap-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors duration-200" do %>
+      <%= lucide_icon "arrow-left", class: "w-4 h-4" %>
+      <%= @gathering.title %>
+    <% end %>
+  </div>
+
+  <%# 정산 요약 %>
+  <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm overflow-hidden p-4 sm:p-6 mb-6">
+    <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-2">
+      <%= lucide_icon "calculator", class: "w-6 h-6 inline mr-1" %>
+      정산 결과
+    </h1>
+    <p class="text-sm text-gray-600 dark:text-gray-400 mb-1"><%= @gathering.title %></p>
+    <p class="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+      총 <%= number_to_currency(@calculator.total_amount, unit: "₩", precision: 0) %>
+    </p>
+    <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-blue-100 dark:bg-blue-800 text-blue-800 dark:text-blue-100">
+      <%= @calculator.remainder_method_label %>
+    </span>
+  </div>
+
+  <%# 인당 부담액 요약 %>
+  <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm overflow-hidden p-4 sm:p-6 mb-6">
+    <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+      <%= lucide_icon "users", class: "w-5 h-5 inline mr-1" %>
+      인당 부담액
+    </h2>
+
+    <% if @calculator.per_member_totals.any? %>
+      <div class="overflow-x-auto">
+        <table class="w-full">
+          <thead>
+            <tr class="border-b border-gray-200 dark:border-gray-700">
+              <th class="text-left py-2 px-3 text-sm font-medium text-gray-500 dark:text-gray-400">참석자</th>
+              <th class="text-right py-2 px-3 text-sm font-medium text-gray-500 dark:text-gray-400">부담액</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @calculator.per_member_totals.each do |member, amount| %>
+              <tr class="border-b border-gray-100 dark:border-gray-700/50">
+                <td class="py-3 px-3 text-sm text-gray-900 dark:text-white font-medium"><%= member.name %></td>
+                <td class="py-3 px-3 text-sm text-right text-gray-900 dark:text-white font-semibold">
+                  <%= number_to_currency(amount, unit: "₩", precision: 0) %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+          <tfoot>
+            <tr class="border-t-2 border-gray-300 dark:border-gray-600">
+              <td class="py-3 px-3 text-sm font-bold text-gray-900 dark:text-white">합계</td>
+              <td class="py-3 px-3 text-sm text-right font-bold text-gray-900 dark:text-white">
+                <%= number_to_currency(@calculator.per_member_totals.values.sum, unit: "₩", precision: 0) %>
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    <% else %>
+      <p class="text-sm text-gray-500 dark:text-gray-400 text-center py-4">정산할 항목이 없습니다.</p>
+    <% end %>
+  </div>
+
+  <%# 라운드별 상세 %>
+  <% @calculator.round_details.each do |detail| %>
+    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm overflow-hidden p-4 sm:p-6 mb-4">
+      <div class="flex items-center justify-between mb-4">
+        <h2 class="text-lg font-semibold text-gray-900 dark:text-white"><%= detail[:round].name %></h2>
+        <span class="text-sm font-medium text-gray-500 dark:text-gray-400">
+          소계 <%= number_to_currency(detail[:total], unit: "₩", precision: 0) %>
+        </span>
+      </div>
+
+      <%# 항목 목록 %>
+      <div class="space-y-2 mb-4">
+        <% detail[:round].items.each do |item| %>
+          <div class="flex items-center justify-between text-sm py-1">
+            <div class="flex items-center gap-2">
+              <span class="text-gray-700 dark:text-gray-200"><%= item.name %></span>
+              <% if item.is_shared %>
+                <span class="text-xs text-yellow-600 dark:text-yellow-400">(공통)</span>
+              <% elsif item.item_members.any? %>
+                <span class="text-xs text-gray-400 dark:text-gray-500">
+                  (<%= item.members.map(&:name).join(", ") %>)
+                </span>
+              <% end %>
+            </div>
+            <span class="text-gray-900 dark:text-white font-medium">
+              <%= number_to_currency(item.total, unit: "₩", precision: 0) %>
+            </span>
+          </div>
+        <% end %>
+      </div>
+
+      <%# 라운드별 멤버 부담액 %>
+      <% if detail[:member_amounts].any? %>
+        <div class="border-t border-gray-200 dark:border-gray-700 pt-3">
+          <div class="flex flex-wrap gap-3">
+            <% detail[:member_amounts].each do |member, amount| %>
+              <div class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-gray-50 dark:bg-gray-700 rounded-full text-sm">
+                <span class="text-gray-600 dark:text-gray-300"><%= member.name %></span>
+                <span class="font-medium text-gray-900 dark:text-white"><%= number_to_currency(amount, unit: "₩", precision: 0) %></span>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+
+  <% if @calculator.total_amount > 0 && @calculator.difference != 0 %>
+    <p class="text-center text-xs text-gray-400 dark:text-gray-500 mt-4">
+      <% if @calculator.remainder_method == "ceil" %>
+        * 올림 처리로 합계가 실제 총액보다 <%= number_to_currency(@calculator.difference, unit: "₩", precision: 0) %> 많습니다.
+      <% else %>
+        * 결제자(첫 번째 참석자)가 나머지 <%= number_to_currency(@calculator.difference, unit: "₩", precision: 0) %>을 부담합니다.
+      <% end %>
+    </p>
+  <% end %>
+</div>

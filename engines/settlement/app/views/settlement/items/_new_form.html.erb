@@ -1,0 +1,47 @@
+<div class="bg-gray-50 dark:bg-gray-700 border border-dashed border-gray-300 dark:border-gray-500 rounded-lg p-4">
+  <h3 class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
+    <%= lucide_icon "plus", class: "w-4 h-4 inline mr-1" %>
+    새 항목 추가
+  </h3>
+
+  <%= form_with(model: Settlement::Item.new, url: settlement.gathering_round_items_path(gathering, round), class: "space-y-3", data: { controller: "shared-cost" }) do |form| %>
+    <div class="grid grid-cols-1 sm:grid-cols-4 gap-3">
+      <div class="sm:col-span-2">
+        <%= form.text_field :name, placeholder: "항목명 (예: 삼겹살)", required: true,
+            class: "w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 rounded-md px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" %>
+      </div>
+      <div>
+        <%= form.number_field :amount, placeholder: "금액", value: nil, min: 0, required: true,
+            class: "w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 rounded-md px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" %>
+      </div>
+      <div>
+        <%= form.number_field :quantity, placeholder: "수량", value: 1, min: 1,
+            class: "w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 rounded-md px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" %>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-4">
+      <label class="inline-flex items-center gap-2 cursor-pointer">
+        <%= form.check_box :is_shared, class: "h-4 w-4 text-blue-600 border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 rounded focus:ring-blue-500", data: { shared_cost_target: "shared", action: "change->shared-cost#sharedChanged" } %>
+        <span class="text-sm text-gray-700 dark:text-gray-300">공통 비용 (전원 N빵)</span>
+      </label>
+    </div>
+
+    <%# 참석자 태그 %>
+    <div>
+      <p class="text-xs text-gray-500 dark:text-gray-400 mb-2">참석자 태그 (선택하지 않으면 전원)</p>
+      <div class="flex flex-wrap gap-2">
+        <% round.members.each do |member| %>
+          <label class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md border border-gray-200 dark:border-gray-500 bg-white dark:bg-gray-700 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-500 transition-colors duration-200 text-sm">
+            <input type="checkbox" name="item[member_ids][]" value="<%= member.id %>"
+                   class="h-3.5 w-3.5 text-blue-600 border-gray-300 dark:border-gray-500 bg-white dark:bg-gray-700 rounded focus:ring-blue-500"
+                   data-shared-cost-target="member" data-action="change->shared-cost#memberChanged">
+            <span class="text-gray-700 dark:text-gray-200"><%= member.name %></span>
+          </label>
+        <% end %>
+      </div>
+    </div>
+
+    <%= form.submit "추가", class: "inline-flex items-center px-3 py-1.5 text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 dark:hover:bg-blue-500 transition-colors duration-200 cursor-pointer" %>
+  <% end %>
+</div>

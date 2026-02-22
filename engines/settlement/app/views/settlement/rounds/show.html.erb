@@ -1,0 +1,110 @@
+<div class="w-full">
+  <div class="mb-6">
+    <%= link_to settlement.gathering_path(@gathering), class: "inline-flex items-center gap-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors duration-200" do %>
+      <%= lucide_icon "arrow-left", class: "w-4 h-4" %>
+      <%= @gathering.title %>
+    <% end %>
+  </div>
+
+  <%# 라운드 헤더 %>
+  <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm overflow-hidden p-4 sm:p-6 mb-6">
+    <div class="flex items-start justify-between">
+      <div>
+        <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white"><%= @round.name %></h1>
+        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
+          총 <span class="font-semibold text-gray-900 dark:text-white"><%= number_to_currency(@round.total_amount, unit: "₩", precision: 0) %></span>
+        </p>
+      </div>
+      <div class="flex items-center gap-2">
+        <%= link_to settlement.edit_gathering_round_path(@gathering, @round), class: "inline-flex items-center px-3 py-1.5 text-sm font-medium rounded-md border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors duration-200" do %>
+          <%= lucide_icon "pencil", class: "w-4 h-4 mr-1" %>
+          수정
+        <% end %>
+        <%= button_to settlement.gathering_round_path(@gathering, @round), method: :delete, class: "inline-flex items-center px-3 py-1.5 text-sm font-medium rounded-md text-red-600 dark:text-red-400 border border-red-300 dark:border-red-600 hover:bg-red-50 dark:hover:bg-red-900/30 transition-colors duration-200", data: { turbo_confirm: "이 라운드를 삭제하시겠습니까?" } do %>
+          <%= lucide_icon "trash-2", class: "w-4 h-4 mr-1" %>
+          삭제
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <%# 참석자 관리 %>
+  <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm overflow-hidden p-4 sm:p-6 mb-6">
+    <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+      <%= lucide_icon "users", class: "w-5 h-5 inline mr-1" %>
+      라운드 참석자 (<%= @round.members.count %>명)
+    </h2>
+
+    <%= form_with(url: settlement.update_members_gathering_round_path(@gathering, @round), method: :patch, class: "space-y-4") do |form| %>
+      <div class="flex flex-wrap gap-3">
+        <% @gathering.members.each do |member| %>
+          <label class="inline-flex items-center gap-2 px-3 py-2 rounded-lg border cursor-pointer transition-colors duration-200
+            <%= @round.members.include?(member) ? 'bg-blue-50 dark:bg-blue-900/30 border-blue-300 dark:border-blue-600' : 'bg-gray-50 dark:bg-gray-700 border-gray-200 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-600' %>">
+            <input type="checkbox" name="member_ids[]" value="<%= member.id %>"
+                   <%= "checked" if @round.members.include?(member) %>
+                   class="h-4 w-4 text-blue-600 border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 rounded focus:ring-blue-500">
+            <span class="text-sm text-gray-700 dark:text-gray-200"><%= member.name %></span>
+          </label>
+        <% end %>
+      </div>
+      <%= form.submit "참석자 저장", class: "inline-flex items-center px-3 py-1.5 text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 dark:hover:bg-blue-500 transition-colors duration-200 cursor-pointer" %>
+    <% end %>
+  </div>
+
+  <%# 항목 관리 %>
+  <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm overflow-hidden p-4 sm:p-6">
+    <div class="flex items-center justify-between mb-4">
+      <h2 class="text-lg font-semibold text-gray-900 dark:text-white">
+        <%= lucide_icon "list", class: "w-5 h-5 inline mr-1" %>
+        항목 (<%= @round.items.count %>개)
+      </h2>
+    </div>
+
+    <%# 항목 목록 %>
+    <% if @round.items.any? %>
+      <div class="space-y-3 mb-6">
+        <% @round.items.each do |item| %>
+          <div class="bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg p-4"
+               data-controller="toggle" data-toggle-target-value="#edit-item-<%= item.id %>">
+            <div class="flex items-start justify-between">
+              <div class="flex-1">
+                <div class="flex items-center gap-2">
+                  <h3 class="font-medium text-gray-900 dark:text-white"><%= item.name %></h3>
+                  <% if item.is_shared %>
+                    <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-yellow-100 dark:bg-yellow-900/40 text-yellow-800 dark:text-yellow-200">공통</span>
+                  <% end %>
+                </div>
+                <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                  <%= number_to_currency(item.amount, unit: "₩", precision: 0) %> × <%= item.quantity %>개
+                  = <span class="font-medium text-gray-700 dark:text-gray-200"><%= number_to_currency(item.total, unit: "₩", precision: 0) %></span>
+                </p>
+                <% unless item.is_shared || item.item_members.empty? %>
+                  <p class="text-xs text-gray-400 dark:text-gray-500 mt-1">
+                    <%= lucide_icon "user", class: "w-3 h-3 inline mr-0.5" %>
+                    <%= item.members.map(&:name).join(", ") %>
+                  </p>
+                <% end %>
+              </div>
+              <div class="flex items-center gap-2 ml-6 flex-shrink-0">
+                <a href="#" class="inline-flex items-center px-2.5 py-1 text-sm text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 hover:bg-blue-50 dark:hover:bg-blue-900/30 rounded-md transition-colors duration-200" data-action="click->toggle#toggle">
+                  <%= lucide_icon "pencil", class: "w-3.5 h-3.5 mr-1" %>
+                  수정
+                </a>
+                <%= button_to settlement.gathering_round_item_path(@gathering, @round, item), method: :delete, class: "inline-flex items-center px-2.5 py-1 text-sm text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300 hover:bg-red-50 dark:hover:bg-red-900/30 rounded-md transition-colors duration-200", data: { turbo_confirm: "이 항목을 삭제하시겠습니까?" } do %>
+                  <%= lucide_icon "trash-2", class: "w-3.5 h-3.5 mr-1" %>
+                  삭제
+                <% end %>
+              </div>
+            </div>
+
+            <%# 인라인 수정 폼 %>
+            <%= render "settlement/items/edit_form", item: item, round: @round, gathering: @gathering %>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+
+    <%# 새 항목 추가 폼 %>
+    <%= render "settlement/items/new_form", round: @round, gathering: @gathering %>
+  </div>
+</div>
