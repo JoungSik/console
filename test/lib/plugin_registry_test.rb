@@ -41,7 +41,7 @@ class PluginRegistryTest < ActiveSupport::TestCase
     result = PluginRegistry.dashboard_plugins
 
     assert_equal 2, result.size
-    assert_equal [:with_dash, :with_dash2], result.map(&:name)
+    assert_equal [ :with_dash, :with_dash2 ], result.map(&:name)
   end
 
   test "dashboard_plugins는 position 순서로 정렬된다" do
@@ -50,7 +50,7 @@ class PluginRegistryTest < ActiveSupport::TestCase
 
     result = PluginRegistry.dashboard_plugins
 
-    assert_equal [:first, :second], result.map(&:name)
+    assert_equal [ :first, :second ], result.map(&:name)
   end
 
   test "dashboard_plugins는 등록된 것이 없으면 빈 배열을 반환한다" do
