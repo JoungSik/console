@@ -17,9 +17,10 @@ app/                    # 코어 앱 (인증, 세션, 홈, 레이아웃)
 ├── assets/             # CSS/JS assets
 └── javascript/         # Stimulus controllers
 lib/
-├── plugin_registry.rb  # 플러그인 중앙 등록소
+├── plugin_registry.rb  # 플러그인 중앙 등록소 (네비게이션 + 대시보드 위젯)
 └── console/
-    └── plugin_interface.rb  # 플러그인용 코어 인터페이스
+    ├── plugin_interface.rb      # 플러그인용 코어 인터페이스
+    └── dashboard_component.rb   # 대시보드 위젯 베이스 클래스
 engines/                # 플러그인 엔진들
 ├── todo/               # 할 일 목록 (Todo::List, Todo::Item - title, url, completed, due_date, recurrence, recurrence_ends_on)
 ├── bookmark/           # 북마크 (Bookmark::Group, Bookmark::Link)
@@ -31,7 +32,8 @@ lib/generators/plugin/  # 플러그인 생성 제너레이터
 - **새 플러그인 생성은 반드시 Rails generator 사용**: `bin/rails generate plugin <name> <label> [--icon=box] [--position=100]`
 - Engine은 `isolate_namespace`로 격리
 - 플러그인별 독립 SQLite DB (`connects_to database:`)
-- `PluginRegistry.register`로 네비게이션 자동 등록
+- `PluginRegistry.register`로 네비게이션 자동 등록 (`dashboard_component:` 옵션으로 대시보드 위젯 등록)
+- `Console::DashboardComponent`를 상속하여 대시보드 위젯 구현 (`plugin_name`, `load_data`, `partial_path` 필수 구현)
 - `Console::PluginInterface`로 코어 사용자 정보 접근
 - 레이아웃에서 메인 앱 라우트 헬퍼는 `main_app.` 접두사 사용
 - Engine 뷰에서 자체 라우트 헬퍼는 엔진명 접두사 사용 (예: `todo.lists_path`, `bookmark.groups_path`)
