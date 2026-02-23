@@ -11,8 +11,8 @@ module NavigationHelper
 
     # 로그인한 사용자만 볼 수 있는 메뉴
     if authenticated?
-      # 플러그인 레지스트리에서 동적으로 메뉴 추가
-      PluginRegistry.all.each do |plugin|
+      # 사용자가 활성화한 플러그인만 메뉴에 추가
+      current_user.enabled_plugins.each do |plugin|
         items << {
           name: plugin.label,
           path: plugin.path,

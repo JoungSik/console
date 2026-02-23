@@ -19,6 +19,11 @@ Rails.application.routes.draw do
   namespace :mypage do
     resource :user, only: %i[ show update ]
     resources :push_subscriptions, only: %i[ create destroy ]
+    resources :plugins, only: %i[ index ] do
+      member do
+        patch :toggle
+      end
+    end
   end
 
   # Service Worker는 루트 경로에서 제공

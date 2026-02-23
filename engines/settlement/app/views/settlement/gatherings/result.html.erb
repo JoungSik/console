@@ -65,9 +65,9 @@
   <%# 라운드별 상세 %>
   <% @calculator.round_details.each do |detail| %>
     <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm overflow-hidden p-4 sm:p-6 mb-4">
-      <div class="flex items-center justify-between mb-4">
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 sm:gap-4 mb-4">
         <h2 class="text-lg font-semibold text-gray-900 dark:text-white"><%= detail[:round].name %></h2>
-        <span class="text-sm font-medium text-gray-500 dark:text-gray-400">
+        <span class="text-sm font-medium text-gray-500 dark:text-gray-400 flex-shrink-0">
           소계 <%= number_to_currency(detail[:total], unit: "₩", precision: 0) %>
         </span>
       </div>
@@ -75,8 +75,8 @@
       <%# 항목 목록 %>
       <div class="space-y-2 mb-4">
         <% detail[:round].items.each do |item| %>
-          <div class="flex items-center justify-between text-sm py-1">
-            <div class="flex items-center gap-2">
+          <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-0.5 sm:gap-4 text-sm py-1">
+            <div class="flex items-center gap-2 flex-wrap min-w-0">
               <span class="text-gray-700 dark:text-gray-200"><%= item.name %></span>
               <% if item.is_shared %>
                 <span class="text-xs text-yellow-600 dark:text-yellow-400">(공통)</span>
@@ -86,7 +86,7 @@
                 </span>
               <% end %>
             </div>
-            <span class="text-gray-900 dark:text-white font-medium">
+            <span class="text-gray-900 dark:text-white font-medium flex-shrink-0">
               <%= number_to_currency(item.total, unit: "₩", precision: 0) %>
             </span>
           </div>

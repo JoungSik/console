@@ -11,10 +11,13 @@ app/                    # 코어 앱 (인증, 세션, 홈, 레이아웃)
 lib/
 ├── plugin_registry.rb  # 플러그인 중앙 등록소
 └── console/
-    └── plugin_interface.rb  # 플러그인용 코어 인터페이스
+    ├── plugin_interface.rb      # 플러그인용 코어 인터페이스
+    ├── dashboard_component.rb   # 대시보드 위젯 베이스 클래스
+    └── plugin_data_cleaner.rb   # 플러그인 데이터 삭제 인터페이스
 engines/
 ├── todo/               # 할 일 목록 (Todo::List, Todo::Item)
-└── bookmark/           # 북마크 (Bookmark::Group, Bookmark::Link)
+├── bookmark/           # 북마크 (Bookmark::Group, Bookmark::Link)
+└── settlement/         # 정산 (Settlement::Gathering, Round, Member, Item)
 ```
 
 ## 플러그인 목록
@@ -23,6 +26,9 @@ engines/
 |---------|------|------|
 | todo | 할 일 목록 | `/todos` |
 | bookmark | 북마크 | `/bookmarks` |
+| settlement | 정산 | `/settlements` |
+
+사용자는 마이페이지 > 플러그인 설정(`/mypage/plugins`)에서 플러그인을 활성화/비활성화할 수 있습니다. 비활성화된 플러그인은 네비게이션에서 숨겨지고, 30일 후 데이터가 자동 삭제됩니다.
 
 ## 기술 스택
 

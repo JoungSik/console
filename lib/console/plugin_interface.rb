@@ -6,10 +6,23 @@ module Console
     extend ActiveSupport::Concern
 
     included do
+      before_action :verify_plugin_enabled
       helper_method :current_user_id, :current_user_name, :current_user_email
     end
 
     private
+
+    # 비활성화된 플러그인 접근 차단
+    def verify_plugin_enabled
+      return unless current_user
+
+      plugin = PluginRegistry.all.find { |p| request.path.start_with?(p.path) }
+      return unless plugin
+
+      unless current_user.plugin_enabled?(plugin.name)
+        redirect_to main_app.root_path, alert: t("settings.plugins.disabled_access")
+      end
+    end
 
     def current_user_id
       current_user&.id
