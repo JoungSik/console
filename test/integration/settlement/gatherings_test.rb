@@ -76,7 +76,7 @@ class Settlement::GatheringsTest < ActionDispatch::IntegrationTest
   end
 
   test "다른 사용자의 모임에 접근하면 404를 반환한다" do
-    other = Settlement::Gathering.create!(title: "다른 사용자 모임", user_id: users(:other_user).id)
+    other = Settlement::Gathering.create!(title: "다른 사용자 모임", user_id: users(:other_user).id, gathering_date: Date.current)
     get settlement.gathering_url(other)
     assert_response :not_found
   end
