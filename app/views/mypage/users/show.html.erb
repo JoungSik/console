@@ -93,6 +93,29 @@
     </div>
   </div>
 
+  <!-- 플러그인 설정 카드 -->
+  <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm mb-6">
+    <div class="p-6">
+      <div class="flex items-start sm:items-center justify-between gap-3">
+        <div class="flex items-start sm:items-center min-w-0">
+          <%= lucide_icon "puzzle", class: "w-6 h-6 text-blue-600 dark:text-blue-400 mr-3 flex-shrink-0 mt-0.5 sm:mt-0" %>
+          <div class="min-w-0">
+            <h2 class="text-lg font-semibold text-gray-900 dark:text-white">
+              <%= t('settings.plugins.title') %>
+            </h2>
+            <p class="text-sm text-gray-600 dark:text-gray-400">
+              <%= t('settings.plugins.short_description') %>
+            </p>
+          </div>
+        </div>
+        <%= link_to mypage_plugins_path,
+            class: "flex-shrink-0 text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors duration-200 text-sm font-medium whitespace-nowrap" do %>
+          <%= t('actions.show') %> →
+        <% end %>
+      </div>
+    </div>
+  </div>
+
   <!-- 푸시 알림 설정 카드 -->
   <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm"
        data-controller="push-subscription"

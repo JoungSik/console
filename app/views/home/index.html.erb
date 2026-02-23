@@ -4,6 +4,25 @@
     <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">전체 현황을 한눈에 확인하세요.</p>
   </div>
 
+  <% if @approaching_deletion_plugins.present? %>
+    <div class="mb-4 space-y-2">
+      <% @approaching_deletion_plugins.each do |item| %>
+        <div class="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+          <div class="flex items-start sm:items-center">
+            <%= lucide_icon "alert-triangle", class: "w-5 h-5 text-yellow-600 dark:text-yellow-400 mr-3 flex-shrink-0 mt-0.5 sm:mt-0" %>
+            <p class="text-sm text-yellow-800 dark:text-yellow-200">
+              <%= t('settings.plugins.deletion_warning_banner', plugin: item[:plugin].label, days: item[:days_until_deletion]) %>
+            </p>
+          </div>
+          <%= link_to mypage_plugins_path,
+              class: "self-start flex-shrink-0 text-yellow-800 dark:text-yellow-200 hover:text-yellow-900 dark:hover:text-yellow-100 text-sm font-medium whitespace-nowrap" do %>
+            <%= t('settings.plugins.reactivate') %> →
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+
   <% if @dashboard_components.present? %>
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 lg:gap-6">
       <% @dashboard_components.each do |component| %>

@@ -8,9 +8,9 @@
 
   <%# 모임 헤더 %>
   <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm overflow-hidden p-4 sm:p-6 mb-6">
-    <div class="flex items-start justify-between">
-      <div>
-        <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white"><%= @gathering.title %></h1>
+    <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+      <div class="min-w-0">
+        <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white break-words"><%= @gathering.title %></h1>
         <% if @gathering.gathering_date.present? %>
           <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
             <%= lucide_icon "calendar", class: "w-4 h-4 inline mr-1" %>
@@ -21,7 +21,7 @@
           <p class="mt-2 text-sm text-gray-600 dark:text-gray-400"><%= @gathering.memo %></p>
         <% end %>
       </div>
-      <div class="flex items-center gap-2">
+      <div class="flex items-center gap-2 flex-shrink-0">
         <%= link_to settlement.result_gathering_path(@gathering), class: "inline-flex items-center px-3 py-1.5 text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 dark:hover:bg-blue-500 transition-colors duration-200" do %>
           <%= lucide_icon "calculator", class: "w-4 h-4 mr-1" %>
           정산
@@ -65,13 +65,13 @@
 
   <%# 라운드 섹션 %>
   <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm overflow-hidden p-4 sm:p-6">
-    <div class="flex items-center justify-between mb-4">
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
       <h2 class="text-lg font-semibold text-gray-900 dark:text-white">
         <%= lucide_icon "layers", class: "w-5 h-5 inline mr-1" %>
         라운드 (<%= @gathering.rounds.count %>개)
       </h2>
       <% if @gathering.members.any? %>
-        <%= link_to settlement.new_gathering_round_path(@gathering), class: "inline-flex items-center px-3 py-1.5 text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 dark:hover:bg-blue-500 transition-colors duration-200" do %>
+        <%= link_to settlement.new_gathering_round_path(@gathering), class: "self-start flex-shrink-0 inline-flex items-center px-3 py-1.5 text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 dark:hover:bg-blue-500 transition-colors duration-200" do %>
           <%= lucide_icon "plus", class: "w-4 h-4 mr-1" %>
           라운드 추가
         <% end %>
@@ -83,8 +83,8 @@
         <% @gathering.rounds.order(:position, :id).each do |round| %>
           <%= link_to settlement.gathering_round_path(@gathering, round), class: "block group" do %>
             <div class="bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg p-4 hover:border-blue-300 dark:hover:border-blue-500 transition-colors duration-200">
-              <div class="flex items-center justify-between">
-                <div>
+              <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 sm:gap-4">
+                <div class="min-w-0">
                   <h3 class="font-medium text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-200">
                     <%= round.name %>
                   </h3>
@@ -92,7 +92,7 @@
                     참석자 <%= round.members.count %>명 · 항목 <%= round.items.count %>개
                   </p>
                 </div>
-                <div class="text-right">
+                <div class="sm:text-right flex-shrink-0">
                   <p class="text-lg font-semibold text-gray-900 dark:text-white">
                     <%= number_to_currency(round.total_amount, unit: "₩", precision: 0) %>
                   </p>

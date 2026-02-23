@@ -11,16 +11,18 @@
 ```
 app/                    # 코어 앱 (인증, 세션, 홈, 레이아웃)
 ├── controllers/        # 코어 컨트롤러
-├── models/             # 코어 모델 (User, Session)
+├── models/             # 코어 모델 (User, Session, UserPlugin)
 ├── views/layouts/      # 공유 레이아웃
 ├── helpers/            # NavigationHelper 등
 ├── assets/             # CSS/JS assets
-└── javascript/         # Stimulus controllers
+├── javascript/         # Stimulus controllers
+└── jobs/               # PluginDeletionWarningJob, PluginDataDeletionJob
 lib/
 ├── plugin_registry.rb  # 플러그인 중앙 등록소 (네비게이션 + 대시보드 위젯)
 └── console/
-    ├── plugin_interface.rb      # 플러그인용 코어 인터페이스
-    └── dashboard_component.rb   # 대시보드 위젯 베이스 클래스
+    ├── plugin_interface.rb      # 플러그인용 코어 인터페이스 (접근 보호 포함)
+    ├── dashboard_component.rb   # 대시보드 위젯 베이스 클래스
+    └── plugin_data_cleaner.rb   # 플러그인 데이터 삭제 인터페이스
 engines/                # 플러그인 엔진들
 ├── todo/               # 할 일 목록 (Todo::List, Todo::Item - title, url, completed, due_date, recurrence, recurrence_ends_on)
 ├── bookmark/           # 북마크 (Bookmark::Group, Bookmark::Link)
@@ -34,7 +36,9 @@ lib/generators/plugin/  # 플러그인 생성 제너레이터
 - 플러그인별 독립 SQLite DB (`connects_to database:`)
 - `PluginRegistry.register`로 네비게이션 자동 등록 (`dashboard_component:` 옵션으로 대시보드 위젯 등록)
 - `Console::DashboardComponent`를 상속하여 대시보드 위젯 구현 (`plugin_name`, `load_data`, `partial_path` 필수 구현)
-- `Console::PluginInterface`로 코어 사용자 정보 접근
+- `Console::PluginInterface`로 코어 사용자 정보 접근 + 비활성 플러그인 접근 보호 (`verify_plugin_enabled`)
+- 사용자별 플러그인 활성/비활성 토글 (`UserPlugin` 모델, `/mypage/plugins`)
+- 비활성화 30일 후 데이터 자동 삭제 (`Console::PluginDataCleaner` + 각 엔진의 `DataCleaner` 서비스)
 - 레이아웃에서 메인 앱 라우트 헬퍼는 `main_app.` 접두사 사용
 - Engine 뷰에서 자체 라우트 헬퍼는 엔진명 접두사 사용 (예: `todo.lists_path`, `bookmark.groups_path`)
 - 테이블명에 네임스페이스 접두사 불필요 (DB 분리됨, `table_name_prefix = ""` 설정 완료)

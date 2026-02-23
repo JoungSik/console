@@ -1,11 +1,11 @@
 <div id="<%= dom_id group %>" class="w-full bg-white dark:bg-gray-800 p-4 sm:p-5 rounded-lg border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-md transition-shadow">
   <div class="space-y-3">
-    <div class="flex items-center justify-between">
-      <h3 class="text-base sm:text-lg font-semibold text-gray-900 dark:text-white truncate">
+    <div class="flex items-center justify-between gap-2">
+      <h3 class="text-base sm:text-lg font-semibold text-gray-900 dark:text-white truncate min-w-0">
         <%= group.title %>
       </h3>
       <% if group.is_public? %>
-        <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200">공개</span>
+        <span class="flex-shrink-0 inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200">공개</span>
       <% end %>
     </div>
 

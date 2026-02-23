@@ -33,8 +33,8 @@
       <% if @list.items.any? %>
         <div class="border-t border-gray-200 dark:border-gray-700 pt-6 space-y-3">
           <% @list.items.order(completed: :asc, created_at: :desc).each do |item| %>
-            <div class="flex items-center justify-between p-3 rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-700">
-              <div class="flex items-center gap-3">
+            <div class="flex items-center justify-between gap-2 p-3 rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-700">
+              <div class="flex items-center gap-3 min-w-0">
                 <%= button_to todo.list_item_path(@list, item), method: :patch, params: { item: { completed: !item.completed? } }, form_class: "flex-shrink-0", aria: { label: item.completed? ? "할 일 완료 해제" : "할 일 완료" } do %>
                   <% if item.completed? %>
                     <div class="w-5 h-5 bg-green-500 rounded border border-green-500 flex items-center justify-center">
@@ -63,7 +63,7 @@
                 <% end %>
               </div>
               <% if item.due_date.present? %>
-                <span class="text-xs text-gray-500 dark:text-gray-400 <%= item.overdue? ? 'text-red-500 dark:text-red-400 font-medium' : '' %>">
+                <span class="flex-shrink-0 text-xs text-gray-500 dark:text-gray-400 <%= item.overdue? ? 'text-red-500 dark:text-red-400 font-medium' : '' %>">
                   <%= item.due_date.strftime("%Y-%m-%d") %>
                 </span>
               <% end %>
