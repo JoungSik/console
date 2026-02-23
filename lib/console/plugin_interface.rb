@@ -16,7 +16,7 @@ module Console
     def verify_plugin_enabled
       return unless current_user
 
-      plugin = PluginRegistry.all.find { |p| request.path.start_with?(p.path) }
+      plugin = PluginRegistry.all.sort_by { |p| -p.path.length }.find { |p| request.path.start_with?(p.path) }
       return unless plugin
 
       unless current_user.plugin_enabled?(plugin.name)

@@ -1,8 +1,9 @@
 # 플러그인 활성화/비활성화 설정 관리
 class Mypage::PluginsController < Mypage::ApplicationController
   def index
+    user_plugins_map = current_user.user_plugins.index_by(&:plugin_name)
     @plugins = PluginRegistry.all.map do |plugin|
-      user_plugin = current_user.user_plugins.find_by(plugin_name: plugin.name.to_s)
+      user_plugin = user_plugins_map[plugin.name.to_s]
       enabled = user_plugin.nil? || user_plugin.enabled?
 
       {
