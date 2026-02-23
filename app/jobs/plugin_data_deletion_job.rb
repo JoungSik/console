@@ -23,7 +23,7 @@ class PluginDataDeletionJob < ApplicationJob
       )
 
       # user_plugin 레코드 삭제
-      user_plugin.destroy
+      user_plugin.destroy!
     end
   end
 end

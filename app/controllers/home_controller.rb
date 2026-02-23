@@ -1,8 +1,7 @@
 class HomeController < ApplicationController
   def index
     # 사용자가 활성화한 플러그인의 대시보드 위젯만 로드
-    enabled_names = current_user.enabled_plugins.map(&:name)
-    active_plugins = PluginRegistry.dashboard_plugins.select { |p| enabled_names.include?(p.name) }
+    active_plugins = current_user.enabled_plugins & PluginRegistry.dashboard_plugins
 
     @dashboard_components = active_plugins.filter_map do |plugin|
       plugin.dashboard_component.constantize.new(user_id: current_user.id).load_data

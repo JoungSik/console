@@ -24,14 +24,12 @@ class User < ApplicationRecord
 
   # 해당 플러그인이 활성화되어 있는지 확인 (레코드 없으면 기본 활성)
   def plugin_enabled?(plugin_name)
-    record = user_plugins.find_by(plugin_name: plugin_name.to_s)
-    record.nil? || record.enabled?
+    !disabled_plugin_names.include?(plugin_name.to_s)
   end
 
   # 활성화된 플러그인 목록 반환
   def enabled_plugins
-    disabled_names = user_plugins.disabled.pluck(:plugin_name)
-    PluginRegistry.all.reject { |p| disabled_names.include?(p.name.to_s) }
+    PluginRegistry.all.reject { |p| disabled_plugin_names.include?(p.name.to_s) }
   end
 
   # 삭제 임박한 비활성 플러그인 (23~30일 경과)
@@ -42,5 +40,11 @@ class User < ApplicationRecord
 
       { plugin: plugin, days_until_deletion: up.days_until_deletion }
     end.compact
+  end
+
+  private
+
+  def disabled_plugin_names
+    @disabled_plugin_names ||= user_plugins.disabled.pluck(:plugin_name).to_set
   end
 end
