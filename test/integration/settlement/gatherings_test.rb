@@ -8,9 +8,6 @@ class Settlement::GatheringsTest < ActionDispatch::IntegrationTest
     @gathering.members.create!(name: @user.name)
   end
 
-  teardown do
-    Settlement::Gathering.where(user_id: @user.id).destroy_all
-  end
 
   test "모임 인덱스에 접근할 수 있다" do
     get settlement.gatherings_url
@@ -79,9 +76,8 @@ class Settlement::GatheringsTest < ActionDispatch::IntegrationTest
   end
 
   test "다른 사용자의 모임에 접근하면 404를 반환한다" do
-    other = Settlement::Gathering.create!(title: "다른 사용자 모임", user_id: 999999)
+    other = Settlement::Gathering.create!(title: "다른 사용자 모임", user_id: users(:other_user).id)
     get settlement.gathering_url(other)
     assert_response :not_found
-    other.destroy!
   end
 end

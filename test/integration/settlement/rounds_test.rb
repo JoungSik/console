@@ -9,9 +9,6 @@ class Settlement::RoundsTest < ActionDispatch::IntegrationTest
     @round = @gathering.rounds.create!(name: "1차")
   end
 
-  teardown do
-    Settlement::Gathering.where(user_id: @user.id).destroy_all
-  end
 
   test "라운드 상세에 접근할 수 있다" do
     get settlement.gathering_round_url(@gathering, @round)

@@ -7,9 +7,6 @@ class Todo::ListsTest < ActionDispatch::IntegrationTest
     @list = Todo::List.create!(title: "테스트 목록", user_id: @user.id)
   end
 
-  teardown do
-    Todo::List.where(user_id: @user.id).destroy_all
-  end
 
   test "목록 인덱스에 접근할 수 있다" do
     get todo.lists_url
@@ -100,9 +97,8 @@ class Todo::ListsTest < ActionDispatch::IntegrationTest
   end
 
   test "다른 사용자의 목록에 접근하면 404를 반환한다" do
-    other_list = Todo::List.create!(title: "다른 사용자 목록", user_id: 999999)
+    other_list = Todo::List.create!(title: "다른 사용자 목록", user_id: users(:other_user).id)
     get todo.list_url(other_list)
     assert_response :not_found
-    other_list.destroy!
   end
 end

@@ -6,9 +6,6 @@ class TodoListsTest < ApplicationSystemTestCase
     sign_in_as @user
   end
 
-  teardown do
-    Todo::List.where(user_id: @user.id).destroy_all
-  end
 
   test "할 일 목록을 생성할 수 있다" do
     visit todo.new_list_url

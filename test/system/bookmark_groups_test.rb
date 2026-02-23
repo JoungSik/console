@@ -6,9 +6,6 @@ class BookmarkGroupsTest < ApplicationSystemTestCase
     sign_in_as @user
   end
 
-  teardown do
-    Bookmark::Group.where(user_id: @user.id).destroy_all
-  end
 
   test "북마크 그룹을 생성할 수 있다" do
     visit bookmark.new_group_url
