@@ -7,9 +7,6 @@ class Bookmark::GroupsTest < ActionDispatch::IntegrationTest
     @group = Bookmark::Group.create!(title: "테스트 그룹", user_id: @user.id)
   end
 
-  teardown do
-    Bookmark::Group.where(user_id: @user.id).destroy_all
-  end
 
   test "그룹 인덱스에 접근할 수 있다" do
     get bookmark.groups_url
@@ -78,9 +75,8 @@ class Bookmark::GroupsTest < ActionDispatch::IntegrationTest
   end
 
   test "다른 사용자의 그룹에 접근하면 404를 반환한다" do
-    other_group = Bookmark::Group.create!(title: "다른 사용자 그룹", user_id: 999999)
+    other_group = Bookmark::Group.create!(title: "다른 사용자 그룹", user_id: users(:other_user).id)
     get bookmark.group_url(other_group)
     assert_response :not_found
-    other_group.destroy!
   end
 end

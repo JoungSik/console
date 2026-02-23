@@ -8,9 +8,6 @@ class Todo::ItemsTest < ActionDispatch::IntegrationTest
     @item = @list.items.create!(title: "테스트 할일", completed: false)
   end
 
-  teardown do
-    Todo::List.where(user_id: @user.id).destroy_all
-  end
 
   test "항목을 완료 상태로 토글할 수 있다" do
     patch todo.list_item_url(@list, @item), params: { item: { completed: true } }

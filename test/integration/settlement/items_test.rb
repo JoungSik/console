@@ -10,9 +10,6 @@ class Settlement::ItemsTest < ActionDispatch::IntegrationTest
     @item = @round.items.create!(name: "테스트 항목", quantity: 1, amount: 10000)
   end
 
-  teardown do
-    Settlement::Gathering.where(user_id: @user.id).destroy_all
-  end
 
   test "항목을 추가할 수 있다" do
     assert_difference "@round.items.count", 1 do

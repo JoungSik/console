@@ -8,9 +8,6 @@ class Settlement::MembersTest < ActionDispatch::IntegrationTest
     @gathering.members.create!(name: @user.name)
   end
 
-  teardown do
-    Settlement::Gathering.where(user_id: @user.id).destroy_all
-  end
 
   test "참석자를 추가할 수 있다" do
     assert_difference "@gathering.members.count", 1 do

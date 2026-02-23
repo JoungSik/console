@@ -6,9 +6,6 @@ class SettlementGatheringsTest < ApplicationSystemTestCase
     sign_in_as @user
   end
 
-  teardown do
-    Settlement::Gathering.where(user_id: @user.id).destroy_all
-  end
 
   test "모임을 생성할 수 있다" do
     visit settlement.new_gathering_url
