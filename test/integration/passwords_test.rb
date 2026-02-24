@@ -5,10 +5,6 @@ class PasswordsTest < ActionDispatch::IntegrationTest
     @user = users(:test_user)
   end
 
-  teardown do
-    Rails.cache.clear
-  end
-
   test "비밀번호 찾기 페이지에 접근할 수 있다" do
     get new_password_url
     assert_response :success
