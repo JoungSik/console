@@ -1,1 +1,96 @@
 @import "tailwindcss";
+
+/* 법적 문서 마크다운 렌더링 스타일 */
+@layer components {
+  .legal-content {
+    font-size: 0.875rem;
+    line-height: 1.625;
+  }
+
+  .legal-content h2 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+    color: var(--color-gray-900);
+  }
+
+  .legal-content p {
+    margin-bottom: 0.75rem;
+  }
+
+  .legal-content ol {
+    list-style-type: decimal;
+    padding-left: 1.5rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .legal-content ul {
+    list-style-type: disc;
+    padding-left: 1.5rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .legal-content li {
+    margin-bottom: 0.25rem;
+  }
+
+  .legal-content strong {
+    font-weight: 600;
+    color: var(--color-gray-900);
+  }
+
+  .legal-content table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 0.75rem;
+  }
+
+  .legal-content thead tr {
+    background-color: var(--color-gray-50);
+  }
+
+  .legal-content th {
+    padding: 0.5rem 1rem;
+    text-align: left;
+    font-weight: 500;
+    border-bottom: 1px solid var(--color-gray-200);
+  }
+
+  .legal-content td {
+    padding: 0.5rem 1rem;
+    border-bottom: 1px solid var(--color-gray-200);
+  }
+
+  .legal-content hr {
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+    border-color: var(--color-gray-200);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .legal-content h2 {
+      color: var(--color-white);
+    }
+
+    .legal-content strong {
+      color: var(--color-white);
+    }
+
+    .legal-content thead tr {
+      background-color: var(--color-gray-700);
+    }
+
+    .legal-content th {
+      border-bottom-color: var(--color-gray-600);
+    }
+
+    .legal-content td {
+      border-bottom-color: var(--color-gray-600);
+    }
+
+    .legal-content hr {
+      border-color: var(--color-gray-700);
+    }
+  }
+}

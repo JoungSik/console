@@ -57,6 +57,10 @@ gem "web-push"
 # Resend email delivery [https://github.com/resend/resend-ruby]
 gem "resend"
 
+# Markdown rendering [https://github.com/gettalong/kramdown]
+gem "kramdown"
+gem "kramdown-parser-gfm"
+
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"

@@ -15,6 +15,10 @@ Rails.application.routes.draw do
   resource :session
   resources :passwords, param: :token
 
+  # 정적 페이지
+  get "terms", to: "pages#terms"
+  get "privacy", to: "pages#privacy"
+
   # 사용자 설정
   namespace :mypage do
     resource :user, only: %i[ show update ]
