@@ -12,6 +12,7 @@
 app/                    # 코어 앱 (인증, 세션, 홈, 레이아웃)
 ├── controllers/        # 코어 컨트롤러
 ├── models/             # 코어 모델 (User, Session, UserPlugin)
+├── services/           # 서비스 오브젝트 (LegalPageLoader 등)
 ├── views/layouts/      # 공유 레이아웃
 ├── helpers/            # NavigationHelper 등
 ├── assets/             # CSS/JS assets
@@ -27,6 +28,9 @@ engines/                # 플러그인 엔진들
 ├── todo/               # 할 일 목록 (Todo::List, Todo::Item - title, url, completed, due_date, recurrence, recurrence_ends_on)
 ├── bookmark/           # 북마크 (Bookmark::Group, Bookmark::Link)
 └── settlement/         # 정산 (Settlement::Gathering, Round, Member, Item, Calculator)
+docs/                   # 프로젝트 문서
+├── DESIGN_SYSTEM.md    # 디자인 시스템 가이드
+└── legal/              # 법적 문서 (이용약관, 개인정보처리방침)
 lib/generators/plugin/  # 플러그인 생성 제너레이터
 ```
 
