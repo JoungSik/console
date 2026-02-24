@@ -257,6 +257,10 @@ ko:
       reset_button: "비밀번호 재설정"
       expire_notice: "이 링크는 15분 후 만료됩니다."
 
+  pages:
+    terms: "이용약관"
+    privacy: "개인정보처리방침"
+
   navigation:
     home: "홈"
     collections: "컬렉션"
