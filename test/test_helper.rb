@@ -19,4 +19,9 @@ end
 
 class ActionDispatch::IntegrationTest
   include IntegrationTestHelper
+
+  # memory_store 사용 시 rate_limit 카운터가 테스트 간 누적되는 것을 방지
+  teardown do
+    Rails.cache.clear
+  end
 end
