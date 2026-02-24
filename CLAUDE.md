@@ -63,6 +63,7 @@ bin/rails generate plugin note 메모 --pretend
 - Importmap (importmap-rails)
 - Lucide icons (lucide-rails)
 - JBuilder for JSON
+- Resend (이메일 발송, `support@joungsik.com`)
 
 ## Design System
 > **전체 문서:** [docs/DESIGN_SYSTEM.md](docs/DESIGN_SYSTEM.md)

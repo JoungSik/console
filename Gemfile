@@ -54,6 +54,9 @@ gem "whenever", require: false
 # Web Push notifications [https://github.com/pushpad/web-push]
 gem "web-push"
 
+# Resend email delivery [https://github.com/resend/resend-ruby]
+gem "resend"
+
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
