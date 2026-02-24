@@ -1,6 +1,8 @@
 class PasswordsController < ApplicationController
   allow_unauthenticated_access
   before_action :set_user_by_token, only: %i[ edit update ]
+  rate_limit to: 5, within: 3.minutes, only: :create,
+    with: -> { redirect_to new_password_url, alert: t("messages.errors.rate_limit_exceeded") }
 
   def new
   end
@@ -18,7 +20,8 @@ class PasswordsController < ApplicationController
 
   def update
     if @user.update(params.permit(:password, :password_confirmation))
-      redirect_to new_session_path, notice: t("messages.success.password_updated")
+      start_new_session_for(@user)
+      redirect_to after_authentication_url, notice: t("messages.success.password_updated")
     else
       redirect_to edit_password_path(params[:token]), alert: t("messages.errors.passwords_did_not_match")
     end

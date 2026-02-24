@@ -1,1 +1,5 @@
-<%= t("emails.password_reset.expire_notice") %>: <%= edit_password_url(@user.password_reset_token) %>
+<%= t("emails.password_reset.body") %>
+
+<%= t("emails.password_reset.reset_button") %>: <%= edit_password_url(@user.password_reset_token) %>
+
+<%= t("emails.password_reset.expire_notice") %>
