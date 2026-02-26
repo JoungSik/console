@@ -140,5 +140,8 @@ class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue
   - `fix`: 버그 수정
   - `chore`: 기타 (문서, 설정, 스타일 등)
 
+## Redmine
+- 프로젝트: Console (ID: 8)
+
 ## Process
 1. Read CLAUDE.md first
