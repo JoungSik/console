@@ -7,6 +7,12 @@ class SessionsController < ApplicationController
 
   def create
     if (user = User.authenticate_by(params.permit(:email_address, :password)))
+      unless user.email_verified?
+        RegistrationsMailer.verify(user).deliver_later
+        redirect_to verify_pending_registration_path, alert: t("messages.errors.email_not_verified")
+        return
+      end
+
       start_new_session_for user
       redirect_to after_authentication_url
     else

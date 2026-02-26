@@ -1,0 +1,3 @@
+<p><%= t("emails.email_verification.body") %></p>
+<p><%= link_to t("emails.email_verification.verify_button"), verify_registration_url(token: @user.generate_token_for(:email_verification)) %></p>
+<p><%= t("emails.email_verification.expire_notice") %></p>
