@@ -836,7 +836,7 @@ lg:hidden            <%# 모바일/태블릿에서만 표시 %>
 <!--[if mso]>
 <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" href="URL" style="height: 48px; v-text-anchor: middle; width: 200px;" arcsize="13%" fillcolor="#2563eb" stroke="f">
   <w:anchorlock/>
-  <center style="color: #ffffff; font-family: sans-serif; font-size: 16px; font-weight: 600;">
+  <center style="color: #ffffff; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; font-size: 16px; font-weight: 600;">
     버튼 텍스트
   </center>
 </v:roundrect>
