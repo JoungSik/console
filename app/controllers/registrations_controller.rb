@@ -8,13 +8,12 @@ class RegistrationsController < ApplicationController
   end
 
   def create
+    @user = User.new(registration_params)
+
     unless params[:terms_agreed] == "1"
-      @user = User.new(registration_params)
       flash.now[:alert] = t("messages.errors.terms_must_be_agreed")
       return render :new, status: :unprocessable_entity
     end
-
-    @user = User.new(registration_params)
 
     if @user.save
       RegistrationsMailer.verify(@user).deliver_later
