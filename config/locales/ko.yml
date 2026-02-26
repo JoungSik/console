@@ -81,6 +81,8 @@ ko:
       password_reset: "비밀번호가 재설정되었습니다."
       password_reset_instructions_sent: "비밀번호 재설정 안내가 전송되었습니다 (해당 이메일 주소의 사용자가 존재하는 경우)."
       password_updated: "비밀번호가 업데이트되었습니다."
+      registration_verify_email_sent: "이메일 인증이 완료되었습니다. 환영합니다!"
+      email_already_verified: "이미 인증된 이메일입니다. 로그인해주세요."
     errors:
       not_found: "요청한 리소스를 찾을 수 없습니다."
       unauthorized: "접근 권한이 없습니다."
@@ -91,6 +93,9 @@ ko:
       rate_limit_exceeded: "나중에 다시 시도해주세요."
       oauth_failed: "계정 연동에 실패했습니다. 다시 시도해주세요."
       request_expired: "요청이 만료되었습니다. 다시 시도해주세요."
+      email_not_verified: "이메일 인증이 필요합니다. 인증 이메일을 다시 발송했습니다."
+      email_verification_link_invalid: "이메일 인증 링크가 유효하지 않거나 만료되었습니다."
+      terms_must_be_agreed: "이용약관 및 개인정보처리방침에 동의해주세요."
     warnings:
     info:
     common:
@@ -135,6 +140,13 @@ ko:
       email_address: "이메일"
       password: "비밀번호"
       password_confirmation: "비밀번호 확인"
+      already_have_account: "이미 계정이 있으신가요?"
+      no_account: "계정이 없으신가요?"
+      terms_agree_prefix: ""
+      terms_agree_and: "및"
+      terms_agree_suffix: "에 동의합니다."
+    hints:
+      password_complexity: "8자 이상, 문자와 숫자를 포함해야 합니다."
     placeholders:
       name: "이름을 입력하세요"
       email_address: "이메일 주소를 입력하세요"
@@ -192,6 +204,10 @@ ko:
         url: "링크"
     errors:
       models:
+        user:
+          attributes:
+            password:
+              password_complexity: "문자와 숫자를 각각 1개 이상 포함해야 합니다."
         link:
           attributes:
             url:
@@ -250,12 +266,23 @@ ko:
       title: "환영합니다!"
       body: "저희 서비스에 가입해주셔서 감사합니다."
       get_started: "시작하기"
+    email_verification:
+      subject: "이메일 인증"
+      title: "이메일 인증"
+      body: "회원가입을 완료하려면 아래 버튼을 클릭하여 이메일을 인증해주세요."
+      verify_button: "이메일 인증하기"
+      expire_notice: "이 링크는 24시간 후 만료됩니다."
     password_reset:
       subject: "비밀번호 재설정"
       title: "비밀번호 재설정"
       body: "비밀번호 재설정을 요청하셨습니다."
       reset_button: "비밀번호 재설정"
       expire_notice: "이 링크는 15분 후 만료됩니다."
+
+  registrations:
+    verify_pending:
+      title: "이메일을 확인해주세요"
+      description: "입력하신 이메일 주소로 인증 메일을 발송했습니다. 메일함을 확인하고 인증 링크를 클릭해주세요."
 
   pages:
     terms: "이용약관"

@@ -19,8 +19,20 @@ class User < ApplicationRecord
 
   normalizes :email_address, with: ->(e) { e.strip.downcase }
 
+  generates_token_for :email_verification, expires_in: 24.hours do
+    email_address
+  end
+
   validates :name, presence: true
   validates :email_address, presence: true, uniqueness: true
+  validates :password, length: { minimum: 8 },
+                       format: { with: /\A(?=.*[a-zA-Z])(?=.*\d)/,
+                                 message: :password_complexity },
+                       if: -> { password.present? }
+
+  def email_verified?
+    email_verified_at.present?
+  end
 
   # 해당 플러그인이 활성화되어 있는지 확인 (레코드 없으면 기본 활성)
   def plugin_enabled?(plugin_name)

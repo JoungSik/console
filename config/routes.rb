@@ -13,6 +13,10 @@ Rails.application.routes.draw do
 
   # 인증
   resource :session
+  resource :registration, only: %i[new create] do
+    get :verify_pending, on: :collection
+    get :verify, on: :collection
+  end
   resources :passwords, param: :token
 
   # 정적 페이지

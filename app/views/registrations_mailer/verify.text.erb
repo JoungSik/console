@@ -1,0 +1,5 @@
+<%= t("emails.email_verification.body") %>
+
+<%= t("emails.email_verification.verify_button") %>: <%= verify_registration_url(token: @user.generate_token_for(:email_verification)) %>
+
+<%= t("emails.email_verification.expire_notice") %>
