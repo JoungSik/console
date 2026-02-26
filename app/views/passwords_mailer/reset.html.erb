@@ -1,3 +1,28 @@
-<p><%= t("emails.password_reset.body") %></p>
-<p><%= link_to t("emails.password_reset.reset_button"), edit_password_url(@user.password_reset_token) %></p>
-<p><%= t("emails.password_reset.expire_notice") %></p>
+<p style="font-size: 16px; line-height: 1.6; color: #111827; margin: 0 0 24px;">
+  <%= t("emails.password_reset.body") %>
+</p>
+
+<!-- CTA 버튼 -->
+<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="margin: 0 0 24px;">
+  <tr>
+    <td align="center">
+      <!--[if mso]>
+      <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="<%= edit_password_url(@user.password_reset_token) %>" style="height: 48px; v-text-anchor: middle; width: 200px;" arcsize="13%" fillcolor="#2563eb" stroke="f">
+        <w:anchorlock/>
+        <center style="color: #ffffff; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; font-size: 16px; font-weight: 600;">
+          <%= t("emails.password_reset.reset_button") %>
+        </center>
+      </v:roundrect>
+      <![endif]-->
+      <!--[if !mso]><!-->
+      <a href="<%= edit_password_url(@user.password_reset_token) %>" style="display: inline-block; background-color: #2563eb; color: #ffffff; font-size: 16px; font-weight: 600; text-decoration: none; padding: 12px 32px; border-radius: 6px;">
+        <%= t("emails.password_reset.reset_button") %>
+      </a>
+      <!--<![endif]-->
+    </td>
+  </tr>
+</table>
+
+<p style="font-size: 13px; line-height: 1.5; color: #6b7280; margin: 0;">
+  <%= t("emails.password_reset.expire_notice") %>
+</p>

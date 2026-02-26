@@ -12,6 +12,7 @@
 - [애니메이션](#애니메이션)
 - [다크 모드](#다크-모드)
 - [반응형 디자인](#반응형-디자인)
+- [이메일 템플릿](#이메일-템플릿)
 
 ---
 
@@ -784,6 +785,98 @@ lg:hidden            <%# 모바일/태블릿에서만 표시 %>
 <%# 나쁜 예 - 불필요한 기본값 지정 %>
 <div class="sm:p-4 md:p-6 lg:p-8">
 ```
+
+---
+
+## 이메일 템플릿
+
+### 기본 원칙
+
+- **인라인 CSS만 사용** — Tailwind 클래스, 외부 CSS 파일 불가 (이메일 클라이언트 제약)
+- **테이블 기반 레이아웃** — Outlook 등 구형 클라이언트 호환
+- **라이트 모드만 지원** — 다크 모드 미지원 (`dark:` 변형 불필요)
+- **`max-width: 600px`** 중앙 정렬 컨테이너
+- **시스템 폰트 스택** — `-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif`
+
+### 이메일용 색상 토큰
+
+기존 Tailwind 라이트 모드 토큰을 hex 값으로 매핑합니다.
+
+| 토큰 | hex 값 | 용도 |
+|------|--------|------|
+| `bg-base` | `#f3f4f6` | 이메일 전체 배경 (gray-100) |
+| `bg-surface` | `#ffffff` | 카드 배경 (white) |
+| `border-default` | `#e5e7eb` | 카드 테두리 (gray-200) |
+| `text-primary` | `#111827` | 기본 텍스트 (gray-900) |
+| `text-secondary` | `#4b5563` | 보조 텍스트 (gray-600) |
+| `text-muted` | `#6b7280` | 희미한 텍스트, 푸터 (gray-500) |
+| `primary` | `#2563eb` | CTA 버튼, 링크 (blue-600) |
+
+### 레이아웃 구조
+
+```
+배경(#f3f4f6) > 중앙 컨테이너(600px) > 헤더 + 카드(#ffffff) + 푸터
+```
+
+- **헤더**: "Console" 텍스트 로고 (이미지 차단 환경 대응), 패딩 `32px 0`
+- **카드**: `border: 1px solid #e5e7eb`, `border-radius: 8px`, 패딩 `40px 32px`
+- **푸터**: `t("emails.common.footer")`, 색상 `#6b7280`, 패딩 `24px 0`
+
+### 이메일 컴포넌트
+
+#### Primary 버튼 (CTA)
+
+```html
+<!-- 비-Outlook -->
+<a href="URL" style="display: inline-block; background-color: #2563eb; color: #ffffff; font-size: 16px; font-weight: 600; text-decoration: none; padding: 12px 32px; border-radius: 6px;">
+  버튼 텍스트
+</a>
+
+<!-- Outlook용 VML 폴백 -->
+<!--[if mso]>
+<v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" href="URL" style="height: 48px; v-text-anchor: middle; width: 200px;" arcsize="13%" fillcolor="#2563eb" stroke="f">
+  <w:anchorlock/>
+  <center style="color: #ffffff; font-family: sans-serif; font-size: 16px; font-weight: 600;">
+    버튼 텍스트
+  </center>
+</v:roundrect>
+<![endif]-->
+```
+
+#### 본문 텍스트
+
+```html
+<p style="font-size: 16px; line-height: 1.6; color: #111827; margin: 0 0 16px;">
+  본문 텍스트
+</p>
+```
+
+#### 보조 텍스트
+
+```html
+<p style="font-size: 13px; line-height: 1.5; color: #6b7280; margin: 0;">
+  보조 텍스트
+</p>
+```
+
+#### 링크
+
+```html
+<a href="URL" style="color: #2563eb; text-decoration: none;">링크 텍스트</a>
+```
+
+### 이메일 클라이언트 호환성
+
+| 기능 | Gmail | Apple Mail | Outlook | Yahoo |
+|------|-------|------------|---------|-------|
+| 인라인 CSS | O | O | O | O |
+| `<style>` 블록 | O | O | 부분 | O |
+| `border-radius` | O | O | X | O |
+| `background-color` | O | O | O | O |
+| VML | X | X | O | X |
+| 미디어 쿼리 | X | O | X | X |
+
+> Outlook에서 `border-radius`가 무시되므로 CTA 버튼에 VML 폴백을 포함합니다.
 
 ---
 
