@@ -259,12 +259,16 @@ ko:
     common:
       greeting: "안녕하세요"
       regards: "감사합니다"
-      signature: "드림"
+      signature: "Console 드림"
       footer: "이 이메일은 자동으로 발송된 메일입니다."
     welcome:
       subject: "가입을 환영합니다!"
       title: "환영합니다!"
       body: "저희 서비스에 가입해주셔서 감사합니다."
+      guide_title: "이렇게 시작해보세요"
+      guide_plugins: "마이페이지에서 원하는 플러그인을 활성화하세요."
+      guide_todo: "할 일 목록으로 일정과 업무를 관리하세요."
+      guide_bookmark: "자주 찾는 링크를 북마크에 정리하세요."
       get_started: "시작하기"
     email_verification:
       subject: "이메일 인증"
