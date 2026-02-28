@@ -211,10 +211,7 @@ export default class extends Controller {
       this.toggleKnobTarget.classList.remove("translate-x-0")
       this.toggleKnobTarget.classList.add("translate-x-5")
     }
-    if (this.hasStatusBadgeTarget) {
-      this.statusBadgeTarget.textContent = this.statusBadgeTarget.dataset.subscribedText || "구독 중"
-      this.statusBadgeTarget.className = "inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200"
-    }
+    this.updateStatusBadge(true)
   }
 
   showUnsubscribed() {
@@ -237,10 +234,7 @@ export default class extends Controller {
       this.toggleKnobTarget.classList.remove("translate-x-5")
       this.toggleKnobTarget.classList.add("translate-x-0")
     }
-    if (this.hasStatusBadgeTarget) {
-      this.statusBadgeTarget.textContent = this.statusBadgeTarget.dataset.unsubscribedText || "미구독"
-      this.statusBadgeTarget.className = "inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-400"
-    }
+    this.updateStatusBadge(false)
   }
 
   showStatus(message, type = "info") {
@@ -279,9 +273,20 @@ export default class extends Controller {
       this.toggleTarget.disabled = true
       this.toggleTarget.classList.add("opacity-50", "cursor-not-allowed")
     }
-    if (this.hasStatusBadgeTarget) {
+    this.updateStatusBadge(false)
+  }
+
+  // 구독 상태 뱃지 업데이트
+  updateStatusBadge(subscribed) {
+    if (!this.hasStatusBadgeTarget) return
+
+    const baseClasses = "inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium"
+    if (subscribed) {
+      this.statusBadgeTarget.textContent = this.statusBadgeTarget.dataset.subscribedText || "구독 중"
+      this.statusBadgeTarget.className = `${baseClasses} bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200`
+    } else {
       this.statusBadgeTarget.textContent = this.statusBadgeTarget.dataset.unsubscribedText || "미구독"
-      this.statusBadgeTarget.className = "inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-400"
+      this.statusBadgeTarget.className = `${baseClasses} bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-400`
     }
   }
 }
