@@ -11,7 +11,8 @@ class PluginRegistryTest < ActiveSupport::TestCase
     @original_plugins.each do |p|
       PluginRegistry.register(
         name: p.name, label: p.label, icon: p.icon,
-        path: p.path, position: p.position, dashboard_component: p.dashboard_component
+        path: p.path, position: p.position, dashboard_component: p.dashboard_component,
+        push_notification_items: p.push_notification_items.map { |i| { key: i.key, label: i.label, description: i.description } }
       )
     end
   end
@@ -55,5 +56,45 @@ class PluginRegistryTest < ActiveSupport::TestCase
 
   test "dashboard_plugins는 등록된 것이 없으면 빈 배열을 반환한다" do
     assert_equal [], PluginRegistry.dashboard_plugins
+  end
+
+  test "push_notification_items 없이 등록하면 빈 배열이 기본값" do
+    PluginRegistry.register(name: :test, label: "테스트", icon: "box", path: "/test")
+    plugin = PluginRegistry.find(:test)
+
+    assert_equal [], plugin.push_notification_items
+  end
+
+  test "push_notification_items와 함께 등록된다" do
+    PluginRegistry.register(
+      name: :test, label: "테스트", icon: "box", path: "/test",
+      push_notification_items: [
+        { key: "reminder", label: "리마인더", description: "리마인더 알림" }
+      ]
+    )
+    plugin = PluginRegistry.find(:test)
+
+    assert_equal 1, plugin.push_notification_items.size
+    item = plugin.push_notification_items.first
+    assert_equal "reminder", item.key
+    assert_equal "리마인더", item.label
+    assert_equal "리마인더 알림", item.description
+  end
+
+  test "notification_plugins는 push_notification_items가 있는 플러그인만 반환한다" do
+    PluginRegistry.register(
+      name: :with_notif, label: "알림있음", icon: "a", path: "/a",
+      push_notification_items: [{ key: "test", label: "테스트", description: "설명" }]
+    )
+    PluginRegistry.register(name: :without_notif, label: "알림없음", icon: "b", path: "/b")
+
+    result = PluginRegistry.notification_plugins
+
+    assert_equal 1, result.size
+    assert_equal :with_notif, result.first.name
+  end
+
+  test "notification_plugins는 등록된 것이 없으면 빈 배열을 반환한다" do
+    assert_equal [], PluginRegistry.notification_plugins
   end
 end

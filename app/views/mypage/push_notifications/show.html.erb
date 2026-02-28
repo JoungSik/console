@@ -1,0 +1,106 @@
+<% content_for(:title) { t('settings.push_notifications.page_title') } %>
+
+<div class="w-full">
+  <!-- 페이지 헤더 -->
+  <div class="mb-8">
+    <div class="flex items-center gap-2 mb-2">
+      <%= link_to mypage_user_path, class: "text-gray-600 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 transition-colors duration-200" do %>
+        <%= lucide_icon "arrow-left", class: "w-5 h-5" %>
+      <% end %>
+      <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">
+        <%= t('settings.push_notifications.page_title') %>
+      </h1>
+    </div>
+    <p class="text-sm text-gray-600 dark:text-gray-400 ml-7">
+      <%= t('settings.push_notifications.page_description') %>
+    </p>
+  </div>
+
+  <!-- 푸시 구독 상태 카드 -->
+  <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm mb-6"
+       data-controller="push-subscription"
+       data-push-subscription-vapid-public-key-value="<%= Rails.application.credentials.dig(:vapid, :public_key) %>">
+    <div class="p-6">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center min-w-0 mr-4">
+          <%= lucide_icon "bell", class: "w-6 h-6 text-blue-600 dark:text-blue-400 mr-3 flex-shrink-0" %>
+          <div class="min-w-0">
+            <div class="flex items-center gap-2 flex-wrap">
+              <h2 class="text-lg font-semibold text-gray-900 dark:text-white">
+                <%= t('settings.push_notifications.subscription_title') %>
+              </h2>
+              <span data-push-subscription-target="statusBadge"
+                    data-subscribed-text="<%= t('settings.push_notifications.status_subscribed') %>"
+                    data-unsubscribed-text="<%= t('settings.push_notifications.status_unsubscribed') %>"
+                    class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-400">
+                <%= t('settings.push_notifications.status_checking') %>
+              </span>
+            </div>
+            <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">
+              <%= t('settings.push_notifications.subscription_description') %>
+            </p>
+          </div>
+        </div>
+
+        <!-- 토글 스위치 -->
+        <button type="button"
+                data-push-subscription-target="toggle"
+                data-action="click->push-subscription#toggleSubscription"
+                class="relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent bg-gray-200 dark:bg-gray-600 transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800">
+          <span class="sr-only"><%= t('settings.push_notifications.subscription_title') %></span>
+          <span data-push-subscription-target="toggleKnob"
+                class="pointer-events-none inline-block h-5 w-5 translate-x-0 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out"></span>
+        </button>
+      </div>
+
+      <!-- 상태 메시지 -->
+      <p data-push-subscription-target="status" class="hidden mt-3 text-sm ml-9"></p>
+    </div>
+  </div>
+
+  <!-- 플러그인별 알림 항목 -->
+  <% if @notification_plugins.any? %>
+    <% @notification_plugins.each do |plugin| %>
+      <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm mb-6">
+        <div class="p-6">
+          <div class="flex items-center mb-4">
+            <%= lucide_icon plugin.icon, class: "w-6 h-6 text-blue-600 dark:text-blue-400 mr-3" %>
+            <h2 class="text-lg font-semibold text-gray-900 dark:text-white">
+              <%= plugin.label %>
+            </h2>
+          </div>
+
+          <div class="space-y-4">
+            <% plugin.push_notification_items.each do |item| %>
+              <% enabled = current_user.push_notification_enabled?(plugin.name, item.key) %>
+              <div class="flex items-center justify-between py-3 border-b border-gray-100 dark:border-gray-700 last:border-b-0">
+                <div class="min-w-0 mr-4">
+                  <p class="text-sm font-medium text-gray-900 dark:text-white">
+                    <%= item.label %>
+                  </p>
+                  <p class="text-sm text-gray-600 dark:text-gray-400">
+                    <%= item.description %>
+                  </p>
+                </div>
+                <%= button_to toggle_mypage_push_notifications_path(plugin_name: plugin.name, item_key: item.key),
+                    method: :patch,
+                    class: "relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 #{enabled ? 'bg-blue-600' : 'bg-gray-200 dark:bg-gray-600'}" do %>
+                  <span class="sr-only"><%= item.label %></span>
+                  <span class="pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out <%= enabled ? 'translate-x-5' : 'translate-x-0' %>"></span>
+                <% end %>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  <% else %>
+    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm">
+      <div class="p-6 text-center">
+        <p class="text-sm text-gray-600 dark:text-gray-400">
+          <%= t('settings.push_notifications.no_items') %>
+        </p>
+      </div>
+    </div>
+  <% end %>
+</div>

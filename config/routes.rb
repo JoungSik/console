@@ -32,6 +32,9 @@ Rails.application.routes.draw do
         patch :toggle
       end
     end
+    resource :push_notifications, only: %i[show] do
+      patch "toggle/:plugin_name/:item_key", action: :toggle, as: :toggle, on: :member
+    end
   end
 
   # Service Worker는 루트 경로에서 제공

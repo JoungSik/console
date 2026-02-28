@@ -77,7 +77,12 @@ class PluginGenerator < Rails::Generators::Base
               icon: "#{icon}",
               path: "/#{mount_path}",
               position: #{position},
-              dashboard_component: "#{module_name}::DashboardComponent"
+              dashboard_component: "#{module_name}::DashboardComponent",
+              push_notification_items: []
+              # 푸시 알림 항목 등록 예시:
+              # push_notification_items: [
+              #   { key: "example_notification", label: "알림 이름", description: "알림 설명" }
+              # ]
             )
           end
         end
