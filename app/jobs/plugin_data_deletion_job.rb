@@ -22,6 +22,9 @@ class PluginDataDeletionJob < ApplicationJob
         body: I18n.t("settings.plugins.data_deleted", plugin: plugin.label)
       )
 
+      # 해당 플러그인의 알림 설정 정리
+      user_plugin.user.push_notification_settings.where(plugin_name: user_plugin.plugin_name).delete_all
+
       # user_plugin 레코드 삭제
       user_plugin.destroy!
     end
