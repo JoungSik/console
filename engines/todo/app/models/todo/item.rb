@@ -29,6 +29,10 @@ module Todo
       !completed? && due_date.present? && due_date < Date.current
     end
 
+    def due_today?
+      !completed? && due_date.present? && due_date == Date.current
+    end
+
     def url?
       url.present?
     end
