@@ -33,7 +33,7 @@ Rails.application.routes.draw do
       end
     end
     resource :push_notifications, only: %i[show] do
-      patch "toggle/:plugin_name/:item_key", action: :toggle, as: :toggle, on: :member
+      patch "toggle/:plugin_name/:item_key", action: :toggle, as: :toggle
     end
   end
 

@@ -72,7 +72,8 @@
 
           <div class="space-y-4">
             <% plugin.push_notification_items.each do |item| %>
-              <% enabled = current_user.push_notification_enabled?(plugin.name, item.key) %>
+              <% setting = @push_notification_settings[[plugin.name.to_s, item.key]] %>
+              <% enabled = setting.nil? || setting.enabled? %>
               <div class="flex items-center justify-between py-3 border-b border-gray-100 dark:border-gray-700 last:border-b-0">
                 <div class="min-w-0 mr-4">
                   <p class="text-sm font-medium text-gray-900 dark:text-white">

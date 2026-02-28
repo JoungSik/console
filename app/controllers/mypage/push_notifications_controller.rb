@@ -4,6 +4,9 @@ class Mypage::PushNotificationsController < Mypage::ApplicationController
     @notification_plugins = PluginRegistry.notification_plugins.select do |plugin|
       current_user.plugin_enabled?(plugin.name)
     end
+    # N+1 쿼리 방지를 위해 알림 설정을 미리 로드
+    @push_notification_settings = current_user.push_notification_settings
+                                              .index_by { |s| [ s.plugin_name, s.item_key ] }
   end
 
   def toggle
