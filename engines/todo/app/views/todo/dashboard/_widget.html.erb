@@ -12,8 +12,8 @@
     <%# 요약 통계 %>
     <div class="grid grid-cols-3 gap-2 mb-4">
       <div class="bg-gray-50 dark:bg-gray-700 rounded-md px-2 py-2 text-center">
-        <div class="text-xl font-bold text-gray-900 dark:text-white"><%= component.lists_count %></div>
-        <div class="text-xs text-gray-600 dark:text-gray-400">활성 목록</div>
+        <div class="text-xl font-bold text-gray-900 dark:text-white"><%= component.today_items.size %></div>
+        <div class="text-xs text-gray-600 dark:text-gray-400">오늘 할일</div>
       </div>
       <div class="bg-gray-50 dark:bg-gray-700 rounded-md px-2 py-2 text-center">
         <div class="text-xl font-bold text-gray-900 dark:text-white"><%= component.incomplete_count %></div>
@@ -25,11 +25,11 @@
       </div>
     </div>
 
-    <%# 최근 미완료 항목 %>
-    <% if component.recent_items.any? %>
-      <h3 class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">최근 미완료 항목</h3>
+    <%# 오늘의 할 일 %>
+    <% if component.today_items.any? %>
+      <h3 class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">오늘의 할 일</h3>
       <ul class="space-y-1.5">
-        <% component.recent_items.each do |item| %>
+        <% component.today_items.each do |item| %>
           <li class="flex items-center gap-2 text-sm">
             <span class="w-1.5 h-1.5 rounded-full flex-shrink-0 <%= item.overdue? ? 'bg-red-500 dark:bg-red-400' : 'bg-gray-400 dark:bg-gray-500' %>"></span>
             <span class="text-gray-900 dark:text-white truncate"><%= item.title %></span>
@@ -40,7 +40,7 @@
         <% end %>
       </ul>
     <% else %>
-      <p class="text-sm text-gray-500 dark:text-gray-400 text-center py-2">미완료 항목이 없습니다.</p>
+      <p class="text-sm text-gray-500 dark:text-gray-400 text-center py-2">오늘 할 일이 없습니다.</p>
     <% end %>
   </div>
 </div>

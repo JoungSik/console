@@ -5,6 +5,7 @@
 user = User.find_or_create_by!(email_address: "test@test.com") do |u|
   u.name = "test"
   u.password = "qwer1234"
+  u.email_verified_at = Time.current
 end
 puts "User: #{user.email_address}"
 
