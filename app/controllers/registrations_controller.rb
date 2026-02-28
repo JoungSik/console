@@ -34,6 +34,7 @@ class RegistrationsController < ApplicationController
         redirect_to new_session_path, notice: t("messages.success.email_already_verified")
       else
         user.update!(email_verified_at: Time.current)
+        WelcomeMailer.welcome(user).deliver_later
         start_new_session_for user
         redirect_to root_path, notice: t("messages.success.registration_verify_email_sent")
       end
