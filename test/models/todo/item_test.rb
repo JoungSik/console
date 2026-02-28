@@ -49,6 +49,52 @@ class Todo::ItemTest < ActiveSupport::TestCase
     assert_not @item.valid?
   end
 
+  # === #overdue? ===
+
+  test "마감일이 어제면 overdue?는 true" do
+    @item.due_date = Date.current - 1.day
+    @item.completed = false
+    assert @item.overdue?
+  end
+
+  test "마감일이 오늘이면 overdue?는 false" do
+    @item.due_date = Date.current
+    @item.completed = false
+    assert_not @item.overdue?
+  end
+
+  test "완료된 항목은 overdue?가 false" do
+    @item.due_date = Date.current - 1.day
+    @item.completed = true
+    assert_not @item.overdue?
+  end
+
+  # === #due_today? ===
+
+  test "마감일이 오늘이면 due_today?는 true" do
+    @item.due_date = Date.current
+    @item.completed = false
+    assert @item.due_today?
+  end
+
+  test "마감일이 어제면 due_today?는 false" do
+    @item.due_date = Date.current - 1.day
+    @item.completed = false
+    assert_not @item.due_today?
+  end
+
+  test "마감일이 내일이면 due_today?는 false" do
+    @item.due_date = Date.current + 1.day
+    @item.completed = false
+    assert_not @item.due_today?
+  end
+
+  test "완료된 항목은 due_today?가 false" do
+    @item.due_date = Date.current
+    @item.completed = true
+    assert_not @item.due_today?
+  end
+
   # === #url? ===
 
   test "URL이 있으면 true를 반환한다" do

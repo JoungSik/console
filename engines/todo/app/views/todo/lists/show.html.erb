@@ -63,7 +63,7 @@
                 <% end %>
               </div>
               <% if item.due_date.present? %>
-                <span class="flex-shrink-0 text-xs text-gray-500 dark:text-gray-400 <%= item.overdue? ? 'text-red-500 dark:text-red-400 font-medium' : '' %>">
+                <span class="flex-shrink-0 text-xs <%= due_date_css_class(item) %>">
                   <%= item.due_date.strftime("%Y-%m-%d") %>
                 </span>
               <% end %>
