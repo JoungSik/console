@@ -84,7 +84,7 @@ class PluginRegistryTest < ActiveSupport::TestCase
   test "notification_plugins는 push_notification_items가 있는 플러그인만 반환한다" do
     PluginRegistry.register(
       name: :with_notif, label: "알림있음", icon: "a", path: "/a",
-      push_notification_items: [{ key: "test", label: "테스트", description: "설명" }]
+      push_notification_items: [ { key: "test", label: "테스트", description: "설명" } ]
     )
     PluginRegistry.register(name: :without_notif, label: "알림없음", icon: "b", path: "/b")
 
