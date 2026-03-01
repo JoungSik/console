@@ -10,8 +10,21 @@ class HomeSystemTest < ApplicationSystemTestCase
     assert_current_path root_path
   end
 
-  test "비인증 상태에서 접근하면 로그인 페이지로 이동한다" do
+  test "비인증 상태에서 접근하면 랜딩 페이지가 표시된다" do
     visit root_url
+    assert_text "Console"
+    assert_text "할 일, 북마크, 정산까지"
+  end
+
+  test "랜딩 페이지에서 시작하기를 클릭하면 회원가입 페이지로 이동한다" do
+    visit root_url
+    click_link "시작하기"
+    assert_current_path new_registration_path
+  end
+
+  test "랜딩 페이지에서 로그인을 클릭하면 로그인 페이지로 이동한다" do
+    visit root_url
+    click_link "로그인"
     assert_current_path new_session_path
   end
 

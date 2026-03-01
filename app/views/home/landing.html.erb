@@ -1,0 +1,91 @@
+<div class="-m-8">
+  <%# 히어로 섹션 %>
+  <section class="px-6 py-20 sm:py-28 lg:py-36 text-center">
+    <div class="max-w-3xl mx-auto">
+      <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white tracking-tight">
+        Console
+      </h1>
+      <p class="mt-4 sm:mt-6 text-lg sm:text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+        할 일, 북마크, 정산까지. 일상에 필요한 도구를 한곳에서 관리하세요.
+      </p>
+      <div class="mt-8 sm:mt-10 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
+        <%= link_to new_registration_path,
+            class: "w-full sm:w-auto bg-blue-600 hover:bg-blue-700 dark:hover:bg-blue-500 text-white font-medium px-8 py-3 rounded-md transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 text-center" do %>
+          시작하기
+        <% end %>
+        <%= link_to new_session_path,
+            class: "w-full sm:w-auto bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600 font-medium px-8 py-3 rounded-md transition-colors duration-200 text-center" do %>
+          로그인
+        <% end %>
+      </div>
+    </div>
+  </section>
+
+  <%# 기능 소개 섹션 %>
+  <section class="px-6 py-16 sm:py-20 bg-white dark:bg-gray-800">
+    <div class="max-w-5xl mx-auto">
+      <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white text-center mb-12 sm:mb-16">
+        필요한 도구, 모두 여기에
+      </h2>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-8 sm:gap-10">
+        <%# 할 일 %>
+        <div class="text-center">
+          <div class="inline-flex items-center justify-center w-12 h-12 rounded-lg bg-blue-100 dark:bg-blue-900 mb-4">
+            <%= lucide_icon "layout-list", class: "w-6 h-6 text-blue-600 dark:text-blue-400" %>
+          </div>
+          <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">할 일</h3>
+          <p class="text-sm text-gray-600 dark:text-gray-400">
+            해야 할 일을 정리하고 마감일과 반복 설정으로 놓치지 않게 관리하세요.
+          </p>
+        </div>
+
+        <%# 북마크 %>
+        <div class="text-center">
+          <div class="inline-flex items-center justify-center w-12 h-12 rounded-lg bg-blue-100 dark:bg-blue-900 mb-4">
+            <%= lucide_icon "bookmark", class: "w-6 h-6 text-blue-600 dark:text-blue-400" %>
+          </div>
+          <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">북마크</h3>
+          <p class="text-sm text-gray-600 dark:text-gray-400">
+            자주 방문하는 링크를 그룹별로 정리하고 빠르게 접근하세요.
+          </p>
+        </div>
+
+        <%# 정산 %>
+        <div class="text-center">
+          <div class="inline-flex items-center justify-center w-12 h-12 rounded-lg bg-blue-100 dark:bg-blue-900 mb-4">
+            <%= lucide_icon "receipt", class: "w-6 h-6 text-blue-600 dark:text-blue-400" %>
+          </div>
+          <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">정산</h3>
+          <p class="text-sm text-gray-600 dark:text-gray-400">
+            모임 비용을 기록하고 누가 얼마를 내야 하는지 자동으로 계산하세요.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <%# 하단 CTA 섹션 %>
+  <section class="px-6 py-16 sm:py-20 text-center">
+    <div class="max-w-2xl mx-auto">
+      <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-4">
+        지금 시작하세요
+      </h2>
+      <p class="text-gray-600 dark:text-gray-400 mb-8">
+        무료로 가입하고 바로 사용할 수 있습니다.
+      </p>
+      <%= link_to new_registration_path,
+          class: "inline-block bg-blue-600 hover:bg-blue-700 dark:hover:bg-blue-500 text-white font-medium px-8 py-3 rounded-md transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900" do %>
+        무료로 시작하기
+      <% end %>
+    </div>
+  </section>
+
+  <%# 푸터 %>
+  <footer class="px-6 py-8 border-t border-gray-200 dark:border-gray-700">
+    <div class="max-w-5xl mx-auto text-center text-xs text-gray-500 dark:text-gray-400">
+      <%= link_to "이용약관", terms_path, class: "hover:text-gray-700 dark:hover:text-gray-300 transition-colors duration-200" %>
+      <span class="mx-1">|</span>
+      <%= link_to "개인정보처리방침", privacy_path, class: "hover:text-gray-700 dark:hover:text-gray-300 transition-colors duration-200" %>
+    </div>
+  </footer>
+</div>

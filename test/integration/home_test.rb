@@ -11,9 +11,19 @@ class HomeTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  test "비인증 사용자는 로그인 페이지로 리다이렉트된다" do
+  test "비인증 사용자에게 랜딩 페이지가 표시된다" do
     get root_url
-    assert_redirected_to new_session_path
+    assert_response :success
+    assert_select "h1", "Console"
+  end
+
+  test "랜딩 페이지에 기능 소개와 CTA 링크가 있다" do
+    get root_url
+    assert_select "h3", "할 일"
+    assert_select "h3", "북마크"
+    assert_select "h3", "정산"
+    assert_select "a[href='#{new_registration_path}']"
+    assert_select "a[href='#{new_session_path}']"
   end
 
   test "대시보드에 플러그인 위젯이 표시된다" do
