@@ -38,7 +38,7 @@ class SessionsTest < ActionDispatch::IntegrationTest
   end
 
   test "비인증 상태에서 보호된 페이지에 접근하면 로그인 페이지로 리다이렉트된다" do
-    get root_url
+    get mypage_user_url
     assert_redirected_to new_session_path
   end
 end
