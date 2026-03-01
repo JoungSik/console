@@ -48,9 +48,6 @@ gem "lucide-rails"
 
 gem "pundit", "~> 2.5"
 
-# Cron job management [https://github.com/javan/whenever]
-gem "whenever", require: false
-
 # Web Push notifications [https://github.com/pushpad/web-push]
 gem "web-push"
 

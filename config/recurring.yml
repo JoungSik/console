@@ -21,3 +21,7 @@ production:
     class: PluginDataDeletionJob
     queue: default
     schedule: every day at 3am
+  todo_reminders:
+    class: Todo::ReminderJob
+    queue: default
+    schedule: every day at 9am
