@@ -12,36 +12,24 @@ module Todo
 
     # 오늘 마감인 미완료 항목 알림 발송
     def send_due_today_reminders
-      due_today_items = Item.joins(:list)
-        .incomplete
-        .where(due_date: Date.current, reminder_sent: false)
-
-      due_today_items.group_by { |item| item.list.user_id }.each do |user_id, items|
-        user = User.find_by(id: user_id)
-        next unless user
-
-        title, body = build_message(items, type: :due_today)
-        sent = user.send_push_notification(
-          title: title,
-          body: body,
-          url: "/todos",
-          plugin_name: "todos",
-          item_key: "due_date_reminder"
-        )
-
-        Item.where(id: items.map(&:id)).update_all(reminder_sent: true) if sent
-      end
+      items_scope = Item.incomplete.where(due_date: Date.current, reminder_sent: false)
+      send_reminders_for(items_scope, type: :due_today)
     end
 
     # 기한 초과된 미완료 항목 알림 발송
     def send_overdue_reminders
-      overdue_items = Item.reminder_pending.joins(:list)
+      send_reminders_for(Item.reminder_pending, type: :overdue)
+    end
 
-      overdue_items.group_by { |item| item.list.user_id }.each do |user_id, items|
-        user = User.find_by(id: user_id)
+    def send_reminders_for(items_scope, type:)
+      items_by_user_id = items_scope.includes(:list).group_by { |item| item.list.user_id }
+      users = User.where(id: items_by_user_id.keys).index_by(&:id)
+
+      items_by_user_id.each do |user_id, items|
+        user = users[user_id]
         next unless user
 
-        title, body = build_message(items, type: :overdue)
+        title, body = build_message(items, type: type)
         sent = user.send_push_notification(
           title: title,
           body: body,
@@ -56,17 +44,17 @@ module Todo
 
     def build_message(items, type:)
       if type == :due_today
-        if items.size == 1
-          [ "오늘 마감", items.first.title ]
-        else
-          [ "오늘 마감", "오늘 마감인 할 일이 #{items.size}개 있습니다" ]
-        end
+        title = "오늘 마감"
+        plural_body = "오늘 마감인 할 일이 #{items.size}개 있습니다"
       else
-        if items.size == 1
-          [ "기한 초과", items.first.title ]
-        else
-          [ "기한 초과", "기한이 초과된 할 일이 #{items.size}개 있습니다" ]
-        end
+        title = "기한 초과"
+        plural_body = "기한이 초과된 할 일이 #{items.size}개 있습니다"
+      end
+
+      if items.size == 1
+        [title, items.first.title]
+      else
+        [title, plural_body]
       end
     end
   end

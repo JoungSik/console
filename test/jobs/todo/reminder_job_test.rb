@@ -64,7 +64,7 @@ class Todo::ReminderJobTest < ActiveJob::TestCase
     assert_not item.reload.reminder_sent
   end
 
-  test "여러 항목이 있으면 복수 메시지를 발송한다" do
+  test "여러 항목이 있으면 모든 항목의 reminder_sent를 업데이트한다" do
     @list.items.create!(title: "할 일 1", due_date: Date.current, reminder_sent: false)
     @list.items.create!(title: "할 일 2", due_date: Date.current, reminder_sent: false)
 
