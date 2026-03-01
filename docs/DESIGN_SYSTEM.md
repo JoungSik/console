@@ -468,18 +468,53 @@
 </span>
 ```
 
+### 페이지 헤더 (Page Header)
+
+목록(index) 페이지 상단에 제목과 새 아이템 생성 버튼을 배치합니다.
+
+```erb
+<%# 목록 페이지 헤더 %>
+<div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-6">
+  <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">페이지 제목</h1>
+  <%= link_to new_path, class: "self-start flex-shrink-0 inline-flex items-center px-4 py-2 text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 dark:hover:bg-blue-500 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 dark:focus:ring-offset-gray-800" do %>
+    <%= lucide_icon "plus", class: "w-4 h-4 mr-1.5" %>
+    새 아이템
+  <% end %>
+</div>
+```
+
+#### 규칙
+- 새 아이템 버튼에는 반드시 Lucide `plus` 아이콘(`w-4 h-4 mr-1.5`)을 포함
+- 버튼 텍스트: `"새 [아이템명]"` 형식 (예: "새 할 일 목록", "새 모임")
+- new 페이지 제목도 `"새 [아이템명]"` 형식으로 통일 ("~만들기" 불필요)
+
+### 뒤로가기 링크 (Back Link)
+
+하위 페이지(show, new, edit) 상단에 상위 페이지로 돌아가는 링크를 배치합니다.
+
+```erb
+<%# 뒤로가기 링크 %>
+<div class="mb-6">
+  <%= link_to parent_path, class: "inline-flex items-center gap-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors duration-200" do %>
+    <%= lucide_icon "arrow-left", class: "w-4 h-4" %>
+    상위 페이지명
+  <% end %>
+</div>
+```
+
+#### 규칙
+- 아이콘: 반드시 Lucide `arrow-left` 사용 (SVG 직접 작성 금지)
+- 간격: `gap-1` 사용 (`mr-1` 금지)
+- 텍스트: 상위 페이지명만 표기 (예: "할 일 목록", "정산 목록")
+  - `"~로 돌아가기"`, `"~ 상세"` 형식 사용 금지
+- 컨테이너: `<div class="mb-6">` 으로 감싸서 아래 콘텐츠와 간격 확보
+
 ### 링크 (Links)
 
 ```erb
 <%# 기본 링크 %>
 <a href="#" class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors duration-200">
   링크 텍스트
-</a>
-
-<%# 뒤로가기 링크 %>
-<a href="#" class="inline-flex items-center gap-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors duration-200">
-  <%= lucide_icon "arrow-left", class: "w-4 h-4" %>
-  뒤로가기
 </a>
 ```
 
