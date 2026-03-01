@@ -52,9 +52,9 @@ module Todo
       end
 
       if items.size == 1
-        [title, items.first.title]
+        [ title, items.first.title ]
       else
-        [title, plural_body]
+        [ title, plural_body ]
       end
     end
   end
