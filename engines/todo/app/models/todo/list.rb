@@ -22,7 +22,7 @@ module Todo
     end
 
     def displayed_items
-      items.order(completed: :asc, created_at: :desc).limit(5)
+      items.order(completed: :asc, due_date: :asc, created_at: :desc).limit(5)
     end
   end
 end
