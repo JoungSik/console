@@ -51,10 +51,9 @@ module Bookmark
     def find_viewable_group
       group = Group.find_universal(params[:id])
 
-      if group.is_public?
+      if group.is_public? || (authenticated? && group.user_id == current_user_id)
         @group = group
-      elsif authenticated? && group.user_id == current_user_id
-        @group = group
+        @is_owner = authenticated? && group.user_id == current_user_id
       else
         raise ActiveRecord::RecordNotFound
       end

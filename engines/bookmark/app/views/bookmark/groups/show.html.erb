@@ -5,7 +5,7 @@
 <% end %>
 
 <div class="w-full">
-  <% if authenticated? && @group.user_id == current_user_id %>
+  <% if @is_owner %>
     <div class="mb-6">
       <%= link_to bookmark.groups_path, class: "inline-flex items-center gap-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors duration-200" do %>
         <%= lucide_icon "arrow-left", class: "w-4 h-4" %>
@@ -29,7 +29,7 @@
           <% end %>
         </div>
 
-        <% if authenticated? && @group.user_id == current_user_id %>
+        <% if @is_owner %>
           <div class="mt-4 sm:mt-0 sm:ml-6 flex-shrink-0 flex gap-3">
             <%= link_to bookmark.edit_group_path(@group), class: "inline-flex items-center justify-center px-3 py-2 border border-gray-300 dark:border-gray-600 text-sm font-medium rounded-md text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors duration-200" do %>
               수정
