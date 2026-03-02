@@ -1,6 +1,9 @@
 module Bookmark
   class GroupsController < ApplicationController
-    before_action :set_group, only: %i[show edit update destroy]
+    allow_unauthenticated_access only: :show
+
+    before_action :find_viewable_group, only: :show
+    before_action :set_group, only: %i[edit update destroy]
 
     def index
       @groups = Group.by_user(current_user_id).order(id: :desc)
@@ -43,6 +46,18 @@ module Bookmark
 
     def set_group
       @group = Group.by_user(current_user_id).find_universal(params[:id])
+    end
+
+    def find_viewable_group
+      group = Group.find_universal(params[:id])
+
+      if group.is_public?
+        @group = group
+      elsif authenticated? && group.user_id == current_user_id
+        @group = group
+      else
+        raise ActiveRecord::RecordNotFound
+      end
     end
 
     def group_params
