@@ -1,10 +1,18 @@
+<% if @group.is_public? %>
+  <% content_for :og_title, @group.title %>
+  <% content_for :og_description, @group.description.presence || "#{@group.title} - 공개 북마크" %>
+  <% content_for :og_url, request.original_url %>
+<% end %>
+
 <div class="w-full">
-  <div class="mb-6">
-    <%= link_to bookmark.groups_path, class: "inline-flex items-center gap-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors duration-200" do %>
-      <%= lucide_icon "arrow-left", class: "w-4 h-4" %>
-      북마크
-    <% end %>
-  </div>
+  <% if authenticated? && @group.user_id == current_user_id %>
+    <div class="mb-6">
+      <%= link_to bookmark.groups_path, class: "inline-flex items-center gap-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors duration-200" do %>
+        <%= lucide_icon "arrow-left", class: "w-4 h-4" %>
+        북마크
+      <% end %>
+    </div>
+  <% end %>
 
   <div class="bg-white dark:bg-gray-800 shadow-lg rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700">
     <div class="p-6 sm:p-8">
@@ -21,14 +29,16 @@
           <% end %>
         </div>
 
-        <div class="mt-4 sm:mt-0 sm:ml-6 flex-shrink-0 flex gap-3">
-          <%= link_to bookmark.edit_group_path(@group), class: "inline-flex items-center justify-center px-3 py-2 border border-gray-300 dark:border-gray-600 text-sm font-medium rounded-md text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors duration-200" do %>
-            수정
-          <% end %>
-          <%= button_to bookmark.group_path(@group), method: :delete, class: "inline-flex items-center justify-center px-3 py-2 text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 transition-colors duration-200", data: { turbo_confirm: "정말 삭제하시겠습니까?" } do %>
-            삭제
-          <% end %>
-        </div>
+        <% if authenticated? && @group.user_id == current_user_id %>
+          <div class="mt-4 sm:mt-0 sm:ml-6 flex-shrink-0 flex gap-3">
+            <%= link_to bookmark.edit_group_path(@group), class: "inline-flex items-center justify-center px-3 py-2 border border-gray-300 dark:border-gray-600 text-sm font-medium rounded-md text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors duration-200" do %>
+              수정
+            <% end %>
+            <%= button_to bookmark.group_path(@group), method: :delete, class: "inline-flex items-center justify-center px-3 py-2 text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 transition-colors duration-200", data: { turbo_confirm: "정말 삭제하시겠습니까?" } do %>
+              삭제
+            <% end %>
+          </div>
+        <% end %>
       </div>
 
       <% if @group.links.any? %>

@@ -74,9 +74,45 @@ class Bookmark::GroupsTest < ActionDispatch::IntegrationTest
     assert_redirected_to bookmark.groups_url
   end
 
-  test "다른 사용자의 그룹에 접근하면 404를 반환한다" do
+  test "다른 사용자의 비공개 그룹에 접근하면 404를 반환한다" do
     other_group = Bookmark::Group.create!(title: "다른 사용자 그룹", user_id: users(:other_user).id)
     get bookmark.group_url(other_group)
     assert_response :not_found
+  end
+
+  test "다른 사용자의 공개 그룹에 접근할 수 있다" do
+    other_public_group = Bookmark::Group.create!(title: "다른 사용자 공개 그룹", user_id: users(:other_user).id, is_public: true)
+    get bookmark.group_url(other_public_group)
+    assert_response :success
+  end
+
+  test "비로그인 상태에서 공개 그룹에 접근할 수 있다" do
+    public_group = Bookmark::Group.create!(title: "공개 그룹", user_id: @user.id, is_public: true)
+    delete session_url
+    get bookmark.group_url(public_group)
+    assert_response :success
+  end
+
+  test "비로그인 상태에서 비공개 그룹에 접근하면 404를 반환한다" do
+    delete session_url
+    get bookmark.group_url(@group)
+    assert_response :not_found
+  end
+
+  test "소유자는 공개 그룹에서 수정/삭제 버튼을 볼 수 있다" do
+    public_group = Bookmark::Group.create!(title: "내 공개 그룹", user_id: @user.id, is_public: true)
+    get bookmark.group_url(public_group)
+    assert_response :success
+    assert_select "a", text: "수정"
+    assert_select "button", text: "삭제"
+  end
+
+  test "비로그인 상태에서 공개 그룹의 수정/삭제 버튼이 표시되지 않는다" do
+    public_group = Bookmark::Group.create!(title: "공개 그룹", user_id: @user.id, is_public: true)
+    delete session_url
+    get bookmark.group_url(public_group)
+    assert_response :success
+    assert_select "a", text: "수정", count: 0
+    assert_select "button", text: "삭제", count: 0
   end
 end
