@@ -32,7 +32,7 @@
 
       <% if @list.items.any? %>
         <div class="border-t border-gray-200 dark:border-gray-700 pt-6 space-y-3">
-          <% @list.items.order(completed: :asc, created_at: :desc).each do |item| %>
+          <% @list.items.order(completed: :asc, due_date: :asc, created_at: :desc).each do |item| %>
             <div class="flex items-center justify-between gap-2 p-3 rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-700">
               <div class="flex items-center gap-3 min-w-0">
                 <%= button_to todo.list_item_path(@list, item), method: :patch, params: { item: { completed: !item.completed? } }, form_class: "flex-shrink-0", aria: { label: item.completed? ? "할 일 완료 해제" : "할 일 완료" } do %>
