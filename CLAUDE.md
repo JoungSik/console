@@ -26,7 +26,7 @@ lib/
     └── plugin_data_cleaner.rb   # 플러그인 데이터 삭제 인터페이스
 engines/                # 플러그인 엔진들
 ├── todo/               # 할 일 목록 (Todo::List, Todo::Item - title, url, completed, due_date, recurrence, recurrence_ends_on)
-├── bookmark/           # 북마크 (Bookmark::Group, Bookmark::Link)
+├── bookmark/           # 북마크 (Bookmark::Group - title, description, is_public, Bookmark::Link)
 └── settlement/         # 정산 (Settlement::Gathering, Round, Member, Item, Calculator)
 docs/                   # 프로젝트 문서
 ├── DESIGN_SYSTEM.md    # 디자인 시스템 가이드
