@@ -289,15 +289,22 @@
 
 #### 클릭 가능한 카드
 
+카드 우측에 `chevron-right` 아이콘을 배치하여 클릭 가능함을 시각적으로 표시합니다.
+
 ```erb
 <a href="#" class="block bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200 overflow-hidden">
   <div class="p-4 sm:p-6">
-    <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">
-      카드 제목
-    </h3>
-    <p class="text-sm text-gray-600 dark:text-gray-400">
-      카드 내용
-    </p>
+    <div class="flex items-center justify-between">
+      <div class="min-w-0">
+        <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+          카드 제목
+        </h3>
+        <p class="text-sm text-gray-600 dark:text-gray-400">
+          카드 내용
+        </p>
+      </div>
+      <%= lucide_icon "chevron-right", class: "w-5 h-5 text-gray-400 dark:text-gray-500 flex-shrink-0" %>
+    </div>
   </div>
 </a>
 ```
