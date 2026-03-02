@@ -1,6 +1,14 @@
 <% content_for(:title) { t('settings.plugins.title') } %>
 
 <div class="w-full">
+  <!-- 뒤로가기 -->
+  <div class="mb-6">
+    <%= link_to mypage_user_path, class: "inline-flex items-center gap-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors duration-200" do %>
+      <%= lucide_icon "arrow-left", class: "w-4 h-4" %>
+      <%= t('settings.mypage.title') %>
+    <% end %>
+  </div>
+
   <!-- 페이지 헤더 -->
   <div class="mb-8">
     <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">
@@ -45,12 +53,4 @@
     <% end %>
   </div>
 
-  <!-- 뒤로가기 -->
-  <div class="mt-6">
-    <%= link_to mypage_user_path,
-        class: "text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors duration-200 text-sm font-medium" do %>
-      <%= lucide_icon "arrow-left", class: "w-4 h-4 inline mr-1" %>
-      <%= t('settings.mypage.title') %>
-    <% end %>
-  </div>
 </div>
