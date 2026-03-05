@@ -39,15 +39,17 @@
                                 class: "block w-full bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 rounded-md px-3 py-2 mt-2 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" %>
       </div>
 
-      <div class="my-5">
+      <div class="my-5 space-y-3">
         <label class="flex items-start gap-2 cursor-pointer">
           <%= check_box_tag :terms_agreed, "1", false, class: "mt-1 rounded border-gray-300 dark:border-gray-600 text-blue-600 focus:ring-blue-500 dark:bg-gray-700" %>
           <span class="text-sm text-gray-600 dark:text-gray-400">
-            <%= t("forms.labels.terms_agree_prefix") %>
-            <%= link_to t("pages.terms"), terms_path, target: "_blank", class: "text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 underline" %>
-            <%= t("forms.labels.terms_agree_and") %>
-            <%= link_to t("pages.privacy"), privacy_path, target: "_blank", class: "text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 underline" %>
-            <%= t("forms.labels.terms_agree_suffix") %>
+            <%= link_to t("pages.terms"), terms_path, target: "_blank", class: "text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 underline" %><%= t("forms.labels.terms_agree_suffix") %>
+          </span>
+        </label>
+        <label class="flex items-start gap-2 cursor-pointer">
+          <%= check_box_tag :privacy_agreed, "1", false, class: "mt-1 rounded border-gray-300 dark:border-gray-600 text-blue-600 focus:ring-blue-500 dark:bg-gray-700" %>
+          <span class="text-sm text-gray-600 dark:text-gray-400">
+            <%= link_to t("pages.privacy"), privacy_path, target: "_blank", class: "text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 underline" %><%= t("forms.labels.privacy_agree_suffix") %>
           </span>
         </label>
       </div>

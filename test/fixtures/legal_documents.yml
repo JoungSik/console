@@ -1,0 +1,27 @@
+terms_v1:
+  document_type: 0
+  version: "2025-02-25"
+  title: "이용약관"
+  content: "이용약관 내용"
+  published_at: <%= 1.month.ago.to_fs(:db) %>
+
+privacy_policy_v1:
+  document_type: 1
+  version: "2025-02-25"
+  title: "개인정보처리방침"
+  content: "개인정보처리방침 내용"
+  published_at: <%= 1.month.ago.to_fs(:db) %>
+
+terms_v2:
+  document_type: 0
+  version: "2026-03-01"
+  title: "이용약관 v2"
+  content: "이용약관 v2 내용"
+  published_at: <%= 1.day.ago.to_fs(:db) %>
+
+future_terms:
+  document_type: 0
+  version: "2099-01-01"
+  title: "미래 이용약관"
+  content: "미래 이용약관 내용"
+  published_at: <%= 1.year.from_now.to_fs(:db) %>

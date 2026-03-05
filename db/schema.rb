@@ -10,7 +10,30 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_03_01_000001) do
+ActiveRecord::Schema[8.1].define(version: 2026_03_05_115037) do
+  create_table "legal_agreements", force: :cascade do |t|
+    t.datetime "accepted_at", null: false
+    t.datetime "created_at", null: false
+    t.integer "legal_document_id", null: false
+    t.datetime "updated_at", null: false
+    t.integer "user_id", null: false
+    t.index ["legal_document_id"], name: "index_legal_agreements_on_legal_document_id"
+    t.index ["user_id", "legal_document_id"], name: "index_legal_agreements_on_user_id_and_legal_document_id", unique: true
+    t.index ["user_id"], name: "index_legal_agreements_on_user_id"
+  end
+
+  create_table "legal_documents", force: :cascade do |t|
+    t.text "content", null: false
+    t.datetime "created_at", null: false
+    t.integer "document_type", null: false
+    t.datetime "published_at", null: false
+    t.string "title", null: false
+    t.datetime "updated_at", null: false
+    t.string "version", null: false
+    t.index ["document_type", "published_at"], name: "index_legal_documents_on_document_type_and_published_at"
+    t.index ["document_type", "version"], name: "index_legal_documents_on_document_type_and_version", unique: true
+  end
+
   create_table "push_notification_settings", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.boolean "enabled", default: true, null: false
@@ -63,6 +86,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_01_000001) do
     t.index ["email_address"], name: "index_users_on_email_address", unique: true
   end
 
+  add_foreign_key "legal_agreements", "legal_documents"
+  add_foreign_key "legal_agreements", "users"
   add_foreign_key "push_notification_settings", "users"
   add_foreign_key "push_subscriptions", "users"
   add_foreign_key "sessions", "users"

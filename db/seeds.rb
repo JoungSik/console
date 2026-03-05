@@ -1,6 +1,23 @@
 # 코어 + 플러그인 시드 데이터
 # bin/rails db:seed 로 실행
 
+# === 코어: 법적 문서 ===
+terms_content = File.read(Rails.root.join("docs/legal/terms/2025-02-25.md"))
+terms_doc = LegalDocument.find_or_create_by!(document_type: :terms, version: "2025-02-25") do |d|
+  d.title = "이용약관"
+  d.content = terms_content
+  d.published_at = Time.zone.parse("2025-02-25")
+end
+
+privacy_content = File.read(Rails.root.join("docs/legal/privacy/2025-02-25.md"))
+privacy_doc = LegalDocument.find_or_create_by!(document_type: :privacy_policy, version: "2025-02-25") do |d|
+  d.title = "개인정보처리방침"
+  d.content = privacy_content
+  d.published_at = Time.zone.parse("2025-02-25")
+end
+
+puts "LegalDocument: #{LegalDocument.count} documents"
+
 # === 코어: 사용자 ===
 user = User.find_or_create_by!(email_address: "test@test.com") do |u|
   u.name = "test"

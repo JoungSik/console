@@ -7,16 +7,19 @@ class RegistrationsTest < ActionDispatch::IntegrationTest
   end
 
   test "유효한 정보로 가입하면 verify_pending으로 리다이렉트되고 이메일이 발송된다" do
-    assert_enqueued_emails 1 do
-      post registration_url, params: {
-        user: {
-          name: "신규사용자",
-          email_address: "new@example.com",
-          password: "password1",
-          password_confirmation: "password1"
-        },
-        terms_agreed: "1"
-      }
+    assert_difference "LegalAgreement.count", 2 do
+      assert_enqueued_emails 1 do
+        post registration_url, params: {
+          user: {
+            name: "신규사용자",
+            email_address: "new@example.com",
+            password: "password1",
+            password_confirmation: "password1"
+          },
+          terms_agreed: "1",
+          privacy_agreed: "1"
+        }
+      end
     end
 
     assert_redirected_to verify_pending_registration_path
@@ -35,6 +38,20 @@ class RegistrationsTest < ActionDispatch::IntegrationTest
     assert_response :unprocessable_entity
   end
 
+  test "개인정보처리방침 미동의 시 가입에 실패한다" do
+    post registration_url, params: {
+      user: {
+        name: "신규사용자",
+        email_address: "new@example.com",
+        password: "password1",
+        password_confirmation: "password1"
+      },
+      terms_agreed: "1"
+    }
+
+    assert_response :unprocessable_entity
+  end
+
   test "비밀번호 강도 부족 시 가입에 실패한다" do
     post registration_url, params: {
       user: {
@@ -43,7 +60,8 @@ class RegistrationsTest < ActionDispatch::IntegrationTest
         password: "weak",
         password_confirmation: "weak"
       },
-      terms_agreed: "1"
+      terms_agreed: "1",
+      privacy_agreed: "1"
     }
 
     assert_response :unprocessable_entity
@@ -57,7 +75,8 @@ class RegistrationsTest < ActionDispatch::IntegrationTest
         password: "password",
         password_confirmation: "password"
       },
-      terms_agreed: "1"
+      terms_agreed: "1",
+      privacy_agreed: "1"
     }
 
     assert_response :unprocessable_entity
@@ -71,7 +90,8 @@ class RegistrationsTest < ActionDispatch::IntegrationTest
         password: "password1",
         password_confirmation: "password1"
       },
-      terms_agreed: "1"
+      terms_agreed: "1",
+      privacy_agreed: "1"
     }
 
     assert_response :unprocessable_entity
@@ -134,7 +154,8 @@ class RegistrationsTest < ActionDispatch::IntegrationTest
           password: "password1",
           password_confirmation: "password1"
         },
-        terms_agreed: "1"
+        terms_agreed: "1",
+        privacy_agreed: "1"
       }
     end
 
