@@ -15,12 +15,20 @@ class RegistrationsController < ApplicationController
       return render :new, status: :unprocessable_entity
     end
 
-    if @user.save
-      RegistrationsMailer.verify(@user).deliver_later
-      redirect_to verify_pending_registration_path
-    else
-      render :new, status: :unprocessable_entity
+    unless params[:privacy_agreed] == "1"
+      flash.now[:alert] = t("messages.errors.privacy_must_be_agreed")
+      return render :new, status: :unprocessable_entity
     end
+
+    ActiveRecord::Base.transaction do
+      @user.save!
+      record_legal_agreements(@user)
+    end
+
+    RegistrationsMailer.verify(@user).deliver_later
+    redirect_to verify_pending_registration_path
+  rescue ActiveRecord::RecordInvalid
+    render :new, status: :unprocessable_entity
   end
 
   def verify_pending
@@ -47,5 +55,12 @@ class RegistrationsController < ApplicationController
 
   def registration_params
     params.require(:user).permit(:name, :email_address, :password, :password_confirmation)
+  end
+
+  def record_legal_agreements(user)
+    now = Time.current
+    [ LegalDocument.latest_terms, LegalDocument.latest_privacy_policy ].compact.each do |doc|
+      user.legal_agreements.create!(legal_document: doc, accepted_at: now)
+    end
   end
 end

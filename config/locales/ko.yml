@@ -95,7 +95,8 @@ ko:
       request_expired: "요청이 만료되었습니다. 다시 시도해주세요."
       email_not_verified: "이메일 인증이 필요합니다. 인증 이메일을 다시 발송했습니다."
       email_verification_link_invalid: "이메일 인증 링크가 유효하지 않거나 만료되었습니다."
-      terms_must_be_agreed: "이용약관 및 개인정보처리방침에 동의해주세요."
+      terms_must_be_agreed: "이용약관에 동의해주세요."
+      privacy_must_be_agreed: "개인정보처리방침에 동의해주세요."
     warnings:
     info:
     common:
@@ -142,9 +143,8 @@ ko:
       password_confirmation: "비밀번호 확인"
       already_have_account: "이미 계정이 있으신가요?"
       no_account: "계정이 없으신가요?"
-      terms_agree_prefix: ""
-      terms_agree_and: "및"
       terms_agree_suffix: "에 동의합니다."
+      privacy_agree_suffix: "에 동의합니다."
     hints:
       password_complexity: "8자 이상, 문자와 숫자를 포함해야 합니다."
     placeholders:
@@ -179,6 +179,8 @@ ko:
       collection: "컬렉션"
       todo_list: "할 일 목록"
       todo: "할 일"
+      legal_document: "법적 문서"
+      legal_agreement: "약관 동의"
     attributes:
       user:
         name: "이름"
