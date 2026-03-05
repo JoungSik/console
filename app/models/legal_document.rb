@@ -10,11 +10,15 @@ class LegalDocument < ApplicationRecord
   validates :published_at, presence: true
 
   # 타입별 최신 게시 문서
+  def self.latest(document_type)
+    where(document_type: document_type, published_at: ..Time.current).order(published_at: :desc).first
+  end
+
   def self.latest_terms
-    terms.where(published_at: ..Time.current).order(published_at: :desc).first
+    latest(:terms)
   end
 
   def self.latest_privacy_policy
-    privacy_policy.where(published_at: ..Time.current).order(published_at: :desc).first
+    latest(:privacy_policy)
   end
 end

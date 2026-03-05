@@ -15,13 +15,19 @@ class BackfillLegalAgreementsForExistingUsers < ActiveRecord::Migration[8.1]
       d.published_at = Time.zone.parse("2025-02-25")
     end
 
-    User.find_each do |user|
-      [ terms, privacy ].each do |doc|
-        LegalAgreement.find_or_create_by!(user: user, legal_document: doc) do |agreement|
-          agreement.accepted_at = user.created_at || Time.current
-        end
-      end
+    users_data = User.pluck(:id, :created_at)
+    return if users_data.empty?
+
+    now = Time.current
+    agreements = users_data.flat_map do |user_id, created_at|
+      accepted_at = created_at || now
+      [
+        { user_id: user_id, legal_document_id: terms.id, accepted_at: accepted_at, created_at: now, updated_at: now },
+        { user_id: user_id, legal_document_id: privacy.id, accepted_at: accepted_at, created_at: now, updated_at: now }
+      ]
     end
+
+    LegalAgreement.upsert_all(agreements, unique_by: [ :user_id, :legal_document_id ])
   end
 
   def down

@@ -81,7 +81,7 @@ class User < ApplicationRecord
   end
 
   def needs_acceptance_for?(document_type)
-    latest = LegalDocument.public_send(:"latest_#{document_type}")
+    latest = LegalDocument.latest(document_type)
     return false unless latest
 
     !legal_agreements.exists?(legal_document: latest)
