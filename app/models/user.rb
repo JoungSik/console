@@ -17,7 +17,9 @@ class User < ApplicationRecord
 
     sent_at_least_once = false
     push_subscriptions.find_each do |subscription|
-      sent_at_least_once ||= subscription.send_notification(title: title, body: body, url: url)
+      if subscription.send_notification(title: title, body: body, url: url)
+        sent_at_least_once = true
+      end
     end
     sent_at_least_once
   end
