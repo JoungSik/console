@@ -59,8 +59,12 @@ class RegistrationsController < ApplicationController
 
   def record_legal_agreements(user)
     now = Time.current
-    [ LegalDocument.latest_terms, LegalDocument.latest_privacy_policy ].compact.each do |doc|
-      user.legal_agreements.create!(legal_document: doc, accepted_at: now)
+    docs = [ LegalDocument.latest_terms, LegalDocument.latest_privacy_policy ].compact
+    return if docs.empty?
+
+    agreements = docs.map do |doc|
+      { user_id: user.id, legal_document_id: doc.id, accepted_at: now, created_at: now, updated_at: now }
     end
+    LegalAgreement.insert_all!(agreements)
   end
 end
