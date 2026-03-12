@@ -19,7 +19,7 @@ module Todo
     scope :completed, -> { where(completed: true) }
     scope :incomplete, -> { where(completed: false) }
     scope :overdue, -> { incomplete.where("due_date < ?", Date.current) }
-    scope :reminder_pending, -> { overdue.where(reminder_sent: false) }
+
 
     def completed?
       completed
