@@ -33,7 +33,7 @@
       </div>
 
       <div id="items" data-turbo-permanent>
-        <%= form.fields_for :items do |item_fields| %>
+        <%= form.fields_for :items, list.items.order(completed: :asc, due_date: :asc, created_at: :desc) do |item_fields| %>
           <%= render "todo/lists/item_fields", form: item_fields %>
         <% end %>
       </div>
