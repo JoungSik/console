@@ -21,8 +21,12 @@ module Todo
       update!(archived_at: nil)
     end
 
+    def sorted_items
+      items.order(completed: :asc, due_date: :asc, created_at: :desc)
+    end
+
     def displayed_items
-      items.order(completed: :asc, due_date: :asc, created_at: :desc).limit(5)
+      sorted_items.limit(5)
     end
   end
 end
