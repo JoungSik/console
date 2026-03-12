@@ -4,11 +4,10 @@ module Todo
     queue_as :default
 
     def perform
-      due_today = Item.incomplete.includes(:list).where(due_date: Date.current).to_a
-      overdue = Item.incomplete.includes(:list).where("due_date < ?", Date.current).to_a
+      items = Item.incomplete.includes(:list).where("due_date <= ?", Date.current).to_a
 
       # 사용자별로 그룹핑하여 통합 알림 발송
-      items_by_user = (due_today + overdue).group_by { |i| i.list.user_id }
+      items_by_user = items.group_by { |i| i.list.user_id }
       users = User.where(id: items_by_user.keys).index_by(&:id)
 
       items_by_user.each do |user_id, items|
