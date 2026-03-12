@@ -18,7 +18,6 @@
 | `url` | string | 관련 URL (선택) |
 | `completed` | boolean | 완료 여부 |
 | `due_date` | date | 마감일 |
-| `reminder_sent` | boolean | 리마인더 발송 여부 |
 | `recurrence` | string | 반복 주기 (daily/weekly/monthly/yearly) |
 | `recurrence_ends_on` | date | 반복 종료일 |
 | `recurrence_parent_id` | integer | 반복 부모 항목 |
@@ -29,12 +28,13 @@
 
 ### Recurring Job
 
-`Todo::ReminderJob`이 매일 오전 9시에 실행되어 다음 알림을 발송한다:
+`Todo::ReminderJob`이 매일 오전 9시에 실행되어 사용자별 통합 알림을 발송한다:
 
-- **오늘 마감**: 마감일이 오늘인 미완료 항목
-- **기한 초과**: 마감일이 지난 미완료 항목 (아직 알림 미발송)
+- **오늘 마감만**: "오늘 마감인 할 일이 N개 있습니다"
+- **기한 초과만**: "기한이 초과된 할 일이 N개 있습니다"
+- **둘 다**: "오늘 마감 N개, 기한 초과 M개의 할 일이 있습니다"
 
-발송 후 `reminder_sent` 플래그가 `true`로 업데이트되어 중복 발송을 방지한다.
+미완료 항목이 있는 한 매일 반복 발송한다.
 
 #### 설정
 
