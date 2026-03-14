@@ -5,8 +5,14 @@ if ! gem list foreman -i --silent; then
   gem install foreman
 fi
 
-# Default to port 3000 if not specified
-export PORT="${PORT:-3000}"
+# 사용 가능한 포트 자동 탐색 (3000부터 시작)
+if [ -z "$PORT" ]; then
+  PORT=3000
+  while lsof -iTCP:$PORT -sTCP:LISTEN -t >/dev/null 2>&1; do
+    PORT=$((PORT + 1))
+  done
+fi
+export PORT
 
 # Let the debug gem allow remote connections,
 # but avoid loading until `debugger` is called
