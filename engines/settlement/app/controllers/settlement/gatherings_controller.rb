@@ -1,6 +1,6 @@
 module Settlement
   class GatheringsController < ApplicationController
-    before_action :set_gathering, only: %i[show edit update destroy result]
+    before_action :set_gathering, only: %i[show edit update destroy result shuffle]
 
     def index
       @gatherings = Gathering.by_user(current_user_id).order(id: :desc)
@@ -47,6 +47,11 @@ module Settlement
       @calculator = Calculator.new(@gathering)
     end
 
+    def shuffle
+      @gathering.shuffle_rounding_seed!
+      redirect_to settlement.result_gathering_path(@gathering)
+    end
+
     private
 
     def set_gathering
@@ -54,7 +59,7 @@ module Settlement
     end
 
     def gathering_params
-      params.require(:gathering).permit(:title, :gathering_date, :memo, :remainder_method)
+      params.require(:gathering).permit(:title, :gathering_date, :memo)
             .merge(user_id: current_user_id)
     end
   end

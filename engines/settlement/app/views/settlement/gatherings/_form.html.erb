@@ -32,29 +32,6 @@
         class: "w-full bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 rounded-md px-3 py-2 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" %>
   </div>
 
-  <div>
-    <%= form.label :remainder_method, "나머지 처리 방식", class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" %>
-    <p class="text-xs text-gray-500 dark:text-gray-400 mb-3">금액이 나누어 떨어지지 않을 때 나머지를 어떻게 처리할지 선택하세요.</p>
-    <div class="space-y-2">
-      <% Settlement::Calculator::REMAINDER_METHOD_LABELS.each do |value, label| %>
-        <label class="flex items-start gap-3 px-3 py-2.5 rounded-lg border cursor-pointer transition-colors duration-200
-          <%= gathering.remainder_method == value ? 'bg-blue-50 dark:bg-blue-900/30 border-blue-300 dark:border-blue-600' : 'bg-white dark:bg-gray-700 border-gray-200 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-600' %>">
-          <%= form.radio_button :remainder_method, value,
-              class: "mt-0.5 h-4 w-4 text-blue-600 border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 focus:ring-blue-500" %>
-          <div>
-            <span class="text-sm font-medium text-gray-900 dark:text-white"><%= label %></span>
-            <% case value %>
-            <% when "ceil" %>
-              <p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">예: ₩10,000 ÷ 3명 = 각 ₩3,334 (합계 ₩10,002)</p>
-            <% when "first_pays_extra" %>
-              <p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">예: ₩10,000 ÷ 3명 = 결제자 ₩3,334 + ₩3,333 + ₩3,333</p>
-            <% end %>
-          </div>
-        </label>
-      <% end %>
-    </div>
-  </div>
-
   <div class="flex items-center gap-3">
     <%= form.submit gathering.persisted? ? "모임 수정" : "모임 만들기",
         class: "inline-flex items-center px-4 py-2 text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 dark:hover:bg-blue-500 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 dark:focus:ring-offset-gray-800" %>
