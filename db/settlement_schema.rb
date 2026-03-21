@@ -10,12 +10,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_02_22_000007) do
+ActiveRecord::Schema[8.1].define(version: 2026_03_21_140000) do
   create_table "gatherings", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.date "gathering_date"
     t.text "memo"
-    t.string "remainder_method", default: "ceil", null: false
+    t.integer "rounding_seed"
     t.string "title", limit: 100, null: false
     t.datetime "updated_at", null: false
     t.integer "user_id", null: false

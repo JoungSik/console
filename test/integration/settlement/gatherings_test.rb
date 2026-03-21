@@ -8,7 +8,6 @@ class Settlement::GatheringsTest < ActionDispatch::IntegrationTest
     @gathering.members.create!(name: @user.name)
   end
 
-
   test "모임 인덱스에 접근할 수 있다" do
     get settlement.gatherings_url
     assert_response :success
@@ -37,17 +36,15 @@ class Settlement::GatheringsTest < ActionDispatch::IntegrationTest
     end
     gathering = Settlement::Gathering.last
     assert_redirected_to settlement.gathering_url(gathering)
-    # 생성 시 현재 사용자가 자동으로 멤버에 추가된다
     assert_equal 1, gathering.members.count
   end
 
-  test "메모와 나머지 방식을 포함하여 모임을 생성할 수 있다" do
+  test "메모를 포함하여 모임을 생성할 수 있다" do
     post settlement.gatherings_url, params: {
-      gathering: { title: "상세 모임", gathering_date: Date.current, memo: "테스트 메모", remainder_method: "first_pays_extra" }
+      gathering: { title: "상세 모임", gathering_date: Date.current, memo: "테스트 메모" }
     }
     gathering = Settlement::Gathering.last
     assert_equal "테스트 메모", gathering.memo
-    assert_equal "first_pays_extra", gathering.remainder_method
   end
 
   test "제목 없이 생성하면 422를 반환한다" do
@@ -73,6 +70,14 @@ class Settlement::GatheringsTest < ActionDispatch::IntegrationTest
   test "정산 결과 페이지에 접근할 수 있다" do
     get settlement.result_gathering_url(@gathering)
     assert_response :success
+  end
+
+  test "다시 뽑기로 나머지 부담자를 변경할 수 있다" do
+    assert_nil @gathering.rounding_seed
+    patch settlement.shuffle_gathering_url(@gathering)
+    assert_redirected_to settlement.result_gathering_url(@gathering)
+    @gathering.reload
+    assert_not_nil @gathering.rounding_seed
   end
 
   test "다른 사용자의 모임에 접근하면 404를 반환한다" do

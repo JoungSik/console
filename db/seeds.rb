@@ -94,66 +94,74 @@ end
 puts "Bookmark: #{Bookmark::Group.count} groups, #{Bookmark::Link.count} links"
 
 # === Settlement 엔진 ===
-gathering1 = Settlement::Gathering.find_or_create_by!(title: "팀 회식", user_id: user.id) do |g|
-  g.gathering_date = Date.current - 3.days
-  g.memo = "강남역 근처 고기집"
-end
 
-%w[김철수 이영희 박민수 정수진].each do |name|
-  gathering1.members.find_or_create_by!(name: name)
-end
+# 기존 데이터 초기화
+Settlement::Gathering.where(user_id: user.id).destroy_all
 
-round1 = gathering1.rounds.find_or_create_by!(name: "1차 고기집") do |r|
-  r.position = 0
-end
-[
-  { name: "삼겹살 2인분", quantity: 2, amount: 18000 },
-  { name: "목살 2인분", quantity: 2, amount: 17000 },
-  { name: "소주", quantity: 3, amount: 5000 },
-  { name: "음료", quantity: 2, amount: 3000 }
-].each do |attrs|
-  round1.items.find_or_create_by!(name: attrs[:name]) do |item|
-    item.quantity = attrs[:quantity]
-    item.amount = attrs[:amount]
-  end
-end
+# --- 팀 회식 ---
+gathering1 = Settlement::Gathering.create!(title: "팀 회식", user_id: user.id, gathering_date: Date.current - 3.days, memo: "강남역 근처 고기집")
+g1_철수 = gathering1.members.create!(name: "김철수")
+g1_영희 = gathering1.members.create!(name: "이영희")
+g1_민수 = gathering1.members.create!(name: "박민수")
+g1_수진 = gathering1.members.create!(name: "정수진")
 
-round2 = gathering1.rounds.find_or_create_by!(name: "2차 카페") do |r|
-  r.position = 1
-end
-[
-  { name: "아메리카노", quantity: 3, amount: 4500 },
-  { name: "카페라떼", quantity: 1, amount: 5000 }
-].each do |attrs|
-  round2.items.find_or_create_by!(name: attrs[:name]) do |item|
-    item.quantity = attrs[:quantity]
-    item.amount = attrs[:amount]
-  end
-end
+# 1차 고기집: 고기는 공통, 음료는 개인
+round1 = gathering1.rounds.create!(name: "1차 고기집", position: 0)
+round1.items.create!(name: "삼겹살 2인분", quantity: 2, amount: 18000, is_shared: true)
+round1.items.create!(name: "목살 2인분", quantity: 2, amount: 17000, is_shared: true)
 
-gathering2 = Settlement::Gathering.find_or_create_by!(title: "주말 여행", user_id: user.id) do |g|
-  g.gathering_date = Date.current - 10.days
-  g.memo = "속초 1박 2일"
-end
+sozu = round1.items.create!(name: "소주", quantity: 3, amount: 5000)
+sozu.item_members.create!(member: g1_철수)
+sozu.item_members.create!(member: g1_민수)
+sozu.item_members.create!(member: g1_수진)
 
-%w[김철수 이영희 최준호].each do |name|
-  gathering2.members.find_or_create_by!(name: name)
-end
+drink = round1.items.create!(name: "음료", quantity: 2, amount: 3000)
+drink.item_members.create!(member: g1_영희)
 
-travel_round = gathering2.rounds.find_or_create_by!(name: "숙소 및 식비") do |r|
-  r.position = 0
-end
-[
-  { name: "펜션 1박", quantity: 1, amount: 150000, is_shared: true },
-  { name: "횟집 저녁", quantity: 1, amount: 90000, is_shared: true },
-  { name: "아침 식사", quantity: 1, amount: 30000, is_shared: true }
-].each do |attrs|
-  travel_round.items.find_or_create_by!(name: attrs[:name]) do |item|
-    item.quantity = attrs[:quantity]
-    item.amount = attrs[:amount]
-    item.is_shared = attrs[:is_shared] || false
-  end
-end
+# 2차 카페: 각자 주문
+round2 = gathering1.rounds.create!(name: "2차 카페", position: 1)
+
+americano = round2.items.create!(name: "아메리카노", quantity: 3, amount: 4500)
+americano.item_members.create!(member: g1_철수)
+americano.item_members.create!(member: g1_영희)
+americano.item_members.create!(member: g1_민수)
+
+latte = round2.items.create!(name: "카페라떼", quantity: 1, amount: 5000)
+latte.item_members.create!(member: g1_수진)
+
+# --- 주말 여행 ---
+gathering2 = Settlement::Gathering.create!(title: "주말 여행", user_id: user.id, gathering_date: Date.current - 10.days, memo: "속초 1박 2일")
+g2_철수 = gathering2.members.create!(name: "김철수")
+g2_영희 = gathering2.members.create!(name: "이영희")
+g2_준호 = gathering2.members.create!(name: "최준호")
+
+# 숙소/식비: 모두 공통
+travel_round = gathering2.rounds.create!(name: "숙소 및 식비", position: 0)
+travel_round.items.create!(name: "펜션 1박", quantity: 1, amount: 150000, is_shared: true)
+travel_round.items.create!(name: "횟집 저녁", quantity: 1, amount: 90000, is_shared: true)
+travel_round.items.create!(name: "아침 식사", quantity: 1, amount: 30000, is_shared: true)
+
+# --- 점심 회식 (나머지 분배 테스트) ---
+gathering3 = Settlement::Gathering.create!(title: "점심 회식", user_id: user.id, gathering_date: Date.current - 1.day, memo: "나머지 분배 테스트")
+g3_a = gathering3.members.create!(name: "유정현")
+g3_b = gathering3.members.create!(name: "김라리네")
+g3_c = gathering3.members.create!(name: "김정식")
+
+lunch_round = gathering3.rounds.create!(name: "점심", position: 0)
+
+noodle = lunch_round.items.create!(name: "삼산냉면", quantity: 1, amount: 12000)
+noodle.item_members.create!(member: g3_a)
+
+udon = lunch_round.items.create!(name: "삼산우동", quantity: 1, amount: 12000)
+udon.item_members.create!(member: g3_b)
+
+bibim = lunch_round.items.create!(name: "수제비빔밥", quantity: 1, amount: 12000)
+bibim.item_members.create!(member: g3_c)
+
+# 탕수육 25,000 ÷ 3 → 8,330 × 3 = 24,990, 나머지 10
+lunch_round.items.create!(name: "탕수육 소", quantity: 1, amount: 25000, is_shared: true)
+# 콜라 2,000 ÷ 3 → 660 × 3 = 1,980, 나머지 20
+lunch_round.items.create!(name: "콜라", quantity: 1, amount: 2000, is_shared: true)
 
 puts "Settlement: #{Settlement::Gathering.count} gatherings, #{Settlement::Member.count} members"
 

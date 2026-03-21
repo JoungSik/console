@@ -6,6 +6,7 @@ Settlement::Engine.routes.draw do
       resources :items, only: [ :create, :update, :destroy ]
     end
     get :result, on: :member
+    patch :shuffle, on: :member
   end
   root "gatherings#index"
 end
