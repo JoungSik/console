@@ -96,7 +96,7 @@ module Settlement
       total_extras = @rounding_extras.values.sum
       return unless @per_member_totals.all? { |_, amt| (amt - even_amount).abs <= total_extras }
 
-      @per_member_totals = members.map { |m| [m, even_amount] }.to_h
+      @per_member_totals = members.map { |m| [ m, even_amount ] }.to_h
       @rounding_extras = Hash.new(0)
       @item_remainder_assignees = {}
 
@@ -117,7 +117,7 @@ module Settlement
         max_diff = detail[:member_amounts].values.max - detail[:member_amounts].values.min
         next unless detail[:member_amounts].all? { |_, amt| (amt - even_amount).abs <= max_diff }
 
-        detail[:member_amounts] = round_members.map { |m| [m, even_amount] }.to_h
+        detail[:member_amounts] = round_members.map { |m| [ m, even_amount ] }.to_h
       end
     end
 
