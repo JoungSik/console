@@ -153,4 +153,46 @@ class Settlement::CalculatorTest < ActiveSupport::TestCase
 
     assert_equal 0, extras.values.sum
   end
+
+  test "항목별 반올림 누적되어도 총액이 균등분배 가능하면 균등 금액으로 대체" do
+    round = @gathering.rounds.create!(name: "1차")
+    round.items.create!(name: "항목1", quantity: 1, amount: 31000)
+    round.items.create!(name: "항목2", quantity: 1, amount: 32000)
+    # 총 63,000 / 3 = 21,000 (균등분배 가능)
+
+    calculator = Settlement::Calculator.new(@gathering)
+    totals = calculator.per_member_totals
+
+    assert_equal 21000, totals[@member1]
+    assert_equal 21000, totals[@member2]
+    assert_equal 21000, totals[@member3]
+    assert_equal 0, calculator.rounding_extras.values.sum
+    assert_empty calculator.item_remainder_assignees
+  end
+
+  test "균등분배 시 라운드 레벨에서도 균등 금액 적용" do
+    round = @gathering.rounds.create!(name: "1차")
+    round.items.create!(name: "항목1", quantity: 1, amount: 25000, is_shared: true)
+    round.items.create!(name: "항목2", quantity: 1, amount: 2000, is_shared: true)
+    # 총 27,000 / 3 = 9,000
+
+    calculator = Settlement::Calculator.new(@gathering)
+    detail = calculator.round_details.first
+
+    assert_equal 9000, detail[:member_amounts].values.uniq.first
+    assert_equal 1, detail[:member_amounts].values.uniq.size
+  end
+
+  test "특정 멤버만 참여하는 항목이 있으면 균등분배 미적용" do
+    round = @gathering.rounds.create!(name: "1차")
+    round.items.create!(name: "공통", quantity: 1, amount: 30000, is_shared: true)
+    item = round.items.create!(name: "소주", quantity: 1, amount: 10000)
+    item.item_members.create!(member: @member1)
+    item.item_members.create!(member: @member2)
+
+    calculator = Settlement::Calculator.new(@gathering)
+    totals = calculator.per_member_totals
+
+    assert_operator totals.values.max - totals.values.min, :>, 0
+  end
 end
