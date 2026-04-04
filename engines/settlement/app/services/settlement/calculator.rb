@@ -79,6 +79,50 @@ module Settlement
 
       @per_member_totals = totals.sort_by { |_member, amount| -amount }.to_h
       @computed = true
+
+      equalize_if_possible
+    end
+
+    # 총액이 인원수로 깔끔하게 나눠지고, 차이가 반올림에서만 기인하면 균등 금액으로 대체
+    def equalize_if_possible
+      members = @per_member_totals.keys
+      return if members.empty?
+
+      total = total_amount
+      count = members.size
+      return unless evenly_divisible?(total, count)
+
+      even_amount = total / count
+      total_extras = @rounding_extras.values.sum
+      return unless @per_member_totals.all? { |_, amt| (amt - even_amount).abs <= total_extras }
+
+      @per_member_totals = members.map { |m| [m, even_amount] }.to_h
+      @rounding_extras = Hash.new(0)
+      @item_remainder_assignees = {}
+
+      equalize_rounds
+    end
+
+    # 각 라운드별 독립적으로 균등분배 판단 및 적용
+    def equalize_rounds
+      @round_details.each do |detail|
+        round_members = detail[:member_amounts].keys
+        next if round_members.empty?
+
+        round_total = detail[:total]
+        round_count = round_members.size
+        next unless evenly_divisible?(round_total, round_count)
+
+        even_amount = round_total / round_count
+        max_diff = detail[:member_amounts].values.max - detail[:member_amounts].values.min
+        next unless detail[:member_amounts].all? { |_, amt| (amt - even_amount).abs <= max_diff }
+
+        detail[:member_amounts] = round_members.map { |m| [m, even_amount] }.to_h
+      end
+    end
+
+    def evenly_divisible?(amount, count)
+      count > 0 && amount % count == 0 && (amount / count) % ROUNDING_UNIT == 0
     end
 
     def loaded_rounds
