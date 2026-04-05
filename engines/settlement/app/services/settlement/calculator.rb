@@ -91,6 +91,7 @@ module Settlement
       total = total_amount
       count = members.size
       return unless evenly_divisible?(total, count)
+      return if has_tagged_items?
 
       even_amount = total / count
       total_extras = @rounding_extras.values.sum
@@ -112,13 +113,17 @@ module Settlement
         round_total = detail[:total]
         round_count = round_members.size
         next unless evenly_divisible?(round_total, round_count)
+        next if detail[:round].items.any? { |i| !i.is_shared && i.item_members.any? }
 
         even_amount = round_total / round_count
-        max_diff = detail[:member_amounts].values.max - detail[:member_amounts].values.min
-        next unless detail[:member_amounts].all? { |_, amt| (amt - even_amount).abs <= max_diff }
 
         detail[:member_amounts] = round_members.map { |m| [ m, even_amount ] }.to_h
       end
+    end
+
+    # 특정 멤버만 참여하는 태그 항목이 존재하는지 확인
+    def has_tagged_items?
+      loaded_rounds.any? { |r| r.items.any? { |i| !i.is_shared && i.item_members.any? } }
     end
 
     def evenly_divisible?(amount, count)

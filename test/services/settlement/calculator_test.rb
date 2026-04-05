@@ -195,4 +195,18 @@ class Settlement::CalculatorTest < ActiveSupport::TestCase
 
     assert_operator totals.values.max - totals.values.min, :>, 0
   end
+
+  test "태그 항목 있고 반올림 차이 범위 내여도 균등분배 미적용" do
+    round = @gathering.rounds.create!(name: "1차")
+    round.items.create!(name: "공통", quantity: 1, amount: 29970, is_shared: true)
+    item = round.items.create!(name: "소주", quantity: 1, amount: 30)
+    item.item_members.create!(member: @member1)
+    item.item_members.create!(member: @member2)
+    # 총 30,000 / 3 = 10,000 (균등분배 가능하지만 태그 항목이 있으므로 미적용)
+
+    calculator = Settlement::Calculator.new(@gathering)
+    totals = calculator.per_member_totals
+
+    assert_operator totals.values.max - totals.values.min, :>, 0
+  end
 end
