@@ -209,4 +209,26 @@ class Settlement::CalculatorTest < ActiveSupport::TestCase
 
     assert_operator totals.values.max - totals.values.min, :>, 0
   end
+
+  test "is_shared=false이지만 전원 태그된 항목은 균등분배 적용" do
+    round = @gathering.rounds.create!(name: "1차")
+    # is_shared=false + 전원 item_members → 실질적 전원 분배
+    item1 = round.items.create!(name: "항목1", quantity: 1, amount: 31000, is_shared: false)
+    item1.item_members.create!(member: @member1)
+    item1.item_members.create!(member: @member2)
+    item1.item_members.create!(member: @member3)
+    item2 = round.items.create!(name: "항목2", quantity: 1, amount: 32000, is_shared: false)
+    item2.item_members.create!(member: @member1)
+    item2.item_members.create!(member: @member2)
+    item2.item_members.create!(member: @member3)
+    # 총 63,000 / 3 = 21,000
+
+    calculator = Settlement::Calculator.new(@gathering)
+    totals = calculator.per_member_totals
+
+    assert_equal 21000, totals[@member1]
+    assert_equal 21000, totals[@member2]
+    assert_equal 21000, totals[@member3]
+    assert_equal 0, calculator.rounding_extras.values.sum
+  end
 end
