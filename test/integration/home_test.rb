@@ -19,6 +19,7 @@ class HomeTest < ActionDispatch::IntegrationTest
 
   test "랜딩 페이지에 기능 소개와 CTA 링크가 있다" do
     get root_url
+    assert_select "h3", "포스트"
     assert_select "h3", "할 일"
     assert_select "h3", "북마크"
     assert_select "h3", "정산"
@@ -32,6 +33,7 @@ class HomeTest < ActionDispatch::IntegrationTest
 
     assert_response :success
     assert_select "h1", "대시보드"
+    assert_select "h2", "포스트"
     assert_select "h2", "할 일 목록"
     assert_select "h2", "북마크"
     assert_select "h2", "정산"
@@ -44,5 +46,6 @@ class HomeTest < ActionDispatch::IntegrationTest
     assert_select "a[href='#{todo.root_path}']", "전체보기"
     assert_select "a[href='#{bookmark.root_path}']", "전체보기"
     assert_select "a[href='#{settlement.root_path}']", "전체보기"
+    assert_select "a[href='#{posts.root_path}']", "전체보기"
   end
 end

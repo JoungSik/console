@@ -2,19 +2,19 @@
 # bin/rails db:seed 로 실행
 
 # === 코어: 법적 문서 ===
-terms_content = File.read(Rails.root.join("docs/legal/terms/2025-02-25.md"))
-terms_doc = LegalDocument.find_or_create_by!(document_type: :terms, version: "2025-02-25") do |d|
-  d.title = "이용약관"
-  d.content = terms_content
-  d.published_at = Time.zone.parse("2025-02-25")
+def seed_legal_document(document_type:, title:, directory:)
+  path = Dir.glob(Rails.root.join("docs/legal/#{directory}/*.md")).max
+  version = File.basename(path, ".md")
+
+  document = LegalDocument.find_or_initialize_by(document_type: document_type, version: version)
+  document.title = title
+  document.content = File.read(path)
+  document.published_at = Time.zone.parse(version)
+  document.save! if document.changed?
 end
 
-privacy_content = File.read(Rails.root.join("docs/legal/privacy/2025-02-25.md"))
-privacy_doc = LegalDocument.find_or_create_by!(document_type: :privacy_policy, version: "2025-02-25") do |d|
-  d.title = "개인정보처리방침"
-  d.content = privacy_content
-  d.published_at = Time.zone.parse("2025-02-25")
-end
+seed_legal_document(document_type: :terms, title: "이용약관", directory: "terms")
+seed_legal_document(document_type: :privacy_policy, title: "개인정보처리방침", directory: "privacy")
 
 puts "LegalDocument: #{LegalDocument.count} documents"
 
@@ -92,6 +92,17 @@ end
 end
 
 puts "Bookmark: #{Bookmark::Group.count} groups, #{Bookmark::Link.count} links"
+
+# === Posts 엔진 ===
+[
+  "오늘은 Console에 포스트 모듈을 추가했다. 짧은 기록을 남기기 좋다.",
+  "새 기능은 작게 시작하고, 검증 가능한 단위로 확장하는 편이 유지보수에 좋다.",
+  "개인 대시보드에 하루의 생각을 남길 수 있으니 작업 흐름이 더 자연스러워졌다."
+].each do |body|
+  Journal::Post.find_or_create_by!(body: body, user_id: user.id)
+end
+
+puts "Journal: #{Journal::Post.count} posts"
 
 # === Settlement 엔진 ===
 

@@ -1,0 +1,27 @@
+<%= form_with(model: post, scope: :post, url: post.persisted? ? posts.post_path(post) : posts.posts_path, class: "space-y-3") do |form| %>
+  <% if post.errors.any? %>
+    <div class="bg-red-50 dark:bg-red-900 border border-red-200 dark:border-red-700 text-red-700 dark:text-red-100 px-4 py-3 rounded-md">
+      <h2 class="font-medium mb-2"><%= post.errors.count %>개의 오류가 있습니다</h2>
+      <ul class="text-sm space-y-1">
+        <% post.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :body, "내용", class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" %>
+    <%= form.text_area :body,
+                       rows: 4,
+                       maxlength: Journal::Post::MAX_BODY_LENGTH,
+                       placeholder: "무슨 일이 있었나요?",
+                       class: "w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" %>
+  </div>
+
+  <div class="flex items-center justify-between gap-3">
+    <p class="text-xs text-gray-500 dark:text-gray-400">최대 <%= Journal::Post::MAX_BODY_LENGTH %>자</p>
+    <%= form.submit post.persisted? ? "포스트 수정" : "포스트 남기기",
+                    class: "inline-flex items-center px-4 py-2 text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 dark:hover:bg-blue-500 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 dark:focus:ring-offset-gray-800" %>
+  </div>
+<% end %>

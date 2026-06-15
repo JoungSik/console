@@ -26,6 +26,10 @@ development:
     <<: *default
     database: storage/development_settlement.sqlite3
     migrations_paths: engines/settlement/db/migrate
+  journal:
+    <<: *default
+    database: storage/development_journal.sqlite3
+    migrations_paths: engines/journal/db/migrate
   queue:
     <<: *default
     database: storage/development_queue.sqlite3
@@ -47,6 +51,10 @@ test:
     <<: *default
     database: storage/test_settlement.sqlite3
     migrations_paths: engines/settlement/db/migrate
+  journal:
+    <<: *default
+    database: storage/test_journal.sqlite3
+    migrations_paths: engines/journal/db/migrate
   queue:
     <<: *default
     database: storage/test_queue.sqlite3
@@ -68,6 +76,10 @@ production:
     <<: *default
     database: "/storage/production_settlement.sqlite3"
     migrations_paths: engines/settlement/db/migrate
+  journal:
+    <<: *default
+    database: "/storage/production_journal.sqlite3"
+    migrations_paths: engines/journal/db/migrate
   queue:
     <<: *default
     database: "/storage/production_queue.sqlite3"

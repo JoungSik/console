@@ -13,7 +13,7 @@ class HomeSystemTest < ApplicationSystemTestCase
   test "비인증 상태에서 접근하면 랜딩 페이지가 표시된다" do
     visit root_url
     assert_text "Console"
-    assert_text "할 일, 북마크, 정산까지"
+    assert_text "포스트, 할 일, 북마크, 정산까지"
   end
 
   test "랜딩 페이지에서 시작하기를 클릭하면 회원가입 페이지로 이동한다" do
@@ -32,6 +32,7 @@ class HomeSystemTest < ApplicationSystemTestCase
     sign_in_as @user
 
     assert_text "대시보드"
+    assert_text "포스트"
     assert_text "할 일 목록"
     assert_text "북마크"
     assert_text "정산"
@@ -45,6 +46,6 @@ class HomeSystemTest < ApplicationSystemTestCase
       click_link "전체보기"
     end
 
-    assert_current_path "/todos"
+    assert_current_path todo.root_path
   end
 end

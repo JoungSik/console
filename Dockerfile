@@ -41,6 +41,8 @@ COPY engines/bookmark/bookmark.gemspec engines/bookmark/
 COPY engines/bookmark/lib/bookmark/version.rb engines/bookmark/lib/bookmark/
 COPY engines/settlement/settlement.gemspec engines/settlement/
 COPY engines/settlement/lib/settlement/version.rb engines/settlement/lib/settlement/
+COPY engines/journal/journal.gemspec engines/journal/
+COPY engines/journal/lib/journal/version.rb engines/journal/lib/journal/
 RUN bundle install && \
     rm -rf ~/.bundle/ "${BUNDLE_PATH}"/ruby/*/cache "${BUNDLE_PATH}"/ruby/*/bundler/gems/*/.git && \
     bundle exec bootsnap precompile --gemfile

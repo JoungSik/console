@@ -17,4 +17,11 @@ class PluginAccessTest < ActionDispatch::IntegrationTest
     get "/bookmarks"
     assert_response :success
   end
+
+  test "비활성화된 posts 플러그인 경로에 접근하면 홈으로 리다이렉트된다" do
+    UserPlugin.create!(user: @user, plugin_name: "posts", enabled: false, disabled_at: Time.current)
+
+    get "/posts"
+    assert_redirected_to "/"
+  end
 end
