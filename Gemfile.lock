@@ -6,6 +6,12 @@ PATH
       rails (>= 8.0)
 
 PATH
+  remote: engines/journal
+  specs:
+    journal (0.1.0)
+      rails (>= 8.0)
+
+PATH
   remote: engines/settlement
   specs:
     settlement (0.1.0)
@@ -434,6 +440,7 @@ DEPENDENCIES
   debug
   importmap-rails
   jbuilder
+  journal!
   kamal
   kramdown
   kramdown-parser-gfm

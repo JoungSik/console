@@ -6,7 +6,7 @@
         Console
       </h1>
       <p class="mt-4 sm:mt-6 text-lg sm:text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-        할 일, 북마크, 정산까지. 일상에 필요한 도구를 한곳에서 관리하세요.
+        포스트, 할 일, 북마크, 정산까지. 일상에 필요한 도구를 한곳에서 관리하세요.
       </p>
       <div class="mt-8 sm:mt-10 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
         <%= link_to new_registration_path,
@@ -27,7 +27,18 @@
       <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white text-center mb-12 sm:mb-16">
         필요한 도구, 모두 여기에
       </h2>
-      <div class="grid grid-cols-1 sm:grid-cols-3 gap-8 sm:gap-10">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10">
+        <%# 포스트 %>
+        <div class="text-center">
+          <div class="inline-flex items-center justify-center w-12 h-12 rounded-lg bg-blue-100 dark:bg-blue-900 mb-4">
+            <%= lucide_icon "message-square", class: "w-6 h-6 text-blue-600 dark:text-blue-400" %>
+          </div>
+          <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">포스트</h3>
+          <p class="text-sm text-gray-600 dark:text-gray-400">
+            짧은 생각과 하루의 기록을 빠르게 남기고 시간순으로 돌아보세요.
+          </p>
+        </div>
+
         <%# 할 일 %>
         <div class="text-center">
           <div class="inline-flex items-center justify-center w-12 h-12 rounded-lg bg-blue-100 dark:bg-blue-900 mb-4">

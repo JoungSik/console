@@ -1,0 +1,10 @@
+<div class="w-full max-w-2xl mx-auto">
+  <div class="mb-6">
+    <%= link_to posts.root_path, class: "inline-flex items-center gap-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors duration-200" do %>
+      <%= lucide_icon "arrow-left", class: "w-4 h-4" %>
+      포스트
+    <% end %>
+  </div>
+
+  <%= render "post", post: @post %>
+</div>

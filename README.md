@@ -17,6 +17,7 @@ lib/
 engines/
 ├── todo/               # 할 일 목록 (Todo::List, Todo::Item)
 ├── bookmark/           # 북마크 (Bookmark::Group, Bookmark::Link)
+├── journal/            # 포스트 (Journal::Post)
 └── settlement/         # 정산 (Settlement::Gathering, Round, Member, Item)
 ```
 
@@ -26,6 +27,7 @@ engines/
 |---------|------|------|
 | todo | 할 일 목록 | `/todos` |
 | bookmark | 북마크 (공개 그룹 공유 지원) | `/bookmarks` |
+| journal | 포스트 | `/posts` |
 | settlement | 정산 | `/settlements` |
 
 사용자는 마이페이지 > 플러그인 설정(`/mypage/plugins`)에서 플러그인을 활성화/비활성화할 수 있습니다. 비활성화된 플러그인은 네비게이션에서 숨겨지고, 30일 후 데이터가 자동 삭제됩니다.

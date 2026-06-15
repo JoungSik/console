@@ -9,12 +9,14 @@ class PagesTest < ActionDispatch::IntegrationTest
     get terms_url
     assert_response :success
     assert_select "h1", I18n.t("pages.terms")
+    assert_select ".legal-content", text: /포스트 기록/
   end
 
   test "미인증 사용자가 개인정보처리방침 페이지에 접근할 수 있다" do
     get privacy_url
     assert_response :success
     assert_select "h1", I18n.t("pages.privacy")
+    assert_select ".legal-content", text: /포스트 본문/
   end
 
   test "인증된 사용자가 이용약관 페이지에 접근할 수 있다" do
