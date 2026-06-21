@@ -108,7 +108,7 @@ GEM
     bcrypt_pbkdf (1.1.2)
     bigdecimal (4.1.2)
     bindex (0.8.1)
-    bootsnap (1.24.1)
+    bootsnap (1.24.6)
       msgpack (~> 1.2)
     brakeman (8.0.5)
       racc
@@ -210,7 +210,7 @@ GEM
       railties (>= 7.1)
       stimulus-rails
       turbo-rails
-    msgpack (1.8.0)
+    msgpack (1.8.3)
     multi_xml (0.9.1)
       bigdecimal (>= 3.1, < 5)
     net-imap (0.6.3)
