@@ -1,2 +1,0 @@
-module Mypage::TodosHelper
-end

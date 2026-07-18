@@ -1,7 +1,5 @@
 class ApplicationController < ActionController::Base
   include Authentication
-  include Authorization
-  include KoreanFlashMessages
 
   helper_method :turbo_native_app?
 

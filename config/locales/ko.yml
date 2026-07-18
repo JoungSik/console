@@ -70,9 +70,6 @@ ko:
 
   messages:
     success:
-      created_without_particle: "%{resource} 성공적으로 생성되었습니다."
-      updated_without_particle: "%{resource} 성공적으로 수정되었습니다."
-      deleted_without_particle: "%{resource} 성공적으로 삭제되었습니다."
       saved: "저장되었습니다."
       sent: "전송되었습니다."
       logged_in: "로그인되었습니다."
@@ -86,7 +83,6 @@ ko:
     errors:
       not_found: "요청한 리소스를 찾을 수 없습니다."
       unauthorized: "접근 권한이 없습니다."
-      forbidden: "이 작업을 수행할 권한이 없습니다."
       invalid_credentials: "잘못된 로그인 정보입니다."
       passwords_did_not_match: "비밀번호가 일치하지 않습니다."
       password_reset_link_invalid: "비밀번호 재설정 링크가 유효하지 않거나 만료되었습니다."

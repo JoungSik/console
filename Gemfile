@@ -43,8 +43,6 @@ gem "thruster", require: false
 # Add icon lucide [https://github.com/heyvito/lucide-rails]
 gem "lucide-rails"
 
-gem "pundit", "~> 2.5"
-
 # Web Push notifications [https://github.com/pushpad/web-push]
 gem "web-push"
 
