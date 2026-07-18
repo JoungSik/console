@@ -26,9 +26,7 @@ lib/
     └── plugin_data_cleaner.rb   # 플러그인 데이터 삭제 인터페이스
 engines/                # 플러그인 엔진들
 ├── todo/               # 할 일 목록 (Todo::List, Todo::Item - title, url, completed, due_date, recurrence, recurrence_ends_on)
-├── bookmark/           # 북마크 (Bookmark::Group - title, description, is_public, Bookmark::Link)
-├── journal/            # 포스트 (Journal::Post - body)
-└── settlement/         # 정산 (Settlement::Gathering, Round, Member, Item, Calculator)
+└── journal/            # 포스트 (Journal::Post - body)
 docs/                   # 프로젝트 문서
 ├── DESIGN_SYSTEM.md    # 디자인 시스템 가이드
 └── legal/              # 법적 문서 (이용약관, 개인정보처리방침)
@@ -49,7 +47,7 @@ lib/generators/plugin/  # 플러그인 생성 제너레이터
 - `PluginRegistry.register`에 `push_notification_items:` 옵션으로 푸시 알림 항목 등록 (`{ key:, label:, description: }` 해시 배열)
 - 알림 전송 시 `user.send_push_notification(title:, body:, plugin_name:, item_key:)`로 호출하면 플러그인 활성 여부 + 사용자 알림 설정을 자동 확인
 - 레이아웃에서 메인 앱 라우트 헬퍼는 `main_app.` 접두사 사용
-- Engine 뷰에서 자체 라우트 헬퍼는 엔진명 접두사 사용 (예: `todo.lists_path`, `bookmark.groups_path`)
+- Engine 뷰에서 자체 라우트 헬퍼는 엔진명 접두사 사용 (예: `todo.lists_path`, `posts.posts_path`)
 - 테이블명에 네임스페이스 접두사 불필요 (DB 분리됨, `table_name_prefix = ""` 설정 완료)
 
 ### Plugin Generator

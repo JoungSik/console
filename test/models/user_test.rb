@@ -6,7 +6,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "plugin_enabled?는 레코드가 없으면 true를 반환한다" do
-    assert @user.plugin_enabled?(:bookmarks)
+    assert @user.plugin_enabled?(:posts)
   end
 
   test "plugin_enabled?는 비활성화된 플러그인에 false를 반환한다" do
@@ -29,7 +29,7 @@ class UserTest < ActiveSupport::TestCase
     enabled_names = enabled.map(&:name)
 
     assert_not_includes enabled_names, :todos
-    assert_includes enabled_names, :bookmarks
+    assert_includes enabled_names, :posts
   end
 
   test "approaching_deletion_plugins는 삭제 임박 플러그인을 반환한다" do

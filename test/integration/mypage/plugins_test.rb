@@ -23,12 +23,12 @@ class Mypage::PluginsTest < ActionDispatch::IntegrationTest
 
   test "플러그인을 비활성화할 수 있다" do
     assert_difference "UserPlugin.count", 1 do
-      patch toggle_mypage_plugin_url("bookmarks")
+      patch toggle_mypage_plugin_url("posts")
     end
 
     assert_redirected_to mypage_plugins_url
 
-    user_plugin = @user.user_plugins.find_by(plugin_name: "bookmarks")
+    user_plugin = @user.user_plugins.find_by(plugin_name: "posts")
     assert_not user_plugin.enabled?
     assert_not_nil user_plugin.disabled_at
   end

@@ -34,9 +34,6 @@ gem "tzinfo-data", platforms: %i[ windows jruby ]
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", require: false
 
-# Deploy this application anywhere as a Docker container [https://kamal-deploy.org]
-gem "kamal", require: false
-
 # Add HTTP asset caching/compression and X-Sendfile acceleration to Puma [https://github.com/basecamp/thruster/]
 gem "thruster", require: false
 
@@ -82,6 +79,4 @@ end
 
 # 플러그인 Engines
 gem "todo", path: "engines/todo"
-gem "bookmark", path: "engines/bookmark"
-gem "settlement", path: "engines/settlement"
 gem "journal", path: "engines/journal"
