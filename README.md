@@ -35,7 +35,7 @@ engines/
 - Tailwind CSS, Stimulus JS, Turbo
 - Solid Queue (백그라운드 잡)
 - Resend (이메일 발송)
-- Kamal + Docker (배포)
+- Docker
 
 ## 개발
 
