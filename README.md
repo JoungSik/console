@@ -34,7 +34,7 @@ engines/
 
 ## 기술 스택
 
-- Ruby 3.4.1 / Rails 8.1.2
+- Ruby 4.0.6 / Rails 8.1.3
 - SQLite3 (WAL mode)
 - Tailwind CSS, Stimulus JS, Turbo
 - Solid Queue (백그라운드 잡)

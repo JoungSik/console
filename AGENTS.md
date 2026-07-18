@@ -65,7 +65,7 @@ bin/rails generate plugin note 메모 --pretend
 ```
 
 ## Tech Stack
-- Rails 8.1.2 with ERB templates
+- Rails 8.1.3 with ERB templates
 - **Tailwind CSS** (tailwindcss-rails) - Use utility classes
 - Stimulus JS (stimulus-rails)
 - Turbo (turbo-rails)
