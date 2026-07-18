@@ -6,7 +6,7 @@ class UserPluginTest < ActiveSupport::TestCase
   end
 
   test "유효한 user_plugin을 생성할 수 있다" do
-    user_plugin = UserPlugin.new(user: @user, plugin_name: "bookmarks", enabled: true)
+    user_plugin = UserPlugin.new(user: @user, plugin_name: "posts", enabled: true)
     assert user_plugin.valid?
   end
 
@@ -17,13 +17,13 @@ class UserPluginTest < ActiveSupport::TestCase
   end
 
   test "같은 사용자에게 같은 plugin_name은 중복 불가" do
-    UserPlugin.create!(user: @user, plugin_name: "bookmarks")
-    duplicate = UserPlugin.new(user: @user, plugin_name: "bookmarks")
+    UserPlugin.create!(user: @user, plugin_name: "posts")
+    duplicate = UserPlugin.new(user: @user, plugin_name: "posts")
     assert_not duplicate.valid?
   end
 
   test "disable!은 enabled를 false로 설정하고 disabled_at을 기록한다" do
-    user_plugin = UserPlugin.create!(user: @user, plugin_name: "bookmarks")
+    user_plugin = UserPlugin.create!(user: @user, plugin_name: "posts")
     user_plugin.disable!
 
     assert_not user_plugin.enabled?
@@ -52,12 +52,12 @@ class UserPluginTest < ActiveSupport::TestCase
   end
 
   test "days_until_deletion은 disabled_at이 nil이면 nil을 반환한다" do
-    user_plugin = UserPlugin.new(user: @user, plugin_name: "bookmarks", enabled: true)
+    user_plugin = UserPlugin.new(user: @user, plugin_name: "posts", enabled: true)
     assert_nil user_plugin.days_until_deletion
   end
 
   test "enabled scope는 활성화된 플러그인만 반환한다" do
-    UserPlugin.create!(user: @user, plugin_name: "bookmarks", enabled: true)
+    UserPlugin.create!(user: @user, plugin_name: "posts", enabled: true)
 
     enabled = UserPlugin.enabled
     assert enabled.all?(&:enabled?)
@@ -73,7 +73,7 @@ class UserPluginTest < ActiveSupport::TestCase
 
   test "pending_deletion scope는 30일 경과된 비활성 플러그인을 반환한다" do
     old_plugin = UserPlugin.create!(
-      user: @user, plugin_name: "bookmarks",
+      user: @user, plugin_name: "posts",
       enabled: false, disabled_at: 31.days.ago
     )
     recent_plugin = UserPlugin.create!(

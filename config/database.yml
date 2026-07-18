@@ -18,14 +18,6 @@ development:
     <<: *default
     database: storage/development_todo.sqlite3
     migrations_paths: engines/todo/db/migrate
-  bookmark:
-    <<: *default
-    database: storage/development_bookmark.sqlite3
-    migrations_paths: engines/bookmark/db/migrate
-  settlement:
-    <<: *default
-    database: storage/development_settlement.sqlite3
-    migrations_paths: engines/settlement/db/migrate
   journal:
     <<: *default
     database: storage/development_journal.sqlite3
@@ -43,14 +35,6 @@ test:
     <<: *default
     database: storage/test_todo.sqlite3
     migrations_paths: engines/todo/db/migrate
-  bookmark:
-    <<: *default
-    database: storage/test_bookmark.sqlite3
-    migrations_paths: engines/bookmark/db/migrate
-  settlement:
-    <<: *default
-    database: storage/test_settlement.sqlite3
-    migrations_paths: engines/settlement/db/migrate
   journal:
     <<: *default
     database: storage/test_journal.sqlite3
@@ -68,14 +52,6 @@ production:
     <<: *default
     database: "/storage/production_todo.sqlite3"
     migrations_paths: engines/todo/db/migrate
-  bookmark:
-    <<: *default
-    database: "/storage/production_bookmark.sqlite3"
-    migrations_paths: engines/bookmark/db/migrate
-  settlement:
-    <<: *default
-    database: "/storage/production_settlement.sqlite3"
-    migrations_paths: engines/settlement/db/migrate
   journal:
     <<: *default
     database: "/storage/production_journal.sqlite3"

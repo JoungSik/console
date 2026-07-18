@@ -37,10 +37,6 @@ RUN apt-get update -qq && \
 COPY Gemfile Gemfile.lock ./
 COPY engines/todo/todo.gemspec engines/todo/
 COPY engines/todo/lib/todo/version.rb engines/todo/lib/todo/
-COPY engines/bookmark/bookmark.gemspec engines/bookmark/
-COPY engines/bookmark/lib/bookmark/version.rb engines/bookmark/lib/bookmark/
-COPY engines/settlement/settlement.gemspec engines/settlement/
-COPY engines/settlement/lib/settlement/version.rb engines/settlement/lib/settlement/
 COPY engines/journal/journal.gemspec engines/journal/
 COPY engines/journal/lib/journal/version.rb engines/journal/lib/journal/
 RUN bundle install && \

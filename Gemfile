@@ -82,6 +82,4 @@ end
 
 # 플러그인 Engines
 gem "todo", path: "engines/todo"
-gem "bookmark", path: "engines/bookmark"
-gem "settlement", path: "engines/settlement"
 gem "journal", path: "engines/journal"

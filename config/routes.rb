@@ -47,9 +47,7 @@ Rails.application.routes.draw do
 
   # 플러그인 Engine 마운트
   mount Journal::Engine, at: "/posts", as: "posts"
-  mount Settlement::Engine, at: "/settlements"
   mount Todo::Engine, at: "/todos"
-  mount Bookmark::Engine, at: "/bookmarks"
 
   mount MissionControl::Jobs::Engine, at: "/jobs"
 end

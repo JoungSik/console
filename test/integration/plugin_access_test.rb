@@ -14,7 +14,7 @@ class PluginAccessTest < ActionDispatch::IntegrationTest
   end
 
   test "활성화된 플러그인 경로에는 정상 접근할 수 있다" do
-    get "/bookmarks"
+    get "/posts"
     assert_response :success
   end
 

@@ -4,7 +4,7 @@ class PluginDataDeletionJobTest < ActiveJob::TestCase
   test "30일 경과된 비활성 플러그인 데이터를 삭제한다" do
     user = users(:test_user)
     old_plugin = UserPlugin.create!(
-      user: user, plugin_name: "bookmarks",
+      user: user, plugin_name: "posts",
       enabled: false, disabled_at: 31.days.ago
     )
 
