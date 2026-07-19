@@ -13,6 +13,26 @@ class Todo::ListsTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
+  test "일반 탭에는 보관하지 않은 목록만 표시한다" do
+    archived_list = Todo::List.create!(title: "보관된 목록", user_id: @user.id, archived_at: Time.current)
+
+    get todo.lists_url
+
+    assert_select "a[role='tab'][aria-selected='true']", text: "일반"
+    assert_select "#lists h3", text: @list.title
+    assert_select "#lists h3", text: archived_list.title, count: 0
+  end
+
+  test "보관됨 탭에는 보관한 목록만 표시한다" do
+    archived_list = Todo::List.create!(title: "보관된 목록", user_id: @user.id, archived_at: Time.current)
+
+    get todo.lists_url(tab: :archived)
+
+    assert_select "a[role='tab'][aria-selected='true']", text: "보관됨"
+    assert_select "#lists h3", text: archived_list.title
+    assert_select "#lists h3", text: @list.title, count: 0
+  end
+
   test "목록 상세에 접근할 수 있다" do
     get todo.list_url(@list)
     assert_response :success
