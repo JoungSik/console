@@ -53,12 +53,10 @@ class Todo::ReminderJobTest < ActiveJob::TestCase
   test "매일 반복 발송한다" do
     @list.items.create!(title: "오늘 할 일", due_date: Date.current)
 
-    # 첫 번째 발송
     notifications1 = capture_push_notifications do
       Todo::ReminderJob.perform_now
     end
 
-    # 두 번째 발송 (동일 항목에 대해 다시 발송)
     notifications2 = capture_push_notifications do
       Todo::ReminderJob.perform_now
     end
@@ -99,7 +97,6 @@ class Todo::ReminderJobTest < ActiveJob::TestCase
 
   private
 
-  # 푸시 알림 내용을 캡처하는 헬퍼
   def capture_push_notifications(&block)
     notifications = []
     original = PushSubscription.instance_method(:send_notification)

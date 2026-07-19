@@ -16,7 +16,6 @@ class Mypage::PushNotificationsTest < ActionDispatch::IntegrationTest
     get mypage_push_notifications_url
     assert_response :success
 
-    # Todo 플러그인에 알림 항목이 등록되어 있으므로 표시되어야 함
     assert_select "h2", "할 일 목록"
   end
 

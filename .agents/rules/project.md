@@ -38,5 +38,4 @@ lib/generators/plugin/  # 플러그인 생성 제너레이터
 - Turbo (`turbo-rails`)
 - Importmap (`importmap-rails`)
 - Lucide icons (`lucide-rails`)
-- JBuilder for JSON
 - Resend (`support@joungsik.com`)

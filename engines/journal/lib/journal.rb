@@ -1,7 +1,7 @@
 require "journal/version"
 
 module Journal
-  # DB가 분리되어 있으므로 테이블명에 네임스페이스 접두사 불필요
+  # 독립 DB를 사용하므로 테이블명에 네임스페이스 접두사를 붙이지 않는다.
   def self.table_name_prefix
     ""
   end

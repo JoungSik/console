@@ -11,7 +11,6 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   root "home#index"
 
-  # 인증
   resource :session
   resource :registration, only: %i[new create] do
     get :verify_pending, on: :collection
@@ -19,11 +18,9 @@ Rails.application.routes.draw do
   end
   resources :passwords, param: :token
 
-  # 정적 페이지
   get "terms", to: "pages#terms"
   get "privacy", to: "pages#privacy"
 
-  # 사용자 설정
   namespace :mypage do
     resource :user, only: %i[ show update ]
     resources :push_subscriptions, only: %i[ create destroy ]

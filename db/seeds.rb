@@ -1,7 +1,3 @@
-# 코어 + 플러그인 시드 데이터
-# bin/rails db:seed 로 실행
-
-# === 코어: 사용자 ===
 user = User.find_or_create_by!(email_address: "test@test.com") do |u|
   u.name = "test"
   u.password = "qwer1234"
@@ -9,7 +5,6 @@ user = User.find_or_create_by!(email_address: "test@test.com") do |u|
 end
 puts "User: #{user.email_address}"
 
-# === Todo 엔진 ===
 list1 = Todo::List.find_or_create_by!(title: "오늘 할 일", user_id: user.id)
 [
   { title: "장보기", completed: false, due_date: Date.current, url: "https://www.coupang.com" },
@@ -43,7 +38,6 @@ list3.items.find_or_create_by!(title: "환경 설정 완료") { |i| i.completed 
 
 puts "Todo: #{Todo::List.count} lists, #{Todo::Item.count} items"
 
-# === Posts 엔진 ===
 [
   "오늘은 Console에 포스트 모듈을 추가했다. 짧은 기록을 남기기 좋다.",
   "새 기능은 작게 시작하고, 검증 가능한 단위로 확장하는 편이 유지보수에 좋다.",

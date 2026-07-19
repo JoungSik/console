@@ -5,7 +5,6 @@ if ! gem list foreman -i --silent; then
   gem install foreman
 fi
 
-# 사용 가능한 포트 자동 탐색 (3000부터 시작)
 if [ -z "$PORT" ]; then
   PORT=3000
   while lsof -iTCP:$PORT -sTCP:LISTEN -t >/dev/null 2>&1; do

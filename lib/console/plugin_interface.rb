@@ -1,6 +1,4 @@
-# 플러그인이 코어 앱에 접근하기 위한 인터페이스
-# 플러그인 컨트롤러에서 include하여 사용한다.
-# User 모델을 직접 참조하지 않고 이 인터페이스를 통해서만 접근한다.
+# 플러그인이 코어 User 모델에 직접 의존하지 않도록 제공하는 접근 인터페이스이다.
 module Console
   module PluginInterface
     extend ActiveSupport::Concern
@@ -12,7 +10,6 @@ module Console
 
     private
 
-    # 비활성화된 플러그인 접근 차단
     def verify_plugin_enabled
       return unless current_user
 

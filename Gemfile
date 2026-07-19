@@ -16,8 +16,6 @@ gem "turbo-rails"
 gem "stimulus-rails"
 # Use Tailwind CSS [https://github.com/rails/tailwindcss-rails]
 gem "tailwindcss-rails"
-# Build JSON APIs with ease [https://github.com/rails/jbuilder]
-gem "jbuilder"
 # Database-backed Active Job backend [https://github.com/rails/solid_queue]
 gem "solid_queue"
 # Mission Control for Rails Jobs [https://github.com/rails/mission_control-jobs]
@@ -71,6 +69,5 @@ group :test do
   gem "selenium-webdriver"
 end
 
-# 플러그인 Engines
 gem "todo", path: "engines/todo"
 gem "journal", path: "engines/journal"

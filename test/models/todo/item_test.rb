@@ -7,8 +7,6 @@ class Todo::ItemTest < ActiveSupport::TestCase
     @item = @list.items.build(title: "테스트 할일")
   end
 
-  # === validations ===
-
   test "유효한 항목이 저장된다" do
     assert @item.valid?
   end
@@ -49,8 +47,6 @@ class Todo::ItemTest < ActiveSupport::TestCase
     assert_not @item.valid?
   end
 
-  # === #overdue? ===
-
   test "마감일이 어제면 overdue?는 true" do
     @item.due_date = Date.current - 1.day
     assert @item.overdue?
@@ -66,8 +62,6 @@ class Todo::ItemTest < ActiveSupport::TestCase
     @item.completed = true
     assert_not @item.overdue?
   end
-
-  # === #due_today? ===
 
   test "마감일이 오늘이면 due_today?는 true" do
     @item.due_date = Date.current
@@ -90,8 +84,6 @@ class Todo::ItemTest < ActiveSupport::TestCase
     assert_not @item.due_today?
   end
 
-  # === #url? ===
-
   test "URL이 있으면 true를 반환한다" do
     @item.url = "https://example.com"
     assert @item.url?
@@ -106,8 +98,6 @@ class Todo::ItemTest < ActiveSupport::TestCase
     @item.url = ""
     assert_not @item.url?
   end
-
-  # === 반복(recurrence) validations ===
 
   test "유효한 반복 옵션은 허용된다" do
     %w[daily weekly monthly yearly].each do |option|
@@ -142,8 +132,6 @@ class Todo::ItemTest < ActiveSupport::TestCase
     assert @item.valid?
   end
 
-  # === #recurring? ===
-
   test "반복 설정이 있으면 recurring?은 true" do
     @item.recurrence = "weekly"
     assert @item.recurring?
@@ -153,8 +141,6 @@ class Todo::ItemTest < ActiveSupport::TestCase
     @item.recurrence = nil
     assert_not @item.recurring?
   end
-
-  # === #next_due_date ===
 
   test "매일 반복의 다음 마감일은 1일 후" do
     @item.recurrence = "daily"
@@ -185,8 +171,6 @@ class Todo::ItemTest < ActiveSupport::TestCase
     @item.due_date = Date.current
     assert_nil @item.next_due_date
   end
-
-  # === #can_recur_next? ===
 
   test "종료일이 없으면 다음 반복 가능" do
     @item.recurrence = "daily"

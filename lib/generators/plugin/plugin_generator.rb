@@ -1,13 +1,5 @@
 # frozen_string_literal: true
 
-# 새 Console 플러그인(Rails Engine) 생성 제너레이터
-#
-# 사용법:
-#   bin/rails generate plugin note 메모
-#   bin/rails generate plugin note 메모 --icon=notebook --position=30
-#
-# 삭제:
-#   bin/rails destroy plugin note
 class PluginGenerator < Rails::Generators::Base
   argument :plugin_name, type: :string, desc: "플러그인 이름 (예: note)"
   argument :label, type: :string, desc: "네비게이션 표시 이름 (예: 메모)"
@@ -50,7 +42,7 @@ class PluginGenerator < Rails::Generators::Base
       require "#{plugin_name}/version"
 
       module #{module_name}
-        # DB가 분리되어 있으므로 테이블명에 네임스페이스 접두사 불필요
+        # 독립 DB를 사용하므로 테이블명에 네임스페이스 접두사를 붙이지 않는다.
         def self.table_name_prefix
           ""
         end
@@ -79,10 +71,6 @@ class PluginGenerator < Rails::Generators::Base
               position: #{position},
               dashboard_component: "#{module_name}::DashboardComponent",
               push_notification_items: []
-              # 푸시 알림 항목 등록 예시:
-              # push_notification_items: [
-              #   { key: "example_notification", label: "알림 이름", description: "알림 설명" }
-              # ]
             )
           end
         end
@@ -114,13 +102,11 @@ class PluginGenerator < Rails::Generators::Base
 
   def create_dashboard_component
     create_file "#{engine_path}/app/models/#{plugin_name}/dashboard_component.rb", <<~RUBY
-      # #{label} 대시보드 위젯 컴포넌트
       module #{module_name}
         class DashboardComponent < Console::DashboardComponent
           def plugin_name = "#{label}"
 
           def load_data
-            # TODO: 대시보드에 표시할 데이터를 로드하세요
             self
           end
 
@@ -133,7 +119,6 @@ class PluginGenerator < Rails::Generators::Base
   def create_dashboard_view
     create_file "#{engine_path}/app/views/#{plugin_name}/dashboard/_widget.html.erb", <<~ERB
       <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200">
-        <%# 헤더 %>
         <div class="flex items-center justify-between px-4 py-3 border-b border-gray-200 dark:border-gray-700">
           <div class="flex items-center gap-2">
             <%= lucide_icon "#{icon}", class: "w-5 h-5 text-blue-600 dark:text-blue-400" %>
@@ -143,7 +128,6 @@ class PluginGenerator < Rails::Generators::Base
         </div>
 
         <div class="px-4 py-4">
-          <%# TODO: 위젯 내용을 구현하세요 %>
           <p class="text-sm text-gray-500 dark:text-gray-400 text-center py-2">위젯 내용을 구현하세요.</p>
         </div>
       </div>
@@ -153,9 +137,6 @@ class PluginGenerator < Rails::Generators::Base
   def create_routes
     create_file "#{engine_path}/config/routes.rb", <<~RUBY
       #{module_name}::Engine.routes.draw do
-        # 여기에 라우트를 추가하세요
-        # resources :items
-        # root "items#index"
       end
     RUBY
   end
@@ -171,7 +152,6 @@ class PluginGenerator < Rails::Generators::Base
   end
 
   def update_database_yml
-    # 각 환경의 queue: 섹션 앞에 삽입 (queue DB 경로로 환경 구분)
     { "development" => [ "storage/development_#{plugin_name}.sqlite3", "storage/development_queue.sqlite3" ],
       "test" => [ "storage/test_#{plugin_name}.sqlite3", "storage/test_queue.sqlite3" ],
       "production" => [ "\"/storage/production_#{plugin_name}.sqlite3\"", "\"/storage/production_queue.sqlite3\"" ] }.each do |_env, (plugin_db, queue_db)|
@@ -182,7 +162,6 @@ class PluginGenerator < Rails::Generators::Base
   end
 
   def update_dockerfile
-    # RUN bundle install 앞에 삽입하여 중복 방지
     inject_into_file "Dockerfile",
                      dockerfile_copy_lines,
                      before: "RUN bundle install"

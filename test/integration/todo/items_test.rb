@@ -7,8 +7,6 @@ class Todo::ItemsTest < ActionDispatch::IntegrationTest
     @list = Todo::List.create!(title: "테스트 목록", user_id: @user.id)
     @item = @list.items.create!(title: "테스트 할일", completed: false)
   end
-
-
   test "항목을 완료 상태로 토글할 수 있다" do
     patch todo.list_item_url(@list, @item), params: { item: { completed: true } }
     assert_redirected_to todo.list_url(@list)
@@ -29,8 +27,6 @@ class Todo::ItemsTest < ActionDispatch::IntegrationTest
     assert_redirected_to todo.list_url(@list)
   end
 
-  # === 반복 기능 테스트 ===
-
   test "반복 항목 완료 시 다음 반복 아이템이 생성된다" do
     recurring_item = @list.items.create!(
       title: "반복 할일", recurrence: "daily", due_date: Date.current, completed: false
@@ -42,7 +38,6 @@ class Todo::ItemsTest < ActionDispatch::IntegrationTest
     assert_redirected_to todo.list_url(@list)
     assert recurring_item.reload.completed?
 
-    # 새로 생성된 다음 반복 아이템 확인
     child = recurring_item.recurrence_child
     assert_not_nil child
     assert_equal "반복 할일", child.title
@@ -62,12 +57,10 @@ class Todo::ItemsTest < ActionDispatch::IntegrationTest
       title: "반복 할일", recurrence: "weekly", due_date: Date.current, completed: false
     )
 
-    # 먼저 완료 처리
     patch todo.list_item_url(@list, recurring_item), params: { item: { completed: true } }
     child = recurring_item.reload.recurrence_child
     assert_not_nil child
 
-    # 완료 취소 시 자식 삭제
     assert_difference "Todo::Item.count", -1 do
       patch todo.list_item_url(@list, recurring_item), params: { item: { completed: false } }
     end
