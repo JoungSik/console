@@ -1,23 +1,6 @@
 # 코어 + 플러그인 시드 데이터
 # bin/rails db:seed 로 실행
 
-# === 코어: 법적 문서 ===
-def seed_legal_document(document_type:, title:, directory:)
-  path = Dir.glob(Rails.root.join("docs/legal/#{directory}/*.md")).max
-  version = File.basename(path, ".md")
-
-  document = LegalDocument.find_or_initialize_by(document_type: document_type, version: version)
-  document.title = title
-  document.content = File.read(path)
-  document.published_at = Time.zone.parse(version)
-  document.save! if document.changed?
-end
-
-seed_legal_document(document_type: :terms, title: "이용약관", directory: "terms")
-seed_legal_document(document_type: :privacy_policy, title: "개인정보처리방침", directory: "privacy")
-
-puts "LegalDocument: #{LegalDocument.count} documents"
-
 # === 코어: 사용자 ===
 user = User.find_or_create_by!(email_address: "test@test.com") do |u|
   u.name = "test"

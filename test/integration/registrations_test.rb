@@ -7,7 +7,7 @@ class RegistrationsTest < ActionDispatch::IntegrationTest
   end
 
   test "유효한 정보로 가입하면 verify_pending으로 리다이렉트되고 이메일이 발송된다" do
-    assert_difference "LegalAgreement.count", 2 do
+    assert_difference "User.count", 1 do
       assert_enqueued_emails 1 do
         post registration_url, params: {
           user: {

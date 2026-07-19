@@ -176,8 +176,6 @@ ko:
       todo_list: "할 일 목록"
       todo: "할 일"
       journal/post: "포스트"
-      legal_document: "법적 문서"
-      legal_agreement: "약관 동의"
     attributes:
       user:
         name: "이름"

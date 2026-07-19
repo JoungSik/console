@@ -148,10 +148,6 @@ GEM
     json (2.21.1)
     jwt (3.1.2)
       base64
-    kramdown (2.5.2)
-      rexml (>= 3.4.4)
-    kramdown-parser-gfm (1.1.0)
-      kramdown (~> 2.0)
     language_server-protocol (3.17.0.6)
     lint_roller (1.1.0)
     logger (1.7.0)
@@ -398,8 +394,6 @@ DEPENDENCIES
   importmap-rails
   jbuilder
   journal!
-  kramdown
-  kramdown-parser-gfm
   lucide-rails
   mission_control-jobs
   propshaft
