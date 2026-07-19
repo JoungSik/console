@@ -1,11 +1,7 @@
-# Service Worker 전용 Push 구독 갱신 컨트롤러
-# pushsubscriptionchange 이벤트에서 호출되며 CSRF 토큰을 전송할 수 없으므로
-# CSRF 보호를 비활성화합니다.
 class ServiceWorker::PushSubscriptionsController < ApplicationController
+  # pushsubscriptionchange 이벤트는 CSRF 토큰을 전송할 수 없다.
   skip_forgery_protection
 
-  # POST /service_worker/push_subscriptions
-  # Service Worker의 pushsubscriptionchange 이벤트에서 호출
   def create
     return render_unauthorized unless Current.user
 

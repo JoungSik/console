@@ -1,4 +1,3 @@
-# Web Push 구독 정보를 저장하는 모델
 class PushSubscription < ApplicationRecord
   belongs_to :user
 
@@ -6,7 +5,6 @@ class PushSubscription < ApplicationRecord
   validates :p256dh_key, presence: true
   validates :auth_key, presence: true
 
-  # Push 알림 전송
   def send_notification(title:, body:, url: nil, icon: nil)
     message = {
       title: title,
@@ -25,7 +23,6 @@ class PushSubscription < ApplicationRecord
       urgency: "normal"
     )
   rescue WebPush::ExpiredSubscription, WebPush::InvalidSubscription
-    # 만료/유효하지 않은 구독은 삭제
     destroy
     false
   rescue WebPush::Error => e

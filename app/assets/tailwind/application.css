@@ -1,6 +1,5 @@
 @import "tailwindcss";
 
-/* 법적 문서 마크다운 렌더링 스타일 */
 @layer components {
   .legal-content {
     font-size: 0.875rem;

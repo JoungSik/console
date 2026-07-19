@@ -20,7 +20,6 @@
 
 <%= yield :head %>
 
-<%# PWA manifest %>
 <%= tag.link rel: "manifest", href: main_app.pwa_manifest_path(format: :json) %>
 <meta name="theme-color" content="#2563eb" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#1e40af" media="(prefers-color-scheme: dark)">
@@ -28,11 +27,9 @@
 <link rel="icon" href="/icon.png" type="image/png">
 <link rel="apple-touch-icon" href="/icon.png">
 
-<%# Includes all stylesheet files in app/assets/stylesheets %>
 <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
 <%= javascript_importmap_tags %>
 
-<%# Service Worker 등록 %>
 <script>
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', function() {

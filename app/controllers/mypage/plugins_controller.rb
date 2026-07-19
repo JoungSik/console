@@ -1,4 +1,3 @@
-# 플러그인 활성화/비활성화 설정 관리
 class Mypage::PluginsController < Mypage::ApplicationController
   def index
     user_plugins_map = current_user.user_plugins.index_by(&:plugin_name)

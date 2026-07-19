@@ -9,9 +9,7 @@ module NavigationHelper
       }
     ]
 
-    # 로그인한 사용자만 볼 수 있는 메뉴
     if authenticated?
-      # 사용자가 활성화한 플러그인만 메뉴에 추가
       current_user.enabled_plugins.each do |plugin|
         items << {
           name: plugin.label,
@@ -49,12 +47,10 @@ module NavigationHelper
   def navigation_item_active?(item)
     current_path = request.path
 
-    # 홈페이지는 정확히 일치할 때만 활성화
     if item[:path] == main_app.root_path
       return current_path == main_app.root_path
     end
 
-    # 다른 페이지들은 start_with 로직 사용
     item[:active_paths].any? { |path| current_path.start_with?(path.split("?").first) }
   end
 end

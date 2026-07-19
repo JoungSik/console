@@ -6,9 +6,6 @@ class User < ApplicationRecord
   has_many :user_plugins, dependent: :destroy
   has_many :push_notification_settings, dependent: :destroy
 
-  # 사용자의 모든 구독으로 알림 전송 (하나라도 성공하면 true 반환)
-  # plugin_name 지정 시: 플러그인 비활성이면 발송 안 함
-  # item_key도 지정 시: 해당 알림 항목이 꺼져 있으면 발송 안 함
   def send_push_notification(title:, body:, url: nil, plugin_name: nil, item_key: nil)
     if plugin_name
       return false unless plugin_enabled?(plugin_name)
@@ -44,23 +41,19 @@ class User < ApplicationRecord
     email_verified_at.present?
   end
 
-  # 해당 플러그인의 알림 항목이 활성화되어 있는지 확인 (레코드 없으면 기본 활성)
   def push_notification_enabled?(plugin_name, item_key)
     setting = push_notification_settings.find_by(plugin_name: plugin_name, item_key: item_key)
     setting.nil? || setting.enabled?
   end
 
-  # 해당 플러그인이 활성화되어 있는지 확인 (레코드 없으면 기본 활성)
   def plugin_enabled?(plugin_name)
     !disabled_plugin_names.include?(plugin_name.to_s)
   end
 
-  # 활성화된 플러그인 목록 반환
   def enabled_plugins
     PluginRegistry.all.reject { |p| disabled_plugin_names.include?(p.name.to_s) }
   end
 
-  # 삭제 임박한 비활성 플러그인 (23~30일 경과)
   def approaching_deletion_plugins
     user_plugins.approaching_deletion.map do |up|
       plugin = PluginRegistry.find(up.plugin_name.to_sym)
