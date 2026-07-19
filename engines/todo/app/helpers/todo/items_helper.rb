@@ -1,6 +1,5 @@
 module Todo
   module ItemsHelper
-    # 마감일 상태에 따른 CSS 클래스 반환
     def due_date_css_class(item)
       if item.overdue?
         "text-red-600 dark:text-red-400 font-medium"

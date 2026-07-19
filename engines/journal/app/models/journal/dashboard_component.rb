@@ -1,4 +1,3 @@
-# 포스트 대시보드 위젯 컴포넌트
 module Journal
   class DashboardComponent < Console::DashboardComponent
     attr_reader :posts_count, :recent_posts

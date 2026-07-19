@@ -1,4 +1,3 @@
-# 마감일 당일 및 기한 초과 할 일에 대해 매일 통합 푸시 알림 발송
 module Todo
   class ReminderJob < ApplicationJob
     queue_as :default
@@ -6,7 +5,6 @@ module Todo
     def perform
       items = Item.incomplete.includes(:list).where("due_date <= ?", Date.current).to_a
 
-      # 사용자별로 그룹핑하여 통합 알림 발송
       items_by_user = items.group_by { |i| i.list.user_id }
       users = User.where(id: items_by_user.keys).index_by(&:id)
 

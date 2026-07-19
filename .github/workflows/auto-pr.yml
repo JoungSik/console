@@ -4,7 +4,7 @@ on:
   pull_request:
     types: [opened, synchronize]
     branches:
-      - main    # main 브랜치로의 PR 생성 및 커밋 추가 시 실행
+      - main
 
 jobs:
   update-pr:
@@ -18,28 +18,23 @@ jobs:
         uses: actions/checkout@v7
         with:
           ref: ${{ github.head_ref }}
-          fetch-depth: 0  # 전체 히스토리를 가져와서 커밋 비교 가능
+          fetch-depth: 0
 
       - name: Get commit list and PR info
         id: pr-info
         run: |
-          # 기본 브랜치 (main)와 비교하여 커밋 목록 가져오기
           BASE_BRANCH="main"
           CURRENT_BRANCH="${{ github.head_ref }}"
 
-          # 원격 브랜치 정보 가져오기
           git fetch origin ${BASE_BRANCH}:${BASE_BRANCH} || git fetch origin ${BASE_BRANCH}
 
-          # 브랜치 이름에서 PR 제목 생성
           PR_TITLE="feat: ${CURRENT_BRANCH}"
 
-          # 커밋 목록 가져오기 (main 브랜치와 차이점)
           echo "# 📝 변경사항" > pr_body.md
           echo "" >> pr_body.md
           echo "## 🔄 포함된 커밋" >> pr_body.md
           echo "" >> pr_body.md
 
-          # 커밋 목록을 마크다운 형식으로 생성
           if git rev-list --count origin/${BASE_BRANCH}..HEAD > /dev/null 2>&1; then
             git log origin/${BASE_BRANCH}..HEAD --pretty=format:"- %s (%an, %cr)" --reverse >> pr_body.md
             COMMIT_COUNT=$(git rev-list --count origin/${BASE_BRANCH}..HEAD)
@@ -50,14 +45,12 @@ jobs:
           echo "" >> pr_body.md
           echo "" >> pr_body.md
 
-          # 요약
           echo "## 📊 요약" >> pr_body.md
           echo "- 총 ${COMMIT_COUNT}개의 커밋" >> pr_body.md
           echo "- 기본 브랜치: \`${BASE_BRANCH}\`" >> pr_body.md
           echo "- 작업 브랜치: \`${CURRENT_BRANCH}\`" >> pr_body.md
           echo "" >> pr_body.md
 
-          # 변경된 파일 목록
           echo "## 📁 변경된 파일" >> pr_body.md
           echo "" >> pr_body.md
           if git diff --name-only origin/${BASE_BRANCH}..HEAD > /dev/null 2>&1; then
@@ -67,11 +60,9 @@ jobs:
           fi
           echo "" >> pr_body.md
 
-          # 자동 생성 표시
           echo "---" >> pr_body.md
           echo "🤖 이 PR은 GitHub Actions에 의해 자동으로 생성되었습니다." >> pr_body.md
 
-          # GitHub Output으로 설정
           echo "pr-title=${PR_TITLE}" >> $GITHUB_OUTPUT
           echo "base-branch=${BASE_BRANCH}" >> $GITHUB_OUTPUT
           echo "commit-count=${COMMIT_COUNT}" >> $GITHUB_OUTPUT

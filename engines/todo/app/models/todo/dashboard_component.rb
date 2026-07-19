@@ -1,4 +1,3 @@
-# Todo 대시보드 위젯 컴포넌트
 module Todo
   class DashboardComponent < Console::DashboardComponent
     attr_reader :incomplete_count, :overdue_count, :today_items
