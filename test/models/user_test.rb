@@ -38,5 +38,4 @@ class UserTest < ActiveSupport::TestCase
     approaching = @user.approaching_deletion_plugins
     assert approaching.any? { |item| item[:plugin].name == :todos }
   end
-
 end
