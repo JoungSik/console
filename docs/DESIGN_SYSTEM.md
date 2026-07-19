@@ -591,9 +591,6 @@
     <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">설명 텍스트</p>
   </div>
 </div>
-
-<%# FAB (부동 액션 버튼) %>
-<%= render "layouts/shared/floating_action_button", path: new_path %>
 ```
 
 #### 설정/마이페이지

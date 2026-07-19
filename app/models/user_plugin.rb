@@ -1,4 +1,3 @@
-# 사용자별 플러그인 활성화/비활성화 상태 관리
 class UserPlugin < ApplicationRecord
   DELETION_GRACE_PERIOD_DAYS = 30
   DELETION_WARNING_START_DAYS = 23
@@ -12,17 +11,14 @@ class UserPlugin < ApplicationRecord
   scope :pending_deletion, -> { disabled.where(disabled_at: ..DELETION_GRACE_PERIOD_DAYS.days.ago) }
   scope :approaching_deletion, -> { disabled.where(disabled_at: DELETION_GRACE_PERIOD_DAYS.days.ago..DELETION_WARNING_START_DAYS.days.ago) }
 
-  # 플러그인 비활성화
   def disable!
     update!(enabled: false, disabled_at: Time.current)
   end
 
-  # 플러그인 활성화 (삭제 예약 취소)
   def enable!
     update!(enabled: true, disabled_at: nil)
   end
 
-  # 삭제까지 남은 일수
   def days_until_deletion
     return nil unless disabled_at
 

@@ -43,17 +43,11 @@ gem "thruster", require: false
 # Add icon lucide [https://github.com/heyvito/lucide-rails]
 gem "lucide-rails"
 
-gem "pundit", "~> 2.5"
-
 # Web Push notifications [https://github.com/pushpad/web-push]
 gem "web-push"
 
 # Resend email delivery [https://github.com/resend/resend-ruby]
 gem "resend"
-
-# Markdown rendering [https://github.com/gettalong/kramdown]
-gem "kramdown"
-gem "kramdown-parser-gfm"
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem

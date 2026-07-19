@@ -5,11 +5,7 @@ class User < ApplicationRecord
   has_many :push_subscriptions, dependent: :destroy
   has_many :user_plugins, dependent: :destroy
   has_many :push_notification_settings, dependent: :destroy
-  has_many :legal_agreements, dependent: :destroy
 
-  # 사용자의 모든 구독으로 알림 전송 (하나라도 성공하면 true 반환)
-  # plugin_name 지정 시: 플러그인 비활성이면 발송 안 함
-  # item_key도 지정 시: 해당 알림 항목이 꺼져 있으면 발송 안 함
   def send_push_notification(title:, body:, url: nil, plugin_name: nil, item_key: nil)
     if plugin_name
       return false unless plugin_enabled?(plugin_name)
@@ -45,28 +41,19 @@ class User < ApplicationRecord
     email_verified_at.present?
   end
 
-  # 해당 플러그인의 알림 항목이 활성화되어 있는지 확인 (레코드 없으면 기본 활성)
   def push_notification_enabled?(plugin_name, item_key)
     setting = push_notification_settings.find_by(plugin_name: plugin_name, item_key: item_key)
     setting.nil? || setting.enabled?
   end
 
-  # 해당 플러그인이 활성화되어 있는지 확인 (레코드 없으면 기본 활성)
   def plugin_enabled?(plugin_name)
     !disabled_plugin_names.include?(plugin_name.to_s)
   end
 
-  # 활성화된 플러그인 목록 반환
   def enabled_plugins
     PluginRegistry.all.reject { |p| disabled_plugin_names.include?(p.name.to_s) }
   end
 
-  # 최신 이용약관/개인정보처리방침 동의 필요 여부
-  def needs_terms_acceptance?
-    needs_acceptance_for?(:terms) || needs_acceptance_for?(:privacy_policy)
-  end
-
-  # 삭제 임박한 비활성 플러그인 (23~30일 경과)
   def approaching_deletion_plugins
     user_plugins.approaching_deletion.map do |up|
       plugin = PluginRegistry.find(up.plugin_name.to_sym)
@@ -80,12 +67,5 @@ class User < ApplicationRecord
 
   def disabled_plugin_names
     @disabled_plugin_names ||= user_plugins.disabled.pluck(:plugin_name).to_set
-  end
-
-  def needs_acceptance_for?(document_type)
-    latest = LegalDocument.latest(document_type)
-    return false unless latest
-
-    !legal_agreements.exists?(legal_document: latest)
   end
 end

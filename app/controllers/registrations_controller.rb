@@ -20,10 +20,7 @@ class RegistrationsController < ApplicationController
       return render :new, status: :unprocessable_entity
     end
 
-    ActiveRecord::Base.transaction do
-      @user.save!
-      record_legal_agreements(@user)
-    end
+    @user.save!
 
     RegistrationsMailer.verify(@user).deliver_later
     redirect_to verify_pending_registration_path
@@ -55,16 +52,5 @@ class RegistrationsController < ApplicationController
 
   def registration_params
     params.require(:user).permit(:name, :email_address, :password, :password_confirmation)
-  end
-
-  def record_legal_agreements(user)
-    now = Time.current
-    docs = [ LegalDocument.latest_terms, LegalDocument.latest_privacy_policy ].compact
-    return if docs.empty?
-
-    agreements = docs.map do |doc|
-      { user_id: user.id, legal_document_id: doc.id, accepted_at: now, created_at: now, updated_at: now }
-    end
-    LegalAgreement.insert_all!(agreements)
   end
 end

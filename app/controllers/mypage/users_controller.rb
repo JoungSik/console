@@ -1,4 +1,3 @@
-# 마이페이지 컨트롤러
 class Mypage::UsersController < Mypage::ApplicationController
   def show
   end

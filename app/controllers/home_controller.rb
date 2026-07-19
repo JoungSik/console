@@ -13,7 +13,6 @@ class HomeController < ApplicationController
   private
 
   def load_dashboard
-    # 사용자가 활성화한 플러그인의 대시보드 위젯만 로드
     active_plugins = current_user.enabled_plugins & PluginRegistry.dashboard_plugins
 
     @dashboard_components = active_plugins.filter_map do |plugin|
@@ -23,7 +22,6 @@ class HomeController < ApplicationController
       nil
     end
 
-    # 삭제 임박 플러그인 경고
     @approaching_deletion_plugins = current_user.approaching_deletion_plugins
   end
 

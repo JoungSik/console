@@ -2,7 +2,6 @@ import { Controller } from "@hotwired/stimulus"
 
 const PUSH_SUBSCRIPTION_ID_KEY = "pushSubscriptionId"
 
-// Web Push 구독 관리 컨트롤러
 export default class extends Controller {
   static targets = ["subscribeButton", "unsubscribeButton", "status", "toggle", "toggleKnob", "statusBadge"]
   static values = {
@@ -16,7 +15,6 @@ export default class extends Controller {
     this.checkSubscription()
   }
 
-  // 브라우저 지원 확인
   checkSupport() {
     if (!("serviceWorker" in navigator)) {
       this.showStatus("이 브라우저는 Service Worker를 지원하지 않습니다.", "error")
@@ -33,7 +31,6 @@ export default class extends Controller {
     return true
   }
 
-  // 현재 구독 상태 확인
   async checkSubscription() {
     if (!this.checkSupport()) return
 
@@ -52,28 +49,23 @@ export default class extends Controller {
     }
   }
 
-  // 알림 구독
   async subscribe() {
     if (!this.checkSupport()) return
 
     try {
-      // 알림 권한 요청
       const permission = await Notification.requestPermission()
       if (permission !== "granted") {
         this.showStatus("알림 권한이 거부되었습니다. 브라우저 설정에서 허용해주세요.", "warning")
         return
       }
 
-      // Service Worker가 준비될 때까지 대기 (레이아웃에서 이미 등록됨)
       const registration = await navigator.serviceWorker.ready
 
-      // Push 구독 생성
       const subscription = await registration.pushManager.subscribe({
         userVisibleOnly: true,
         applicationServerKey: this.urlBase64ToUint8Array(this.vapidPublicKeyValue)
       })
 
-      // 서버에 구독 정보 전송
       const response = await this.sendSubscriptionToServer(subscription)
       this.subscriptionId = response.id
       localStorage.setItem(PUSH_SUBSCRIPTION_ID_KEY, this.subscriptionId)
@@ -86,20 +78,17 @@ export default class extends Controller {
     }
   }
 
-  // 알림 구독 취소
   async unsubscribe() {
     try {
       const registration = await navigator.serviceWorker.ready
       const subscription = await registration.pushManager.getSubscription()
 
       if (subscription) {
-        // subscriptionId가 없으면 서버 삭제 불가 - 오류 표시
         if (!this.subscriptionId) {
           this.showStatus("구독 정보를 찾을 수 없습니다. 다시 구독 후 취소해주세요.", "error")
           return
         }
 
-        // 서버에서 구독 삭제
         await fetch(`${this.subscribeUrlValue}/${this.subscriptionId}`, {
           method: "DELETE",
           headers: {
@@ -108,7 +97,6 @@ export default class extends Controller {
           }
         })
 
-        // 브라우저에서 구독 취소
         await subscription.unsubscribe()
       }
 
@@ -122,7 +110,6 @@ export default class extends Controller {
     }
   }
 
-  // 서버에 구독 정보 전송
   async sendSubscriptionToServer(subscription) {
     const key = subscription.getKey("p256dh")
     const auth = subscription.getKey("auth")
@@ -149,13 +136,11 @@ export default class extends Controller {
     return response.json()
   }
 
-  // CSRF 토큰 가져오기
   getCsrfToken() {
     const meta = document.querySelector('meta[name="csrf-token"]')
     return meta ? meta.getAttribute("content") : ""
   }
 
-  // Base64 URL을 Uint8Array로 변환
   urlBase64ToUint8Array(base64String) {
     const padding = "=".repeat((4 - (base64String.length % 4)) % 4)
     const base64 = (base64String + padding)
@@ -171,7 +156,6 @@ export default class extends Controller {
     return outputArray
   }
 
-  // ArrayBuffer를 Base64로 변환
   arrayBufferToBase64(buffer) {
     let binary = ""
     const bytes = new Uint8Array(buffer)
@@ -181,7 +165,6 @@ export default class extends Controller {
     return window.btoa(binary)
   }
 
-  // 토글 클릭 핸들러
   async toggleSubscription() {
     if (this._subscribed) {
       await this.unsubscribe()
@@ -190,11 +173,9 @@ export default class extends Controller {
     }
   }
 
-  // UI 상태 업데이트
   showSubscribed() {
     this._subscribed = true
 
-    // 레거시 버튼 방식 (마이페이지용)
     if (this.hasSubscribeButtonTarget) {
       this.subscribeButtonTarget.classList.add("hidden")
     }
@@ -202,7 +183,6 @@ export default class extends Controller {
       this.unsubscribeButtonTarget.classList.remove("hidden")
     }
 
-    // 토글 스위치 방식 (설정 페이지용)
     if (this.hasToggleTarget) {
       this.toggleTarget.classList.remove("bg-gray-200", "dark:bg-gray-600")
       this.toggleTarget.classList.add("bg-blue-600")
@@ -217,7 +197,6 @@ export default class extends Controller {
   showUnsubscribed() {
     this._subscribed = false
 
-    // 레거시 버튼 방식 (마이페이지용)
     if (this.hasSubscribeButtonTarget) {
       this.subscribeButtonTarget.classList.remove("hidden")
     }
@@ -225,7 +204,6 @@ export default class extends Controller {
       this.unsubscribeButtonTarget.classList.add("hidden")
     }
 
-    // 토글 스위치 방식 (설정 페이지용)
     if (this.hasToggleTarget) {
       this.toggleTarget.classList.remove("bg-blue-600")
       this.toggleTarget.classList.add("bg-gray-200", "dark:bg-gray-600")
@@ -243,7 +221,6 @@ export default class extends Controller {
       this.statusTarget.className = `mt-3 text-sm ${this.getStatusClass(type)}`
       this.statusTarget.classList.remove("hidden")
 
-      // 5초 후 자동 숨김
       setTimeout(() => {
         this.statusTarget.classList.add("hidden")
       }, 5000)
@@ -276,7 +253,6 @@ export default class extends Controller {
     this.updateStatusBadge(false)
   }
 
-  // 구독 상태 뱃지 업데이트
   updateStatusBadge(subscribed) {
     if (!this.hasStatusBadgeTarget) return
 

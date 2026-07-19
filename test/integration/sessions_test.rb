@@ -8,6 +8,7 @@ class SessionsTest < ActionDispatch::IntegrationTest
   test "로그인 페이지에 접근할 수 있다" do
     get new_session_url
     assert_response :success
+    assert_select "nav[aria-label='Sidebar']", count: 0
   end
 
   test "올바른 자격증명으로 로그인하면 root_path로 리다이렉트된다" do

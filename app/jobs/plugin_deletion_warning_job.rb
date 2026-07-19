@@ -1,4 +1,3 @@
-# 비활성화 후 23~30일 경과된 플러그인에 대해 삭제 경고 알림 발송
 class PluginDeletionWarningJob < ApplicationJob
   queue_as :default
 

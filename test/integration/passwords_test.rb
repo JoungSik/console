@@ -8,6 +8,7 @@ class PasswordsTest < ActionDispatch::IntegrationTest
   test "비밀번호 찾기 페이지에 접근할 수 있다" do
     get new_password_url
     assert_response :success
+    assert_select "nav[aria-label='Sidebar']", count: 0
   end
 
   test "로그인 페이지에 비밀번호 찾기 링크가 표시된다" do
@@ -36,6 +37,7 @@ class PasswordsTest < ActionDispatch::IntegrationTest
     token = @user.password_reset_token
     get edit_password_url(token)
     assert_response :success
+    assert_select "nav[aria-label='Sidebar']", count: 0
   end
 
   test "유효하지 않은 토큰으로 접근하면 new_password_path로 리다이렉트된다" do

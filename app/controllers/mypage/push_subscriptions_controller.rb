@@ -1,6 +1,4 @@
-# Web Push 구독 관리 컨트롤러
 class Mypage::PushSubscriptionsController < Mypage::ApplicationController
-  # POST /mypage/push_subscriptions
   def create
     subscription = Current.user.push_subscriptions.find_or_initialize_by(
       endpoint: subscription_params[:endpoint]
@@ -13,7 +11,6 @@ class Mypage::PushSubscriptionsController < Mypage::ApplicationController
     end
   end
 
-  # DELETE /mypage/push_subscriptions/:id
   def destroy
     subscription = Current.user.push_subscriptions.find(params[:id])
     subscription.destroy

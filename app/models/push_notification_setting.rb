@@ -1,4 +1,3 @@
-# 플러그인별 푸시 알림 항목 on/off 설정
 class PushNotificationSetting < ApplicationRecord
   belongs_to :user
 
