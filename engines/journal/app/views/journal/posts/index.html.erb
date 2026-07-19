@@ -1,21 +1,23 @@
-<div class="w-full max-w-2xl mx-auto">
+<div id="posts-page" class="w-full">
   <div class="flex items-center justify-between gap-3 mb-6">
     <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">포스트</h1>
   </div>
 
-  <section class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm p-4 sm:p-5 mb-6">
-    <%= render "form", post: @post %>
-  </section>
+  <div class="lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(0,2fr)] lg:gap-8">
+    <section id="post-composer" class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm p-4 sm:p-5 mb-6 lg:sticky lg:top-8 lg:self-start lg:mb-0">
+      <%= render "form", post: @post %>
+    </section>
 
-  <div id="posts" class="space-y-3">
-    <% if @posts.any? %>
-      <%= render @posts %>
-    <% else %>
-      <div class="text-center py-12">
-        <%= lucide_icon "message-square", class: "mx-auto h-12 w-12 text-gray-400 dark:text-gray-500" %>
-        <h3 class="mt-2 text-sm font-medium text-gray-900 dark:text-white">포스트가 없습니다</h3>
-        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">첫 번째 포스트를 남겨보세요.</p>
-      </div>
-    <% end %>
+    <div id="posts" class="space-y-3">
+      <% if @posts.any? %>
+        <%= render @posts %>
+      <% else %>
+        <div class="text-center py-12">
+          <%= lucide_icon "message-square", class: "mx-auto h-12 w-12 text-gray-400 dark:text-gray-500" %>
+          <h3 class="mt-2 text-sm font-medium text-gray-900 dark:text-white">포스트가 없습니다</h3>
+          <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">첫 번째 포스트를 남겨보세요.</p>
+        </div>
+      <% end %>
+    </div>
   </div>
 </div>
