@@ -1,13 +1,13 @@
 class PluginRegistry
   NotificationItem = Data.define(:key, :label, :description)
-  Plugin = Data.define(:name, :label, :icon, :path, :position, :dashboard_component, :push_notification_items)
+  Plugin = Data.define(:name, :label, :icon, :path, :position, :dashboard_component, :data_cleaner, :push_notification_items)
 
   class << self
-    def register(name:, label:, icon:, path:, position: 100, dashboard_component: nil, push_notification_items: [])
+    def register(name:, label:, icon:, path:, position: 100, dashboard_component: nil, data_cleaner: nil, push_notification_items: [])
       items = push_notification_items.map do |item|
         NotificationItem.new(key: item[:key], label: item[:label], description: item[:description])
       end
-      plugins[name] = Plugin.new(name:, label:, icon:, path:, position:, dashboard_component:, push_notification_items: items)
+      plugins[name] = Plugin.new(name:, label:, icon:, path:, position:, dashboard_component:, data_cleaner:, push_notification_items: items)
     end
 
     def all

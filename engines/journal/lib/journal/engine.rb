@@ -9,7 +9,7 @@ module Journal
         icon: "message-square",
         path: "/posts",
         position: 40,
-        dashboard_component: "Journal::DashboardComponent"
+        data_cleaner: "Journal::DataCleaner"
       )
     end
   end

@@ -25,21 +25,21 @@ class HomeTest < ActionDispatch::IntegrationTest
     assert_select "a[href='#{new_session_path}']"
   end
 
-  test "대시보드에 플러그인 위젯이 표시된다" do
+  test "대시보드에 지원되는 플러그인 위젯만 표시된다" do
     sign_in_as @user
     get root_url
 
     assert_response :success
     assert_select "h1", "대시보드"
-    assert_select "h2", "포스트"
     assert_select "h2", "할 일 목록"
+    assert_select "h2", { text: "포스트", count: 0 }
   end
 
-  test "대시보드에 각 플러그인의 전체보기 링크가 있다" do
+  test "대시보드 위젯에 전체보기 링크가 있다" do
     sign_in_as @user
     get root_url
 
     assert_select "a[href='#{todo.root_path}']", "전체보기"
-    assert_select "a[href='#{posts.root_path}']", "전체보기"
+    assert_select "a[href='#{posts.root_path}']", { text: "전체보기", count: 0 }
   end
 end

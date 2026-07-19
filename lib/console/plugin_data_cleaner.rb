@@ -17,7 +17,12 @@ module Console
     end
 
     def self.registered_cleaner_class_name(plugin_name)
-      namespace = PluginRegistry.find(plugin_name.to_sym)&.dashboard_component&.deconstantize
+      plugin = PluginRegistry.find(plugin_name.to_sym)
+      plugin&.data_cleaner || cleaner_class_name_from_dashboard(plugin)
+    end
+
+    def self.cleaner_class_name_from_dashboard(plugin)
+      namespace = plugin&.dashboard_component&.deconstantize
       "#{namespace}::DataCleaner" if namespace
     end
   end
