@@ -3,7 +3,9 @@ module Todo
     before_action :set_list, only: %i[show edit update destroy]
 
     def index
-      @lists = List.by_user(current_user_id).order(id: :desc)
+      @current_tab = params[:tab] == "archived" ? :archived : :active
+      user_lists = List.by_user(current_user_id)
+      @lists = (@current_tab == :archived ? user_lists.archived : user_lists.active).order(id: :desc)
     end
 
     def show
