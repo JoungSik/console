@@ -12,6 +12,7 @@ class PluginRegistryTest < ActiveSupport::TestCase
       PluginRegistry.register(
         name: p.name, label: p.label, icon: p.icon,
         path: p.path, position: p.position, dashboard_component: p.dashboard_component,
+        data_cleaner: p.data_cleaner,
         push_notification_items: p.push_notification_items.map { |i| { key: i.key, label: i.label, description: i.description } }
       )
     end
@@ -56,6 +57,23 @@ class PluginRegistryTest < ActiveSupport::TestCase
 
   test "dashboard_plugins는 등록된 것이 없으면 빈 배열을 반환한다" do
     assert_equal [], PluginRegistry.dashboard_plugins
+  end
+
+  test "data_cleaner 없이 등록하면 nil이 기본값" do
+    PluginRegistry.register(name: :test, label: "테스트", icon: "box", path: "/test")
+    plugin = PluginRegistry.find(:test)
+
+    assert_nil plugin.data_cleaner
+  end
+
+  test "data_cleaner와 함께 등록된다" do
+    PluginRegistry.register(
+      name: :test, label: "테스트", icon: "box", path: "/test",
+      data_cleaner: "Test::DataCleaner"
+    )
+    plugin = PluginRegistry.find(:test)
+
+    assert_equal "Test::DataCleaner", plugin.data_cleaner
   end
 
   test "push_notification_items 없이 등록하면 빈 배열이 기본값" do

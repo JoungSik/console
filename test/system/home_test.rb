@@ -28,12 +28,12 @@ class HomeSystemTest < ApplicationSystemTestCase
     assert_current_path new_session_path
   end
 
-  test "대시보드에 플러그인 위젯이 표시된다" do
+  test "대시보드에 지원되는 플러그인 위젯만 표시된다" do
     sign_in_as @user
 
     assert_text "대시보드"
-    assert_text "포스트"
-    assert_text "할 일 목록"
+    assert_selector "h2", text: "할 일 목록"
+    assert_no_selector "h2", text: "포스트"
   end
 
   test "위젯에서 전체보기 링크로 이동할 수 있다" do
