@@ -17,16 +17,34 @@ module Journal
       @post = Post.new(post_params)
 
       if @post.save
-        redirect_to posts.root_path, notice: "포스트가 생성되었습니다."
+        respond_to do |format|
+          format.turbo_stream do
+            @posts = current_user_posts.recent
+            @post = Post.new
+            flash.now[:notice] = "포스트가 생성되었습니다."
+          end
+          format.html { redirect_to posts.root_path, status: :see_other, notice: "포스트가 생성되었습니다." }
+        end
       else
-        @posts = current_user_posts.recent
-        render :index, status: :unprocessable_entity
+        respond_to do |format|
+          format.turbo_stream do
+            render turbo_stream: turbo_stream.update(
+              "post_composer",
+              partial: "journal/posts/form",
+              locals: { post: @post }
+            ), status: :unprocessable_entity
+          end
+          format.html do
+            @posts = current_user_posts.recent
+            render :index, status: :unprocessable_entity
+          end
+        end
       end
     end
 
     def update
       if @post.update(post_params)
-        redirect_to posts.post_path(@post), notice: "포스트가 수정되었습니다."
+        refresh_or_redirect_to posts.post_path(@post), status: :see_other, notice: "포스트가 수정되었습니다."
       else
         render :edit, status: :unprocessable_entity
       end
@@ -34,7 +52,18 @@ module Journal
 
     def destroy
       @post.destroy!
-      redirect_to posts.root_path, status: :see_other, notice: "포스트가 삭제되었습니다."
+
+      if params[:source] == "index"
+        respond_to do |format|
+          format.turbo_stream do
+            @posts = current_user_posts.recent
+            flash.now[:notice] = "포스트가 삭제되었습니다."
+          end
+          format.html { redirect_to posts.root_path, status: :see_other, notice: "포스트가 삭제되었습니다." }
+        end
+      else
+        recede_or_redirect_to posts.root_path, status: :see_other, notice: "포스트가 삭제되었습니다."
+      end
     end
 
     private

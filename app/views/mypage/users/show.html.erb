@@ -54,7 +54,11 @@
         <%= t('settings.password.description') %>
       </p>
 
-      <%= form_with url: mypage_user_path, method: :patch, scope: :user, class: "space-y-4" do |form| %>
+      <%= form_with url: mypage_user_path,
+          method: :patch,
+          scope: :user,
+          class: "space-y-4",
+          data: { controller: "bridge--form" } do |form| %>
         <div>
           <%= form.label :current_password, t('settings.password.current_password'),
               class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" %>
@@ -84,6 +88,7 @@
 
         <div class="pt-2">
           <%= form.submit t('settings.password.change_button'),
+              data: { bridge__form_target: "submit", bridge_title: t("settings.password.change_button") },
               class: "inline-flex items-center justify-center px-4 py-2 text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 dark:hover:bg-blue-500 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 dark:focus:ring-offset-gray-800" %>
         </div>
       <% end %>

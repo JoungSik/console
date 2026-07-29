@@ -1,0 +1,5 @@
+<%= turbo_stream.replace "notification_#{@plugin.name}_#{@item.key}" do %>
+  <%= render "notification_item", plugin: @plugin, item: @item, enabled: @enabled %>
+<% end %>
+
+<%= turbo_stream.update "flash", partial: "layouts/shared/alert" %>

@@ -21,6 +21,7 @@ class PasswordsTest < ActionDispatch::IntegrationTest
     assert_enqueued_email_with PasswordsMailer, :reset, args: [ @user ] do
       post passwords_url, params: { email_address: @user.email_address }
     end
+    assert_response :see_other
     assert_redirected_to new_session_path
     follow_redirect!
     assert_equal I18n.t("messages.success.password_reset_instructions_sent"), flash[:notice]
@@ -28,6 +29,7 @@ class PasswordsTest < ActionDispatch::IntegrationTest
 
   test "존재하지 않는 이메일로도 동일하게 리다이렉트된다" do
     post passwords_url, params: { email_address: "nobody@example.com" }
+    assert_response :see_other
     assert_redirected_to new_session_path
     follow_redirect!
     assert_equal I18n.t("messages.success.password_reset_instructions_sent"), flash[:notice]
@@ -50,6 +52,7 @@ class PasswordsTest < ActionDispatch::IntegrationTest
   test "새 비밀번호를 성공적으로 저장하면 자동 로그인된다" do
     token = @user.password_reset_token
     patch password_url(token), params: { password: "newpassword123", password_confirmation: "newpassword123" }
+    assert_response :see_other
     assert_redirected_to root_url
     assert cookies[:session_id].present?, "세션 쿠키가 설정되어야 합니다"
     follow_redirect!
@@ -59,9 +62,9 @@ class PasswordsTest < ActionDispatch::IntegrationTest
   test "비밀번호 확인이 일치하지 않으면 실패한다" do
     token = @user.password_reset_token
     patch password_url(token), params: { password: "newpassword123", password_confirmation: "mismatch" }
-    assert_redirected_to edit_password_path(token)
-    follow_redirect!
-    assert_equal I18n.t("messages.errors.passwords_did_not_match"), flash[:alert]
+    assert_response :unprocessable_entity
+    assert_select "#flash", text: /#{I18n.t("messages.errors.passwords_did_not_match")}/
+    assert_select "form[action=?]", password_path(token)
   end
 
   test "Rate Limiting 초과 시 경고 메시지가 표시된다" do

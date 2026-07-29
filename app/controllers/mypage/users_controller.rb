@@ -4,14 +4,16 @@ class Mypage::UsersController < Mypage::ApplicationController
 
   def update
     unless current_user.authenticate(params[:user][:current_password])
-      return redirect_to mypage_user_path, alert: t("settings.password.current_password_incorrect")
+      flash.now[:alert] = t("settings.password.current_password_incorrect")
+      return render :show, status: :unprocessable_entity
     end
 
     if current_user.update(user_params)
       terminate_session
-      redirect_to new_session_path, notice: t("settings.password.updated_please_login")
+      redirect_to new_session_path, status: :see_other, notice: t("settings.password.updated_please_login")
     else
-      redirect_to mypage_user_path, alert: current_user.errors.full_messages.join(", ")
+      flash.now[:alert] = current_user.errors.full_messages.join(", ")
+      render :show, status: :unprocessable_entity
     end
   end
 

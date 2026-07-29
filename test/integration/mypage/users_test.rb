@@ -15,6 +15,7 @@ class Mypage::UsersTest < ActionDispatch::IntegrationTest
     patch mypage_user_url, params: {
       user: { current_password: "password123", password: "newpassword456", password_confirmation: "newpassword456" }
     }
+    assert_response :see_other
     assert_redirected_to new_session_path
     follow_redirect!
     assert_equal I18n.t("settings.password.updated_please_login"), flash[:notice]
@@ -24,15 +25,17 @@ class Mypage::UsersTest < ActionDispatch::IntegrationTest
     patch mypage_user_url, params: {
       user: { current_password: "wrong", password: "newpassword456", password_confirmation: "newpassword456" }
     }
-    assert_redirected_to mypage_user_path
-    follow_redirect!
-    assert_equal I18n.t("settings.password.current_password_incorrect"), flash[:alert]
+    assert_response :unprocessable_entity
+    assert_select "#flash", text: /#{I18n.t("settings.password.current_password_incorrect")}/
+    assert @user.reload.authenticate("password123")
   end
 
   test "비밀번호 확인이 일치하지 않으면 실패한다" do
     patch mypage_user_url, params: {
       user: { current_password: "password123", password: "newpassword456", password_confirmation: "mismatch" }
     }
-    assert_redirected_to mypage_user_path
+    assert_response :unprocessable_entity
+    assert_select "#flash", text: /비밀번호.*일치하지 않습니다/
+    assert @user.reload.authenticate("password123")
   end
 end

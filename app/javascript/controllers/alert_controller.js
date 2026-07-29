@@ -7,7 +7,7 @@ export default class extends Controller {
   connect() {
     this.alertTarget.classList.add("translate-y-[-100%]", "opacity-0", "transition-all", "duration-500");
 
-    setTimeout(() => {
+    this.showTimeout = setTimeout(() => {
       this.alertTarget.classList.remove("translate-y-[-100%]", "opacity-0");
       this.alertTarget.classList.add("translate-y-0", "opacity-100");
     }, 100);
@@ -17,22 +17,30 @@ export default class extends Controller {
     }, this.durationValue || 5000);
   }
 
+  disconnect() {
+    this.clearTimeouts();
+  }
+
   close() {
     this.hide();
   }
 
   hide() {
-    if (this.autoHideTimeout) {
-      clearTimeout(this.autoHideTimeout);
-    }
+    this.clearTimeouts();
 
     this.alertTarget.classList.remove("translate-y-0", "opacity-100");
     this.alertTarget.classList.add("translate-y-[-100%]", "opacity-0");
 
-    setTimeout(() => {
+    this.removeTimeout = setTimeout(() => {
       if (this.alertTarget.parentNode) {
         this.alertTarget.parentNode.removeChild(this.alertTarget);
       }
     }, 500);
+  }
+
+  clearTimeouts() {
+    clearTimeout(this.showTimeout);
+    clearTimeout(this.autoHideTimeout);
+    clearTimeout(this.removeTimeout);
   }
 }
