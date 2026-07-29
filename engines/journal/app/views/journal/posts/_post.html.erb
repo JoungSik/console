@@ -5,11 +5,23 @@
         <%= post.created_at.strftime("%Y-%m-%d %H:%M") %>
       <% end %>
 
-      <div class="flex flex-shrink-0 items-center gap-2">
-        <%= link_to posts.edit_post_path(post), class: "inline-flex items-center justify-center p-1.5 rounded-md text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200", aria: { label: "포스트 수정" } do %>
+      <div class="flex flex-shrink-0 items-center gap-2" data-controller="bridge--menu">
+        <%= link_to posts.edit_post_path(post),
+            class: "inline-flex items-center justify-center p-1.5 rounded-md text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200",
+            aria: { label: "포스트 수정" },
+            data: { bridge__menu_target: "item", bridge_title: "수정" } do %>
           <%= lucide_icon "pencil", class: "w-4 h-4" %>
         <% end %>
-        <%= button_to posts.post_path(post), method: :delete, class: "inline-flex items-center justify-center p-1.5 rounded-md text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900 transition-colors duration-200", data: { turbo_confirm: "정말 삭제하시겠습니까?" }, aria: { label: "포스트 삭제" } do %>
+        <%= link_to posts.post_path(post, source: ("index" if local_assigns[:index])),
+            class: "inline-flex items-center justify-center p-1.5 rounded-md text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900 transition-colors duration-200",
+            data: {
+              turbo_method: :delete,
+              turbo_confirm: "정말 삭제하시겠습니까?",
+              bridge__menu_target: "item",
+              bridge_title: "삭제",
+              bridge_destructive: "true"
+            },
+            aria: { label: "포스트 삭제" } do %>
           <%= lucide_icon "trash-2", class: "w-4 h-4" %>
         <% end %>
       </div>

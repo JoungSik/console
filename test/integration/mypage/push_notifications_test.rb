@@ -21,6 +21,7 @@ class Mypage::PushNotificationsTest < ActionDispatch::IntegrationTest
 
   test "알림 항목을 비활성화할 수 있다" do
     patch toggle_mypage_push_notifications_url(plugin_name: "todos", item_key: "due_date_reminder")
+    assert_response :see_other
     assert_redirected_to mypage_push_notifications_url
 
     setting = @user.push_notification_settings.find_by(plugin_name: "todos", item_key: "due_date_reminder")
@@ -31,6 +32,7 @@ class Mypage::PushNotificationsTest < ActionDispatch::IntegrationTest
     PushNotificationSetting.create!(user: @user, plugin_name: "todos", item_key: "due_date_reminder", enabled: false)
 
     patch toggle_mypage_push_notifications_url(plugin_name: "todos", item_key: "due_date_reminder")
+    assert_response :see_other
     assert_redirected_to mypage_push_notifications_url
 
     setting = @user.push_notification_settings.find_by(plugin_name: "todos", item_key: "due_date_reminder")
@@ -39,14 +41,34 @@ class Mypage::PushNotificationsTest < ActionDispatch::IntegrationTest
 
   test "존재하지 않는 알림 항목은 토글할 수 없다" do
     patch toggle_mypage_push_notifications_url(plugin_name: "todos", item_key: "nonexistent")
+    assert_response :see_other
     assert_redirected_to mypage_push_notifications_url
     assert_equal I18n.t("settings.push_notifications.item_not_found"), flash[:alert]
   end
 
   test "존재하지 않는 플러그인의 알림 항목은 토글할 수 없다" do
     patch toggle_mypage_push_notifications_url(plugin_name: "nonexistent", item_key: "some_key")
+    assert_response :see_other
     assert_redirected_to mypage_push_notifications_url
     assert_equal I18n.t("settings.push_notifications.item_not_found"), flash[:alert]
+  end
+
+  test "Turbo Stream 토글은 알림 항목과 flash만 교체한다" do
+    patch toggle_mypage_push_notifications_url(plugin_name: "todos", item_key: "due_date_reminder"),
+      headers: turbo_stream_headers
+
+    assert_response :success
+    assert_select "turbo-stream[action='replace'][target='notification_todos_due_date_reminder']"
+    assert_select "turbo-stream[action='update'][target='flash']"
+  end
+
+  test "Turbo Stream의 잘못된 알림 항목은 flash만 422로 갱신한다" do
+    patch toggle_mypage_push_notifications_url(plugin_name: "todos", item_key: "nonexistent"),
+      headers: turbo_stream_headers
+
+    assert_response :unprocessable_entity
+    assert_select "turbo-stream[action='update'][target='flash']"
+    assert_select "turbo-stream[action='replace']", count: 0
   end
 
   test "비활성화된 플러그인의 알림은 표시되지 않는다" do

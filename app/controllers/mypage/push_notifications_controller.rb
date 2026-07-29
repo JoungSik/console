@@ -12,9 +12,11 @@ class Mypage::PushNotificationsController < Mypage::ApplicationController
     item_key = params[:item_key]
 
     plugin = PluginRegistry.find(plugin_name.to_sym)
-    unless plugin&.push_notification_items&.any? { |item| item.key == item_key }
-      redirect_to mypage_push_notifications_path, alert: t("settings.push_notifications.item_not_found")
-      return
+    item = plugin&.push_notification_items&.find { |candidate| candidate.key == item_key }
+
+    unless item
+      return respond_with_error(t("settings.push_notifications.item_not_found"),
+        redirect_url: mypage_push_notifications_path)
     end
 
     setting = current_user.push_notification_settings.find_or_initialize_by(
@@ -25,6 +27,15 @@ class Mypage::PushNotificationsController < Mypage::ApplicationController
     setting.save!
 
     message = setting.enabled? ? t("settings.push_notifications.item_enabled") : t("settings.push_notifications.item_disabled")
-    redirect_to mypage_push_notifications_path, notice: message
+
+    respond_to do |format|
+      format.turbo_stream do
+        @plugin = plugin
+        @item = item
+        @enabled = setting.enabled?
+        flash.now[:notice] = message
+      end
+      format.html { redirect_to mypage_push_notifications_path, status: :see_other, notice: message }
+    end
   end
 end

@@ -36,7 +36,12 @@ module Authentication
 
   def request_authentication
     session[:return_to_after_authenticating] = request.url
-    redirect_to main_app.new_session_path
+
+    if hotwire_native_app?
+      head :unauthorized
+    else
+      redirect_to main_app.new_session_path
+    end
   end
 
   def after_authentication_url

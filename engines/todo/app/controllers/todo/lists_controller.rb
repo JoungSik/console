@@ -22,7 +22,7 @@ module Todo
       @list = List.new(list_params)
 
       if @list.save
-        redirect_to todo.list_path(@list), notice: "할 일 목록이 생성되었습니다."
+        refresh_or_redirect_to todo.list_path(@list), status: :see_other, notice: "할 일 목록이 생성되었습니다."
       else
         render :new, status: :unprocessable_entity
       end
@@ -30,7 +30,7 @@ module Todo
 
     def update
       if @list.update(list_params)
-        redirect_to todo.list_path(@list), notice: "할 일 목록이 수정되었습니다."
+        refresh_or_redirect_to todo.list_path(@list), status: :see_other, notice: "할 일 목록이 수정되었습니다."
       else
         render :edit, status: :unprocessable_entity
       end
@@ -38,7 +38,7 @@ module Todo
 
     def destroy
       @list.destroy!
-      redirect_to todo.lists_path, status: :see_other, notice: "할 일 목록이 삭제되었습니다."
+      recede_or_redirect_to todo.lists_path, status: :see_other, notice: "할 일 목록이 삭제되었습니다."
     end
 
     private

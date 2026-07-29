@@ -7,12 +7,8 @@ class JournalPostsLayoutTest < ApplicationSystemTestCase
     sign_in_as @user
   end
 
-  teardown do
-    resize_browser_to(1400, 1400)
-  end
-
   test "데스크톱에서는 작성 영역과 피드가 나란히 표시된다" do
-    resize_browser_to(1920, 1000)
+    use_desktop_viewport
     visit posts.root_url
 
     page_container, composer, feed, main_content_width = post_layout_positions
@@ -35,17 +31,13 @@ class JournalPostsLayoutTest < ApplicationSystemTestCase
 
   private
 
-  def resize_browser_to(width, height)
-    page.driver.browser.manage.window.resize_to(width, height)
-  end
-
   def post_layout_positions
     layout = page.evaluate_script(<<~JS)
       (() => {
         const pageContainer = document.querySelector("#posts-page").getBoundingClientRect();
         const main = document.querySelector("main");
         const mainStyles = window.getComputedStyle(main);
-        const composer = document.querySelector("#post-composer").getBoundingClientRect();
+        const composer = document.querySelector("#post_composer").getBoundingClientRect();
         const feed = document.querySelector("#posts").getBoundingClientRect();
 
         return {

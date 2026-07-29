@@ -12,14 +12,14 @@ module Todo
         @item.update!(item_params)
       end
 
-      redirect_to todo.list_path(@list), notice: "할 일이 수정되었습니다."
+      respond_to_change("할 일이 수정되었습니다.")
     rescue ActiveRecord::RecordInvalid
-      redirect_to todo.list_path(@list), alert: "할 일 수정에 실패했습니다."
+      respond_with_error("할 일 수정에 실패했습니다.", redirect_url: todo.list_path(@list))
     end
 
     def destroy
       @item.destroy!
-      redirect_to todo.list_path(@list), status: :see_other, notice: "할 일이 삭제되었습니다."
+      respond_to_change("할 일이 삭제되었습니다.")
     end
 
     private
@@ -42,6 +42,16 @@ module Todo
 
     def uncompleting?
       item_params[:completed] == "false" && @item.completed?
+    end
+
+    def respond_to_change(message)
+      respond_to do |format|
+        format.turbo_stream do
+          @list.reload
+          flash.now[:notice] = message
+        end
+        format.html { redirect_to todo.list_path(@list), status: :see_other, notice: message }
+      end
     end
   end
 end
