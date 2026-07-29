@@ -11,6 +11,8 @@ class Todo::ListsTest < ActionDispatch::IntegrationTest
   test "목록 인덱스에 접근할 수 있다" do
     get todo.lists_url
     assert_response :success
+    assert_select "title", text: "할 일 목록"
+    assert_select "turbo-frame#lists_frame"
   end
 
   test "일반 탭에는 보관하지 않은 목록만 표시한다" do
@@ -52,6 +54,7 @@ class Todo::ListsTest < ActionDispatch::IntegrationTest
     assert_difference "Todo::List.count", 1 do
       post todo.lists_url, params: { list: { title: "새 목록" } }
     end
+    assert_response :see_other
     assert_redirected_to todo.list_url(Todo::List.last)
   end
 
@@ -77,6 +80,7 @@ class Todo::ListsTest < ActionDispatch::IntegrationTest
 
   test "목록을 수정할 수 있다" do
     patch todo.list_url(@list), params: { list: { title: "수정된 제목" } }
+    assert_response :see_other
     assert_redirected_to todo.list_url(@list)
     assert_equal "수정된 제목", @list.reload.title
   end
@@ -98,6 +102,7 @@ class Todo::ListsTest < ActionDispatch::IntegrationTest
     assert_difference "Todo::List.count", -1 do
       delete todo.list_url(@list)
     end
+    assert_response :see_other
     assert_redirected_to todo.lists_url
   end
 

@@ -1,4 +1,10 @@
-<%= form_with(model: post, scope: :post, url: post.persisted? ? posts.post_path(post) : posts.posts_path, class: "space-y-3") do |form| %>
+<%= form_with(
+      model: post,
+      scope: :post,
+      url: post.persisted? ? posts.post_path(post) : posts.posts_path,
+      class: "space-y-3",
+      data: { controller: "bridge--form" }
+    ) do |form| %>
   <% if post.errors.any? %>
     <div class="bg-red-50 dark:bg-red-900 border border-red-200 dark:border-red-700 text-red-700 dark:text-red-100 px-4 py-3 rounded-md">
       <h2 class="font-medium mb-2"><%= post.errors.count %>개의 오류가 있습니다</h2>
@@ -22,6 +28,7 @@
   <div class="flex items-center justify-between gap-3">
     <p class="text-xs text-gray-500 dark:text-gray-400">최대 <%= Journal::Post::MAX_BODY_LENGTH %>자</p>
     <%= form.submit post.persisted? ? "포스트 수정" : "포스트 남기기",
+                    data: { bridge__form_target: "submit", bridge_title: post.persisted? ? "수정" : "등록" },
                     class: "inline-flex items-center px-4 py-2 text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 dark:hover:bg-blue-500 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 dark:focus:ring-offset-gray-800" %>
   </div>
 <% end %>

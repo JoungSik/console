@@ -1,0 +1,5 @@
+<%= turbo_stream.replace "plugin_#{@item[:plugin].name}" do %>
+  <%= render "plugin", item: @item %>
+<% end %>
+
+<%= turbo_stream.update "flash", partial: "layouts/shared/alert" %>

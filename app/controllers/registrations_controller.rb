@@ -1,7 +1,8 @@
 class RegistrationsController < ApplicationController
   allow_unauthenticated_access
   layout "blank"
-  rate_limit to: 5, within: 3.minutes, only: :create, with: -> { redirect_to new_registration_url, alert: t("messages.errors.rate_limit_exceeded") }
+  rate_limit to: 5, within: 3.minutes, only: :create,
+    with: -> { redirect_to new_registration_url, status: :see_other, alert: t("messages.errors.rate_limit_exceeded") }
 
   def new
     @user = User.new
@@ -23,7 +24,7 @@ class RegistrationsController < ApplicationController
     @user.save!
 
     RegistrationsMailer.verify(@user).deliver_later
-    redirect_to verify_pending_registration_path
+    redirect_to verify_pending_registration_path, status: :see_other
   rescue ActiveRecord::RecordInvalid
     render :new, status: :unprocessable_entity
   end

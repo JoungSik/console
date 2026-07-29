@@ -11,12 +11,12 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   root "home#index"
 
-  resource :session
+  resource :session, only: %i[new create destroy]
   resource :registration, only: %i[new create] do
     get :verify_pending, on: :collection
     get :verify, on: :collection
   end
-  resources :passwords, param: :token
+  resources :passwords, param: :token, only: %i[new create edit update]
 
   get "terms", to: "pages#terms"
   get "privacy", to: "pages#privacy"

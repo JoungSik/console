@@ -1,0 +1,5 @@
+<%= turbo_stream.update "list_items" do %>
+  <%= render "todo/lists/items", list: @list %>
+<% end %>
+
+<%= turbo_stream.update "flash", partial: "layouts/shared/alert" %>

@@ -3,9 +3,15 @@ require_relative "../config/environment"
 require "rails/test_help"
 
 module IntegrationTestHelper
+  TURBO_STREAM_HEADERS = { "Accept" => "text/vnd.turbo-stream.html" }.freeze
+
   def sign_in_as(user)
     post session_url, params: { email_address: user.email_address, password: "password123" }
     follow_redirect!
+  end
+
+  def turbo_stream_headers
+    TURBO_STREAM_HEADERS
   end
 end
 

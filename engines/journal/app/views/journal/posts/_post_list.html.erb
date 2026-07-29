@@ -1,0 +1,9 @@
+<% if posts.any? %>
+  <%= render partial: "journal/posts/post", collection: posts, as: :post, locals: { index: true } %>
+<% else %>
+  <div class="text-center py-12">
+    <%= lucide_icon "message-square", class: "mx-auto h-12 w-12 text-gray-400 dark:text-gray-500" %>
+    <h3 class="mt-2 text-sm font-medium text-gray-900 dark:text-white">포스트가 없습니다</h3>
+    <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">첫 번째 포스트를 남겨보세요.</p>
+  </div>
+<% end %>

@@ -11,8 +11,11 @@ export default class extends Controller {
 
   connect() {
     this.subscriptionId = localStorage.getItem(PUSH_SUBSCRIPTION_ID_KEY)
-    this.checkSupport()
     this.checkSubscription()
+  }
+
+  disconnect() {
+    clearTimeout(this.statusTimeout)
   }
 
   checkSupport() {
@@ -221,7 +224,8 @@ export default class extends Controller {
       this.statusTarget.className = `mt-3 text-sm ${this.getStatusClass(type)}`
       this.statusTarget.classList.remove("hidden")
 
-      setTimeout(() => {
+      clearTimeout(this.statusTimeout)
+      this.statusTimeout = setTimeout(() => {
         this.statusTarget.classList.add("hidden")
       }, 5000)
     }

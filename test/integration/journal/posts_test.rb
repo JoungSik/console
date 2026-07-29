@@ -11,6 +11,7 @@ class Journal::PostsTest < ActionDispatch::IntegrationTest
     get posts.root_url
 
     assert_response :success
+    assert_select "title", text: "포스트"
     assert_select "h1", text: "포스트"
     assert_select "textarea[name='post[body]']"
   end
@@ -33,9 +34,24 @@ class Journal::PostsTest < ActionDispatch::IntegrationTest
       post posts.posts_url, params: { post: { body: "새 포스트" } }
     end
 
+    assert_response :see_other
     assert_redirected_to posts.root_url
     assert_equal "새 포스트", Journal::Post.last.body
     assert_equal @user.id, Journal::Post.last.user_id
+  end
+
+  test "Turbo Stream으로 포스트를 생성하면 작성 영역과 목록과 flash를 갱신한다" do
+    assert_difference "Journal::Post.count", 1 do
+      post posts.posts_url,
+        params: { post: { body: "Stream 포스트" } },
+        headers: turbo_stream_headers
+    end
+
+    assert_response :success
+    assert_select "turbo-stream[action='update'][target='post_composer']"
+    assert_select "turbo-stream[action='update'][target='posts']"
+    assert_select "turbo-stream[action='update'][target='flash']"
+    assert_select "turbo-stream[target='posts']", text: /Stream 포스트/
   end
 
   test "빈 본문으로 생성하면 422를 반환한다" do
@@ -44,6 +60,17 @@ class Journal::PostsTest < ActionDispatch::IntegrationTest
     end
 
     assert_response :unprocessable_entity
+  end
+
+  test "Turbo Stream 생성 검증 오류는 입력값이 있는 작성 영역만 갱신한다" do
+    post posts.posts_url,
+      params: { post: { body: "" } },
+      headers: turbo_stream_headers
+
+    assert_response :unprocessable_entity
+    assert_select "turbo-stream[action='update'][target='post_composer']"
+    assert_select "turbo-stream[target='posts']", count: 0
+    assert_select "textarea[name='post[body]']"
   end
 
   test "280자 초과 본문으로 생성하면 422를 반환한다" do
@@ -57,6 +84,7 @@ class Journal::PostsTest < ActionDispatch::IntegrationTest
   test "포스트를 수정할 수 있다" do
     patch posts.post_url(@post), params: { post: { body: "수정된 포스트" } }
 
+    assert_response :see_other
     assert_redirected_to posts.post_url(@post)
     assert_equal "수정된 포스트", @post.reload.body
   end
@@ -73,7 +101,21 @@ class Journal::PostsTest < ActionDispatch::IntegrationTest
       delete posts.post_url(@post)
     end
 
+    assert_response :see_other
     assert_redirected_to posts.root_url
+  end
+
+  test "인덱스의 Turbo Stream 삭제는 목록과 flash를 갱신한다" do
+    assert_difference "Journal::Post.count", -1 do
+      delete posts.post_url(@post),
+        params: { source: "index" },
+        headers: turbo_stream_headers
+    end
+
+    assert_response :success
+    assert_select "turbo-stream[action='update'][target='posts']"
+    assert_select "turbo-stream[action='update'][target='flash']"
+    assert_select "turbo-stream[target='posts']", text: /포스트가 없습니다/
   end
 
   test "다른 사용자의 포스트 상세에 접근하면 404를 반환한다" do
