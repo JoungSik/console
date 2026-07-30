@@ -1,14 +1,12 @@
 <%= render "layouts/htmldoc" do %>
-  <% if hotwire_native_app? %>
-    <%= render "layouts/native_menu" %>
-  <% else %>
+  <% unless hotwire_native_app? %>
     <%= render "layouts/desktop_sidebar" %>
 
     <%= render "layouts/mobile_bottom_nav" %>
   <% end %>
 
   <div class="<%= hotwire_native_app? ? '' : 'lg:pl-64' %>">
-    <main class="p-8 text-gray-900 dark:text-white">
+    <main class="<%= hotwire_native_app? ? 'px-4 pb-4 sm:px-6 sm:pb-6' : 'p-8' %> text-gray-900 dark:text-white">
       <%= yield %>
     </main>
     <% unless hotwire_native_app? %>

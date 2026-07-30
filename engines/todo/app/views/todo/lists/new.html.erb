@@ -1,7 +1,8 @@
 <% content_for(:title) { "새 할 일 목록" } %>
 
 <div class="w-full">
-  <div class="mb-6">
+  <div class="mb-6"
+       data-native-page-navigation>
     <%= link_to todo.lists_path, class: "inline-flex items-center gap-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors duration-200" do %>
       <%= lucide_icon "arrow-left", class: "w-4 h-4" %>
       할 일 목록
@@ -9,7 +10,8 @@
   </div>
 
   <div class="bg-white dark:bg-gray-800 shadow-lg rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700">
-    <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+    <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700"
+         data-native-page-title>
       <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">새 할 일 목록</h1>
     </div>
     <div class="p-6">

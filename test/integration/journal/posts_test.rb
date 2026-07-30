@@ -23,6 +23,24 @@ class Journal::PostsTest < ActionDispatch::IntegrationTest
     assert_select "p", text: @post.body
   end
 
+  test "Native 포스트 화면은 웹 제목과 뒤로가기를 숨긴다" do
+    native_headers = { "User-Agent" => "Console Hotwire Native iOS" }
+
+    get posts.root_url, headers: native_headers
+    assert_response :success
+    assert_select "link[rel='stylesheet'][href*='hotwire_native']"
+    assert_select "[data-native-page-title]", text: "포스트"
+
+    get posts.post_url(@post), headers: native_headers
+    assert_response :success
+    assert_select "[data-native-page-navigation]", text: "포스트"
+
+    get posts.edit_post_url(@post), headers: native_headers
+    assert_response :success
+    assert_select "[data-native-page-title]", text: "포스트 수정"
+    assert_select "[data-native-page-navigation]", text: "포스트"
+  end
+
   test "포스트 수정 폼에 접근할 수 있다" do
     get posts.edit_post_url(@post)
 
@@ -87,6 +105,17 @@ class Journal::PostsTest < ActionDispatch::IntegrationTest
     assert_response :see_other
     assert_redirected_to posts.post_url(@post)
     assert_equal "수정된 포스트", @post.reload.body
+  end
+
+  test "Native Turbo Stream으로 포스트를 수정하면 현재 화면 새로고침을 요청한다" do
+    patch posts.post_url(@post),
+      params: { post: { body: "Native 수정 포스트" } },
+      headers: turbo_stream_headers.merge("User-Agent" => "Console Hotwire Native iOS")
+
+    assert_redirected_to Rails.application.routes.url_helpers.turbo_refresh_historical_location_path(
+      notice: "포스트가 수정되었습니다."
+    )
+    assert_equal "Native 수정 포스트", @post.reload.body
   end
 
   test "빈 본문으로 수정하면 422를 반환한다" do

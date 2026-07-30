@@ -10,6 +10,18 @@ module Console
 
     private
 
+    def turbo_recede_historical_location_url(**options)
+      main_app.turbo_recede_historical_location_url(**options)
+    end
+
+    def turbo_resume_historical_location_url(**options)
+      main_app.turbo_resume_historical_location_url(**options)
+    end
+
+    def turbo_refresh_historical_location_url(**options)
+      main_app.turbo_refresh_historical_location_url(**options)
+    end
+
     def verify_plugin_enabled
       return unless current_user
 
