@@ -58,6 +58,19 @@ class Todo::ListsTest < ActionDispatch::IntegrationTest
     assert_redirected_to todo.list_url(Todo::List.last)
   end
 
+  test "Native Turbo Stream으로 목록을 생성하면 현재 화면 새로고침을 요청한다" do
+    assert_difference "Todo::List.count", 1 do
+      post todo.lists_url,
+        params: { list: { title: "Native 새 목록" } },
+        headers: turbo_stream_headers.merge("User-Agent" => "Console Hotwire Native iOS")
+    end
+
+    assert_redirected_to Rails.application.routes.url_helpers.turbo_refresh_historical_location_path(
+      notice: "할 일 목록이 생성되었습니다."
+    )
+    assert_equal "Native 새 목록", Todo::List.last.title
+  end
+
   test "항목을 포함하여 목록을 생성할 수 있다" do
     assert_difference "Todo::List.count", 1 do
       post todo.lists_url, params: {
@@ -85,6 +98,17 @@ class Todo::ListsTest < ActionDispatch::IntegrationTest
     assert_equal "수정된 제목", @list.reload.title
   end
 
+  test "Native Turbo Stream으로 목록을 수정하면 현재 화면 새로고침을 요청한다" do
+    patch todo.list_url(@list),
+      params: { list: { title: "Native 수정 제목" } },
+      headers: turbo_stream_headers.merge("User-Agent" => "Console Hotwire Native iOS")
+
+    assert_redirected_to Rails.application.routes.url_helpers.turbo_refresh_historical_location_path(
+      notice: "할 일 목록이 수정되었습니다."
+    )
+    assert_equal "Native 수정 제목", @list.reload.title
+  end
+
   test "목록을 보관할 수 있다" do
     patch todo.list_url(@list), params: { list: { title: @list.title, archive: "1" } }
     assert_redirected_to todo.list_url(@list)
@@ -104,6 +128,17 @@ class Todo::ListsTest < ActionDispatch::IntegrationTest
     end
     assert_response :see_other
     assert_redirected_to todo.lists_url
+  end
+
+  test "Native Turbo Stream으로 목록을 삭제하면 이전 화면 이동을 요청한다" do
+    assert_difference "Todo::List.count", -1 do
+      delete todo.list_url(@list),
+        headers: turbo_stream_headers.merge("User-Agent" => "Console Hotwire Native iOS")
+    end
+
+    assert_redirected_to Rails.application.routes.url_helpers.turbo_recede_historical_location_path(
+      notice: "할 일 목록이 삭제되었습니다."
+    )
   end
 
   test "반복 설정을 포함하여 항목을 생성할 수 있다" do

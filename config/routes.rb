@@ -21,6 +21,11 @@ Rails.application.routes.draw do
   get "terms", to: "pages#terms"
   get "privacy", to: "pages#privacy"
 
+  get "hotwire-native/path-configuration",
+      to: "hotwire_native/path_configurations#show",
+      defaults: { format: :json },
+      as: :hotwire_native_path_configuration
+
   namespace :mypage do
     resource :user, only: %i[ show update ]
     resources :push_subscriptions, only: %i[ create destroy ]

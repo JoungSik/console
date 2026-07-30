@@ -7,7 +7,11 @@ class SessionsTest < ActionDispatch::IntegrationTest
 
   test "로그인 페이지에 접근할 수 있다" do
     get new_session_url
+
     assert_response :success
+    assert_select "main.p-8"
+    assert_select "[data-native-page-title]", text: I18n.t("forms.buttons.sign_in")
+    assert_select "link[rel='stylesheet'][href*='hotwire_native']", count: 0
     assert_select "nav[aria-label='Sidebar']", count: 0
   end
 
@@ -35,8 +39,15 @@ class SessionsTest < ActionDispatch::IntegrationTest
 
   test "로그아웃하면 new_session_path로 리다이렉트된다" do
     sign_in_as @user
-    delete session_url
+
+    assert_difference "Session.count", -1 do
+      delete session_url
+    end
+
     assert_response :see_other
+    assert_redirected_to new_session_path
+
+    get mypage_user_url
     assert_redirected_to new_session_path
   end
 
@@ -58,13 +69,17 @@ class SessionsTest < ActionDispatch::IntegrationTest
     assert_response :unauthorized
   end
 
-  test "인증된 Native 화면에는 웹 내비게이션 대신 Bridge 메뉴 계약이 표시된다" do
+  test "인증된 Native 화면에는 웹 전역 내비게이션이 표시되지 않는다" do
     sign_in_as @user
 
     get root_url, headers: { "User-Agent" => "Console Hotwire Native Android" }
 
     assert_response :success
-    assert_select "nav[data-controller='bridge--menu'][aria-hidden='true']"
+    assert_select "main.px-4.pb-4"
+    assert_select "main.p-8", count: 0
+    assert_select "link[rel='stylesheet'][href*='hotwire_native']"
+    assert_select "[data-native-page-title]", text: "대시보드"
+    assert_select "nav[data-controller='bridge--menu'][aria-hidden='true']", count: 0
     assert_select "nav[aria-label='Sidebar']", count: 0
     assert_select ".fixed.bottom-0", count: 0
   end

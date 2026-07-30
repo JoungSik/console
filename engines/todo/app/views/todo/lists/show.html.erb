@@ -1,7 +1,8 @@
 <% content_for(:title) { @list.title } %>
 
 <div class="w-full">
-  <div class="mb-6">
+  <div class="mb-6"
+       data-native-page-navigation>
     <%= link_to todo.lists_path, class: "inline-flex items-center gap-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors duration-200" do %>
       <%= lucide_icon "arrow-left", class: "w-4 h-4" %>
       할 일 목록
@@ -12,7 +13,8 @@
     <div class="p-6 sm:p-8">
       <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-6">
         <div class="flex-1 min-w-0">
-          <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white break-words">
+          <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white break-words"
+              data-native-page-title>
             <%= @list.title.presence || "제목 없음" %>
           </h1>
           <% if @list.archived? %>
