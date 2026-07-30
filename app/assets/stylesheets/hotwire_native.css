@@ -1,0 +1,12 @@
+[data-native-page-title],
+[data-native-page-navigation] {
+  display: none;
+}
+
+[data-native-top-flush] {
+  padding-top: 0;
+}
+
+[data-native-top-flush] [data-native-page-title] + * {
+  margin-top: 0;
+}

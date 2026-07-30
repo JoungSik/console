@@ -68,6 +68,8 @@ Rails 웹 UI는 JavaScript 애플리케이션을 별도로 만들지 않고 서�
 - Bridge controller는 `bridge--*` namespace를 사용하고 플랫폼 공용 component 이름과 message 계약을 유지한다.
 - Bridge가 연결되지 않은 웹 브라우저에서도 submit 버튼, 메뉴, 링크를 숨기거나 비활성화하지 않는다.
 - 플랫폼별 Swift/Kotlin 구현이 없어도 모든 핵심 기능이 웹 UI만으로 동작해야 한다.
+- 웹 페이지 제목 영역에는 `data-native-page-title`, Native 자체 뒤로가기로 대체되는 웹 탐색 영역에는 `data-native-page-navigation`을 지정한다.
+- 뷰에서는 위 marker만 선언한다. 공통 layout이 `hotwire_native_app?`일 때만 `hotwire_native.css`를 로드해 marker 영역을 숨기고, 일반 브라우저에서는 그대로 노출한다.
 
 ## Layout과 DOM 계약
 

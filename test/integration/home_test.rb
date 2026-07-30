@@ -17,6 +17,14 @@ class HomeTest < ActionDispatch::IntegrationTest
     assert_select "h1", "Console"
   end
 
+  test "Native 랜딩 페이지는 상단 여백 제거 계약을 제공한다" do
+    get root_url, headers: { "User-Agent" => "Console Hotwire Native iOS" }
+
+    assert_response :success
+    assert_select "link[rel='stylesheet'][href*='hotwire_native']"
+    assert_select "[data-native-top-flush]"
+  end
+
   test "랜딩 페이지에 기능 소개와 CTA 링크가 있다" do
     get root_url
     assert_select "h3", "포스트"
