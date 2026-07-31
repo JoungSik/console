@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_07_18_193900) do
+ActiveRecord::Schema[8.1].define(version: 2026_07_31_172417) do
   create_table "push_notification_settings", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.boolean "enabled", default: true, null: false
@@ -54,12 +54,14 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_18_193900) do
   end
 
   create_table "users", force: :cascade do |t|
+    t.boolean "admin", default: false, null: false
     t.datetime "created_at", null: false
     t.string "email_address", null: false
     t.datetime "email_verified_at"
     t.string "name", null: false
     t.string "password_digest", null: false
     t.datetime "updated_at", null: false
+    t.index ["admin"], name: "index_users_on_admin"
     t.index ["email_address"], name: "index_users_on_email_address", unique: true
   end
 

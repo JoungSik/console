@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "../builds/tailwind/js_admin";
 
 @layer components {
   .legal-content {

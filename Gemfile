@@ -20,6 +20,8 @@ gem "tailwindcss-rails"
 gem "solid_queue"
 # Mission Control for Rails Jobs [https://github.com/rails/mission_control-jobs]
 gem "mission_control-jobs"
+# Generic admin UI for Active Record models
+gem "js_admin"
 # Use Redis adapter to run Action Cable in production
 # gem "redis", ">= 4.0.1"
 
