@@ -13,10 +13,16 @@ class Mypage::UsersTest < ActionDispatch::IntegrationTest
 
   test "올바른 현재 비밀번호로 변경하면 재로그인이 필요하다" do
     patch mypage_user_url, params: {
-      user: { current_password: "password123", password: "newpassword456", password_confirmation: "newpassword456" }
+      user: {
+        current_password: "password123",
+        password: "newpassword456",
+        password_confirmation: "newpassword456",
+        admin: false
+      }
     }
     assert_response :see_other
     assert_redirected_to new_session_path
+    assert @user.reload.admin?
     follow_redirect!
     assert_equal I18n.t("settings.password.updated_please_login"), flash[:notice]
   end

@@ -1,8 +1,11 @@
-user = User.find_or_create_by!(email_address: "test@test.com") do |u|
-  u.name = "test"
-  u.password = "qwer1234"
-  u.email_verified_at = Time.current
+user = User.find_or_initialize_by(email_address: "test@test.com")
+if user.new_record?
+  user.name = "test"
+  user.password = "qwer1234"
+  user.email_verified_at = Time.current
 end
+user.admin = true
+user.save!
 puts "User: #{user.email_address}"
 
 list1 = Todo::List.find_or_create_by!(title: "오늘 할 일", user_id: user.id)
