@@ -5,6 +5,12 @@ class UserTest < ActiveSupport::TestCase
     @user = users(:test_user)
   end
 
+  test "신규 사용자는 일반 사용자로 생성된다" do
+    user = User.new
+
+    assert_not user.admin?
+  end
+
   test "plugin_enabled?는 레코드가 없으면 true를 반환한다" do
     assert @user.plugin_enabled?(:posts)
   end

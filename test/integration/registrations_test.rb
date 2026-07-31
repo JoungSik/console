@@ -14,7 +14,8 @@ class RegistrationsTest < ActionDispatch::IntegrationTest
             name: "신규사용자",
             email_address: "new@example.com",
             password: "password1",
-            password_confirmation: "password1"
+            password_confirmation: "password1",
+            admin: true
           },
           terms_agreed: "1",
           privacy_agreed: "1"
@@ -23,6 +24,7 @@ class RegistrationsTest < ActionDispatch::IntegrationTest
     end
 
     assert_redirected_to verify_pending_registration_path
+    assert_not User.find_by!(email_address: "new@example.com").admin?
   end
 
   test "약관 미동의 시 가입에 실패한다" do
