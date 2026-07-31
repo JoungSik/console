@@ -16,6 +16,25 @@
   - `fix`: 버그 수정
   - `chore`: 문서, 설정, 스타일 등 기타 변경
 
+## Git Branch
+
+- 브랜치는 기본적으로 `develop`에서 생성한다. 다른 base가 필요하면 사용자가 명시적으로 지정한다.
+- 브랜치 이름은 `<type>/<issue-id>-<summary>` 형식을 사용한다. 연결된 이슈가 없으면 issue ID를 생략한다.
+- `<summary>`는 소문자 영문과 숫자를 사용한 kebab-case로 작성한다.
+- 작업 유형에 따라 다음 prefix를 사용한다.
+  - `fix`: 버그 수정
+  - `feature`: 새로운 기능 구현
+  - `chore`: 문서, 설정, 스타일 등 제품 동작에 영향을 주지 않는 변경
+- 하나의 브랜치에는 하나의 작업 목적만 포함한다.
+
+예시:
+
+```text
+fix/357-admin-access
+feature/357-js-admin
+chore/update-agent-rules
+```
+
 ## Redmine
 
 - 프로젝트는 Console(ID: 8)을 사용한다.
