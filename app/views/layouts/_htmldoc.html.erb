@@ -1,14 +1,22 @@
 <% turbo_refreshes_with method: :morph, scroll: :preserve %>
+<% theme_preference = current_user&.theme || "system" %>
 
 <!DOCTYPE html>
-<html lang="ko" class="h-full">
+<html lang="ko"
+      class="h-full theme-<%= theme_preference %><%= " dark" if theme_preference == "dark" %>"
+      data-controller="theme bridge--theme"
+      data-action="theme:sync->bridge--theme#sync"
+      data-theme-owner-value="<%= current_user ? "user-#{current_user.id}" : "guest" %>"
+      data-theme-preference-value="<%= theme_preference %>">
   <head>
     <title><%= content_for(:title) || "Console" %></title>
 
     <%= render "layouts/head" %>
   </head>
 
-  <body class="min-h-screen bg-gray-100 dark:bg-gray-900 transition-colors duration-200 break-keep">
+  <body class="min-h-screen bg-gray-100 dark:bg-gray-900 transition-colors duration-200 break-keep"
+        data-theme-owner="<%= current_user ? "user-#{current_user.id}" : "guest" %>"
+        data-theme-preference="<%= theme_preference %>">
     <div id="flash">
       <%= render "layouts/shared/alert" %>
     </div>
