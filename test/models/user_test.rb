@@ -11,6 +11,13 @@ class UserTest < ActiveSupport::TestCase
     assert_not user.admin?
   end
 
+  test "테마는 지원하는 값만 설정할 수 있다" do
+    @user.theme = "unsupported"
+
+    assert_not @user.valid?
+    assert @user.errors[:theme].present?
+  end
+
   test "plugin_enabled?는 레코드가 없으면 true를 반환한다" do
     assert @user.plugin_enabled?(:posts)
   end

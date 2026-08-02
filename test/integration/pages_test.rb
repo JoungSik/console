@@ -1,6 +1,8 @@
 require "test_helper"
 
 class PagesTest < ActionDispatch::IntegrationTest
+  NATIVE_HEADERS = { "User-Agent" => "Console Hotwire Native iOS" }.freeze
+
   setup do
     @user = users(:test_user)
   end
@@ -36,5 +38,15 @@ class PagesTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_select "a[href=?]", terms_path, text: I18n.t("pages.terms")
     assert_select "a[href=?]", privacy_path, text: I18n.t("pages.privacy")
+  end
+
+  test "Native 법률 페이지는 제목 위의 여백을 제거한다" do
+    [ terms_url, privacy_url ].each do |url|
+      get url, headers: NATIVE_HEADERS
+
+      assert_response :success
+      assert_select "[data-native-top-flush] [data-native-page-title]", count: 1
+      assert_select ".legal-content > h2:first-child", count: 1
+    end
   end
 end
