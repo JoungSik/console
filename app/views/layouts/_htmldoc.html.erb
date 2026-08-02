@@ -4,7 +4,8 @@
 <!DOCTYPE html>
 <html lang="ko"
       class="h-full theme-<%= theme_preference %><%= " dark" if theme_preference == "dark" %>"
-      data-controller="theme"
+      data-controller="theme bridge--theme"
+      data-action="theme:sync->bridge--theme#sync"
       data-theme-owner-value="<%= current_user ? "user-#{current_user.id}" : "guest" %>"
       data-theme-preference-value="<%= theme_preference %>">
   <head>

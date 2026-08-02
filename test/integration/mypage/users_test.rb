@@ -9,9 +9,11 @@ class Mypage::UsersTest < ActionDispatch::IntegrationTest
   test "마이페이지를 조회할 수 있다" do
     get mypage_user_url
     assert_response :success
-    assert_select "html.theme-system[data-controller~='theme'][data-theme-preference-value='system']"
+    assert_select "html.theme-system[data-controller~='theme'][data-controller~='bridge--theme'][data-theme-preference-value='system']"
+    assert_select "html[data-action~='theme:sync->bridge--theme#sync']"
     assert_select "body[data-theme-preference='system']"
     assert_select "input[name='theme[value]']", count: 3
+    assert_select "form[data-action~='turbo:submit-end->theme#submitEnd']"
   end
 
   test "테마를 변경할 수 있다" do

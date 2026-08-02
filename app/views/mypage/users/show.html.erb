@@ -20,7 +20,10 @@
         <%= t("settings.theme.description") %>
       </p>
 
-      <%= form_with url: mypage_theme_path, method: :patch, scope: :theme, data: { turbo_stream: true } do |form| %>
+      <%= form_with url: mypage_theme_path,
+          method: :patch,
+          scope: :theme,
+          data: { turbo_stream: true, action: "turbo:submit-end->theme#submitEnd" } do |form| %>
         <fieldset>
           <legend class="sr-only"><%= t("settings.theme.title") %></legend>
           <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">

@@ -33,6 +33,27 @@ export default class extends Controller {
     event.target.form.requestSubmit()
   }
 
+  submitEnd(event) {
+    const preference = this.preferenceValue
+
+    if (event.detail.success) {
+      document.body.dataset.themePreference = preference
+      this.dispatch("sync", {
+        detail: { owner: this.ownerValue, preference }
+      })
+      return
+    }
+
+    const renderedPreference = document.body.dataset.themePreference
+    if (!THEMES.includes(renderedPreference)) return
+
+    this.preferenceValue = renderedPreference
+    this.applyTheme(renderedPreference)
+    event.target.querySelectorAll("input[name='theme[value]']").forEach((input) => {
+      input.checked = input.value === renderedPreference
+    })
+  }
+
   syncFromRenderedPage() {
     const owner = document.body.dataset.themeOwner
     const preference = document.body.dataset.themePreference
