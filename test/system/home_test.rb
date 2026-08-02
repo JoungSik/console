@@ -28,6 +28,47 @@ class HomeSystemTest < ApplicationSystemTestCase
     assert_current_path new_session_path
   end
 
+  test "랜딩 페이지의 주요 버튼은 같은 너비로 화면 중앙에 배치된다" do
+    visit root_url
+
+    layout = page.evaluate_script(<<~JS)
+      (() => {
+        const hero = document.querySelector("section");
+        const registration = hero.querySelector("a[href='#{new_registration_path}']").getBoundingClientRect();
+        const session = hero.querySelector("a[href='#{new_session_path}']").getBoundingClientRect();
+
+        return {
+          registrationWidth: registration.width,
+          sessionWidth: session.width,
+          actionsCenter: (registration.left + session.right) / 2,
+          viewportCenter: document.documentElement.clientWidth / 2
+        };
+      })()
+    JS
+
+    assert_in_delta layout["registrationWidth"], layout["sessionWidth"], 1
+    assert_in_delta layout["viewportCenter"], layout["actionsCenter"], 1
+  end
+
+  test "랜딩 페이지의 정책 링크 묶음은 화면 중앙에 배치된다" do
+    visit root_url
+
+    layout = page.evaluate_script(<<~JS)
+      (() => {
+        const footer = document.querySelector("footer");
+        const terms = footer.querySelector("a[href='#{terms_path}']").getBoundingClientRect();
+        const privacy = footer.querySelector("a[href='#{privacy_path}']").getBoundingClientRect();
+
+        return {
+          linksCenter: (terms.left + privacy.right) / 2,
+          viewportCenter: document.documentElement.clientWidth / 2
+        };
+      })()
+    JS
+
+    assert_in_delta layout["viewportCenter"], layout["linksCenter"], 1
+  end
+
   test "대시보드에 지원되는 플러그인 위젯만 표시된다" do
     sign_in_as @user
 
