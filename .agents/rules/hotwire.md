@@ -74,6 +74,9 @@ Rails 웹 UI는 JavaScript 애플리케이션을 별도로 만들지 않고 서�
 ## Layout과 DOM 계약
 
 - 모든 top-level 화면은 고유한 `<title>`을 제공한다.
+- `application`과 `blank` layout의 `<main>` 여백은 `layout_main_classes`를 사용하며 Native 분기를 중복 작성하지 않는다.
+- top-level 화면을 추가하거나 경로를 변경하면 `HotwireNativePageContractTest`에 경로와 title을 등록한다.
+- Native에서 숨기는 제목 위에 `pt-*` 또는 `py-*` 여백이 있으면 `data-native-top-flush` 계약과 모바일 viewport의 실제 상단 좌표를 검증한다.
 - flash는 모든 layout에서 동일한 `#flash` target을 사용한다.
 - partial의 root ID는 Stream 교체 전후 동일해야 한다.
 - HTML의 의미 구조와 접근성을 유지하고 Turbo target을 위해 중복 wrapper를 만들지 않는다.
@@ -94,7 +97,9 @@ Hotwire 동작을 변경하면 다음 항목을 변경 범위에 맞게 검증�
   - target 영역, 빈 상태, 정렬, flash의 실제 갱신
   - 직접 URL 접근과 새로고침
   - 데스크톱과 모바일에서 동일 기능 동작
+  - Native User-Agent와 모바일 viewport에서 상단 좌표와 document overflow
 - `data-turbo="false"`, 수동 navigation, 수동 `fetch`를 추가했다면 Turbo로 해결할 수 없는 이유와 fallback test가 반드시 있어야 한다.
+- Native top-level UI를 변경하면 `bin/rails test test/integration/hotwire_native_page_contract_test.rb`와 `bin/rails test test/system/hotwire_native_layout_test.rb`를 실행한다.
 
 ## 리뷰 체크리스트
 
