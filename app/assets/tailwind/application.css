@@ -45,6 +45,10 @@
     }
   }
 
+  .legal-content > h2:first-child {
+    margin-top: 0;
+  }
+
   .legal-content p {
     margin-bottom: 0.75rem;
   }
