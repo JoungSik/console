@@ -12,11 +12,11 @@
       </p>
       <div class="mt-8 sm:mt-10 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
         <%= link_to new_registration_path,
-            class: "w-full sm:w-auto bg-blue-600 hover:bg-blue-700 dark:hover:bg-blue-500 text-white font-medium px-8 py-3 rounded-md transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 text-center" do %>
+            class: "w-full sm:w-32 bg-blue-600 hover:bg-blue-700 dark:hover:bg-blue-500 text-white font-medium px-8 py-3 rounded-md transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 text-center" do %>
           시작하기
         <% end %>
         <%= link_to new_session_path,
-            class: "w-full sm:w-auto bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600 font-medium px-8 py-3 rounded-md transition-colors duration-200 text-center focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900" do %>
+            class: "w-full sm:w-32 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600 font-medium px-8 py-3 rounded-md transition-colors duration-200 text-center focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900" do %>
           로그인
         <% end %>
       </div>
@@ -68,9 +68,8 @@
   </section>
 
   <footer class="px-6 py-8 border-t border-gray-200 dark:border-gray-700">
-    <div class="max-w-5xl mx-auto text-center text-xs text-gray-500 dark:text-gray-400">
+    <div class="max-w-5xl mx-auto flex items-center justify-center gap-4 text-xs text-gray-500 dark:text-gray-400">
       <%= link_to "이용약관", terms_path, class: "hover:text-gray-700 dark:hover:text-gray-300 transition-colors duration-200" %>
-      <span class="mx-1">|</span>
       <%= link_to "개인정보처리방침", privacy_path, class: "hover:text-gray-700 dark:hover:text-gray-300 transition-colors duration-200" %>
     </div>
   </footer>
