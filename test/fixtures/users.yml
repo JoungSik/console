@@ -4,6 +4,7 @@ test_user:
   password_digest: <%= BCrypt::Password.create("password123") %>
   email_verified_at: <%= Time.current %>
   admin: true
+  theme: system
 
 other_user:
   name: 다른사용자
@@ -11,3 +12,4 @@ other_user:
   password_digest: <%= BCrypt::Password.create("password123") %>
   email_verified_at: <%= Time.current %>
   admin: false
+  theme: system

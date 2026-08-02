@@ -21,8 +21,9 @@
 <%= yield :head %>
 
 <%= tag.link rel: "manifest", href: main_app.pwa_manifest_path(format: :json) %>
-<meta name="theme-color" content="#2563eb" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#1e40af" media="(prefers-color-scheme: dark)">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#2563eb" media="(prefers-color-scheme: light)" data-theme-target="lightColor">
+<meta name="theme-color" content="#1e40af" media="(prefers-color-scheme: dark)" data-theme-target="darkColor">
 
 <link rel="icon" href="/icon.png" type="image/png">
 <link rel="apple-touch-icon" href="/icon.png">

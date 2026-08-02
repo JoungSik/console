@@ -10,6 +10,73 @@
   <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm mb-6">
     <div class="p-6">
       <div class="flex items-center mb-4">
+        <%= lucide_icon "palette", class: "w-6 h-6 text-blue-600 dark:text-blue-400 mr-3" %>
+        <h2 class="text-lg font-semibold text-gray-900 dark:text-white">
+          <%= t("settings.theme.title") %>
+        </h2>
+      </div>
+
+      <p class="text-sm text-gray-600 dark:text-gray-400 mb-6">
+        <%= t("settings.theme.description") %>
+      </p>
+
+      <%= form_with url: mypage_theme_path, method: :patch, scope: :theme, data: { turbo_stream: true } do |form| %>
+        <fieldset>
+          <legend class="sr-only"><%= t("settings.theme.title") %></legend>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div>
+              <%= form.radio_button :value, "system",
+                  checked: current_user.theme_system?,
+                  class: "peer sr-only",
+                  data: { action: "change->theme#select" } %>
+              <%= form.label :value_system,
+                  class: "flex h-full cursor-pointer items-start gap-3 rounded-lg border border-gray-200 dark:border-gray-700 p-4 transition-colors duration-200 hover:bg-gray-50 dark:hover:bg-gray-700 peer-checked:border-blue-600 peer-checked:bg-blue-50 dark:peer-checked:border-blue-400 dark:peer-checked:bg-blue-900/20 peer-focus-visible:outline-none peer-focus-visible:ring-2 peer-focus-visible:ring-blue-500" do %>
+                <%= lucide_icon "monitor", class: "w-5 h-5 text-gray-500 dark:text-gray-400 flex-shrink-0" %>
+                <span>
+                  <span class="block text-sm font-medium text-gray-900 dark:text-white"><%= t("settings.theme.system") %></span>
+                  <span class="mt-1 block text-xs text-gray-600 dark:text-gray-400"><%= t("settings.theme.system_description") %></span>
+                </span>
+              <% end %>
+            </div>
+
+            <div>
+              <%= form.radio_button :value, "light",
+                  checked: current_user.theme_light?,
+                  class: "peer sr-only",
+                  data: { action: "change->theme#select" } %>
+              <%= form.label :value_light,
+                  class: "flex h-full cursor-pointer items-start gap-3 rounded-lg border border-gray-200 dark:border-gray-700 p-4 transition-colors duration-200 hover:bg-gray-50 dark:hover:bg-gray-700 peer-checked:border-blue-600 peer-checked:bg-blue-50 dark:peer-checked:border-blue-400 dark:peer-checked:bg-blue-900/20 peer-focus-visible:outline-none peer-focus-visible:ring-2 peer-focus-visible:ring-blue-500" do %>
+                <%= lucide_icon "sun", class: "w-5 h-5 text-gray-500 dark:text-gray-400 flex-shrink-0" %>
+                <span>
+                  <span class="block text-sm font-medium text-gray-900 dark:text-white"><%= t("settings.theme.light") %></span>
+                  <span class="mt-1 block text-xs text-gray-600 dark:text-gray-400"><%= t("settings.theme.light_description") %></span>
+                </span>
+              <% end %>
+            </div>
+
+            <div>
+              <%= form.radio_button :value, "dark",
+                  checked: current_user.theme_dark?,
+                  class: "peer sr-only",
+                  data: { action: "change->theme#select" } %>
+              <%= form.label :value_dark,
+                  class: "flex h-full cursor-pointer items-start gap-3 rounded-lg border border-gray-200 dark:border-gray-700 p-4 transition-colors duration-200 hover:bg-gray-50 dark:hover:bg-gray-700 peer-checked:border-blue-600 peer-checked:bg-blue-50 dark:peer-checked:border-blue-400 dark:peer-checked:bg-blue-900/20 peer-focus-visible:outline-none peer-focus-visible:ring-2 peer-focus-visible:ring-blue-500" do %>
+                <%= lucide_icon "moon", class: "w-5 h-5 text-gray-500 dark:text-gray-400 flex-shrink-0" %>
+                <span>
+                  <span class="block text-sm font-medium text-gray-900 dark:text-white"><%= t("settings.theme.dark") %></span>
+                  <span class="mt-1 block text-xs text-gray-600 dark:text-gray-400"><%= t("settings.theme.dark_description") %></span>
+                </span>
+              <% end %>
+            </div>
+          </div>
+        </fieldset>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm mb-6">
+    <div class="p-6">
+      <div class="flex items-center mb-4">
         <%= lucide_icon "user", class: "w-6 h-6 text-blue-600 dark:text-blue-400 mr-3" %>
         <h2 class="text-lg font-semibold text-gray-900 dark:text-white">
           <%= t('settings.profile.title') %>

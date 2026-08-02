@@ -12,6 +12,37 @@ class MypageTest < ApplicationSystemTestCase
     assert_text @user.email_address
   end
 
+  test "테마를 선택하면 즉시 적용되고 저장된다" do
+    sign_in_as @user
+    click_link I18n.t("navigation.mypage")
+    assert_current_path mypage_user_path
+
+    find("label[for='theme_value_dark']").click
+    assert page.evaluate_script("document.documentElement.classList.contains('dark')")
+    assert page.evaluate_script("document.documentElement.classList.contains('theme-dark')")
+    assert_text I18n.t("settings.theme.updated")
+    assert @user.reload.theme_dark?
+    assert_current_path mypage_user_path
+
+    page.execute_script(<<~JS)
+      document.body.dataset.themePreference = "system"
+      document.dispatchEvent(new CustomEvent("turbo:render", { detail: { renderMethod: "replace" } }))
+    JS
+    assert page.evaluate_script("document.documentElement.classList.contains('dark')")
+
+    page.go_back
+    assert_current_path root_path
+    assert page.evaluate_script("document.documentElement.classList.contains('dark')")
+
+    visit mypage_user_url
+
+    find("label[for='theme_value_light']").click
+    assert_not page.evaluate_script("document.documentElement.classList.contains('dark')")
+    assert page.evaluate_script("document.documentElement.classList.contains('theme-light')")
+    assert_text I18n.t("settings.theme.updated")
+    assert @user.reload.theme_light?
+  end
+
   test "비밀번호를 변경하면 재로그인이 필요하다" do
     sign_in_as @user
     visit mypage_user_url

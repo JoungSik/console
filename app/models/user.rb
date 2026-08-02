@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+  enum :theme, { system: "system", light: "light", dark: "dark" }, prefix: true, validate: true
+
   has_secure_password
   has_many :sessions, dependent: :destroy
 

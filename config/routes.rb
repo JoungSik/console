@@ -29,6 +29,7 @@ Rails.application.routes.draw do
 
   namespace :mypage do
     resource :user, only: %i[ show update ]
+    resource :theme, only: :update
     resources :push_subscriptions, only: %i[ create destroy ]
     resources :plugins, only: %i[ index ] do
       member do
