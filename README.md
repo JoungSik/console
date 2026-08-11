@@ -34,8 +34,11 @@ engines/
 - SQLite3 (WAL mode)
 - Tailwind CSS, Stimulus JS, Turbo
 - Solid Queue (백그라운드 잡)
+- Firebase Cloud Messaging (Web, Android, iOS 푸시 알림)
 - Resend (이메일 발송)
 - Docker
+
+Firebase 프로젝트와 플랫폼별 연동 방법은 [FCM 설정](docs/FCM_SETUP.md)을 참고합니다.
 
 ## 개발
 

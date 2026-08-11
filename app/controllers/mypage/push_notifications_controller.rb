@@ -1,5 +1,12 @@
 class Mypage::PushNotificationsController < Mypage::ApplicationController
   def show
+    @firebase_web_configured = Fcm::Configuration.web_configured?
+    @firebase_web_config = Fcm::Configuration.firebase_web_app
+    @firebase_vapid_public_key = Fcm::Configuration.web[:vapid_public_key]
+    @web_push_registration = Current.session.push_registrations.find_by(platform: "web")
+    @native_push_registrations = Current.session.push_registrations
+                                                .where(platform: %w[android ios])
+                                                .index_by(&:platform)
     @notification_plugins = PluginRegistry.notification_plugins.select do |plugin|
       current_user.plugin_enabled?(plugin.name)
     end

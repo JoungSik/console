@@ -115,8 +115,11 @@ class HotwireFlowsTest < ApplicationSystemTestCase
 
     visit mypage_push_notifications_url
     original_path = current_path
-    assert_selector "[data-controller='push-subscription']"
-    assert_selector "[data-push-subscription-target='statusBadge']"
+    assert_selector "[data-controller~='web-push-subscription']"
+    assert_selector "[data-web-push-subscription-target='subscriptionBadge']"
+    assert_selector "[data-web-push-subscription-target='permissionBadge']"
+    assert_no_text I18n.t("settings.push_notifications.status_checking")
+    assert_no_text I18n.t("settings.push_notifications.status.subscribed")
 
     within("#notification_todos_due_date_reminder") { click_button }
     assert_current_path original_path

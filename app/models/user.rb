@@ -4,7 +4,7 @@ class User < ApplicationRecord
   has_secure_password
   has_many :sessions, dependent: :destroy
 
-  has_many :push_subscriptions, dependent: :destroy
+  has_many :push_registrations, dependent: :destroy
   has_many :user_plugins, dependent: :destroy
   has_many :push_notification_settings, dependent: :destroy
 
@@ -15,8 +15,8 @@ class User < ApplicationRecord
     end
 
     sent_at_least_once = false
-    push_subscriptions.find_each do |subscription|
-      if subscription.send_notification(title: title, body: body, url: url)
+    push_registrations.find_each do |registration|
+      if registration.send_notification(title: title, body: body, url: url)
         sent_at_least_once = true
       end
     end

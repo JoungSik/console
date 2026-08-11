@@ -31,7 +31,7 @@ class ResponsivePagesTest < ApplicationSystemTestCase
       [ root_url, "main" ],
       [ mypage_user_url, "form" ],
       [ mypage_plugins_url, "#plugin_posts button" ],
-      [ mypage_push_notifications_url, "[data-controller='push-subscription'] button" ],
+      [ mypage_push_notifications_url, "[data-controller~='web-push-subscription'] button" ],
       [ posts.root_url, "#post_composer form" ],
       [ posts.post_url(@post), "#post_#{@post.id}" ],
       [ posts.edit_post_url(@post), "form" ],

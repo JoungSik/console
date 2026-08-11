@@ -43,8 +43,8 @@ gem "thruster", require: false
 # Add icon lucide [https://github.com/heyvito/lucide-rails]
 gem "lucide-rails"
 
-# Web Push notifications [https://github.com/pushpad/web-push]
-gem "web-push"
+# Authenticate Firebase Cloud Messaging HTTP v1 requests
+gem "googleauth"
 
 # Resend email delivery [https://github.com/resend/resend-ruby]
 gem "resend"

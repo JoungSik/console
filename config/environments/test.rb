@@ -4,6 +4,8 @@
 # and recreated between test runs. Don't rely on the data there!
 
 Rails.application.configure do
+  # Web Push 알림 클릭 URL의 기준 주소
+  config.x.web_push_base_url = "https://example.com"
   # Settings specified here will take precedence over those in config/application.rb.
 
   # While tests run files are not watched, reloading is not necessary.

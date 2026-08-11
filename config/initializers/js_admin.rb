@@ -2,7 +2,7 @@ JSAdmin.configure do |config|
   config.include_models "User",
     "UserPlugin",
     "PushNotificationSetting",
-    "PushSubscription",
+    "PushRegistration",
     "Todo::List",
     "Todo::Item",
     "Journal::Post"
