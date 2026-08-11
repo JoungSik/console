@@ -121,11 +121,29 @@ GEM
     erubi (1.13.1)
     et-orbi (1.4.1)
       tzinfo
+    faraday (2.14.3)
+      faraday-net_http (>= 2.0, < 3.5)
+      json
+      logger
+    faraday-net_http (3.4.4)
+      net-http (~> 0.5)
     fugit (1.13.0)
       et-orbi (~> 1.4)
       raabro (~> 1.4)
     globalid (1.4.0)
       activesupport (>= 6.1)
+    google-cloud-env (2.4.0)
+      base64 (~> 0.2)
+      faraday (>= 1.0, < 3.a)
+    google-logging-utils (0.2.0)
+    googleauth (1.17.3)
+      faraday (>= 1.0, < 3.a)
+      google-cloud-env (~> 2.2)
+      google-logging-utils (~> 0.1)
+      jwt (>= 1.4, < 4.0)
+      os (>= 0.9, < 2.0)
+      pstore (~> 0.1)
+      signet (>= 0.16, < 2.a)
     httparty (0.24.2)
       csv
       mini_mime (>= 1.0.0)
@@ -184,6 +202,8 @@ GEM
     msgpack (1.8.3)
     multi_xml (0.9.1)
       bigdecimal (>= 3.1, < 5)
+    net-http (0.9.1)
+      uri (>= 0.11.1)
     net-imap (0.6.6)
       date
       net-protocol
@@ -208,7 +228,7 @@ GEM
       racc (~> 1.4)
     nokogiri (1.19.4-x86_64-linux-musl)
       racc (~> 1.4)
-    openssl (4.0.0)
+    os (1.1.4)
     parallel (2.1.0)
     parser (3.3.12.0)
       ast (~> 2.4.1)
@@ -221,6 +241,7 @@ GEM
       actionpack (>= 7.0.0)
       activesupport (>= 7.0.0)
       rack
+    pstore (0.2.1)
     public_suffix (6.0.2)
     puma (8.0.2)
       nio4r (~> 2.0)
@@ -319,6 +340,10 @@ GEM
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2, < 4.0)
       websocket (~> 1.0)
+    signet (0.22.0)
+      addressable (~> 2.8)
+      faraday (>= 0.17.5, < 3.a)
+      jwt (>= 1.5, < 4.0)
     solid_queue (1.6.0)
       activejob (>= 7.1)
       activerecord (>= 7.1)
@@ -365,9 +390,6 @@ GEM
       actionview (>= 8.0.0)
       bindex (>= 0.4.0)
       railties (>= 8.0.0)
-    web-push (3.1.0)
-      jwt (~> 3.0)
-      openssl (>= 3.0)
     websocket (1.2.11)
     websocket-driver (0.8.2)
       base64
@@ -395,6 +417,7 @@ DEPENDENCIES
   brakeman
   capybara
   debug
+  googleauth
   importmap-rails
   journal!
   js_admin
@@ -415,7 +438,6 @@ DEPENDENCIES
   turbo-rails
   tzinfo-data
   web-console
-  web-push
 
 BUNDLED WITH
    2.7.1

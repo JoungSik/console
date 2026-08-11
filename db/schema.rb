@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_08_02_000000) do
+ActiveRecord::Schema[8.1].define(version: 2026_08_09_224257) do
   create_table "push_notification_settings", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.boolean "enabled", default: true, null: false
@@ -22,15 +22,18 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_02_000000) do
     t.index ["user_id"], name: "index_push_notification_settings_on_user_id"
   end
 
-  create_table "push_subscriptions", force: :cascade do |t|
-    t.string "auth_key", null: false
+  create_table "push_registrations", force: :cascade do |t|
     t.datetime "created_at", null: false
-    t.string "endpoint", null: false
-    t.string "p256dh_key", null: false
+    t.text "firebase_installation_id", null: false
+    t.datetime "last_registered_at", null: false
+    t.string "platform", null: false
+    t.integer "session_id", null: false
     t.datetime "updated_at", null: false
     t.integer "user_id", null: false
-    t.index ["endpoint"], name: "index_push_subscriptions_on_endpoint", unique: true
-    t.index ["user_id"], name: "index_push_subscriptions_on_user_id"
+    t.index ["firebase_installation_id"], name: "index_push_registrations_on_firebase_installation_id", unique: true
+    t.index ["session_id", "platform"], name: "index_push_registrations_on_session_id_and_platform", unique: true
+    t.index ["session_id"], name: "index_push_registrations_on_session_id"
+    t.index ["user_id"], name: "index_push_registrations_on_user_id"
   end
 
   create_table "sessions", force: :cascade do |t|
@@ -67,7 +70,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_02_000000) do
   end
 
   add_foreign_key "push_notification_settings", "users"
-  add_foreign_key "push_subscriptions", "users"
+  add_foreign_key "push_registrations", "sessions"
+  add_foreign_key "push_registrations", "users"
   add_foreign_key "sessions", "users"
   add_foreign_key "user_plugins", "users"
 end

@@ -30,7 +30,7 @@ Rails.application.routes.draw do
   namespace :mypage do
     resource :user, only: %i[ show update ]
     resource :theme, only: :update
-    resources :push_subscriptions, only: %i[ create destroy ]
+    resources :push_registrations, only: %i[create destroy]
     resources :plugins, only: %i[ index ] do
       member do
         patch :toggle
@@ -43,11 +43,6 @@ Rails.application.routes.draw do
 
   # Service Worker는 루트 경로에서 제공
   get "/service-worker.js", to: "service_worker#index", as: :service_worker
-
-  # Service Worker 전용 엔드포인트 (CSRF 토큰 없이 호출됨)
-  namespace :service_worker do
-    resources :push_subscriptions, only: %i[ create ]
-  end
 
   # 플러그인 Engine 마운트
   mount Journal::Engine, at: "/posts", as: "posts"

@@ -1,6 +1,8 @@
 require "active_support/core_ext/integer/time"
 
 Rails.application.configure do
+  # Web Push 알림 클릭 URL의 기준 주소
+  config.x.web_push_base_url = "https://console.joungsik.com"
   # Settings specified here will take precedence over those in config/application.rb.
 
   # Code is not reloaded between requests.
