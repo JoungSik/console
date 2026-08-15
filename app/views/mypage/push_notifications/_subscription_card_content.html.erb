@@ -1,0 +1,52 @@
+<div class="p-6">
+  <div class="flex items-center justify-between gap-4">
+    <div class="flex items-center min-w-0">
+      <%= lucide_icon "bell", class: "w-6 h-6 text-blue-600 dark:text-blue-400 mr-3 flex-shrink-0" %>
+      <div class="min-w-0">
+        <h2 class="text-lg font-semibold text-gray-900 dark:text-white">
+          <%= t("settings.push_notifications.subscription_title") %>
+        </h2>
+        <div class="flex items-center gap-2 mt-1 flex-wrap">
+          <span data-<%= controller_identifier %>-target="subscriptionBadge"
+                data-subscribed-text="<%= t("settings.push_notifications.status_subscribed") %>"
+                data-unsubscribed-text="<%= t("settings.push_notifications.status_unsubscribed") %>"
+                class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-400">
+            <%= t("settings.push_notifications.status_checking") %>
+          </span>
+          <span data-<%= controller_identifier %>-target="permissionBadge"
+                data-granted-text="<%= t("settings.push_notifications.permission_granted") %>"
+                data-prompt-text="<%= t("settings.push_notifications.permission_prompt") %>"
+                data-denied-text="<%= t("settings.push_notifications.permission_denied") %>"
+                data-checking-text="<%= t("settings.push_notifications.permission_checking") %>"
+                class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-400">
+            <%= t("settings.push_notifications.permission_checking") %>
+          </span>
+        </div>
+        <p class="text-sm text-gray-600 dark:text-gray-400 mt-2">
+          <%= t("settings.push_notifications.subscription_description") %>
+        </p>
+        <div role="status"
+             aria-live="polite"
+             data-<%= controller_identifier %>-target="checkingIndicator"
+             class="mt-3 flex items-center gap-2 text-sm text-blue-600 dark:text-blue-400">
+          <%= lucide_icon "loader-circle", class: "w-4 h-4 flex-shrink-0 animate-spin", aria: { hidden: true } %>
+          <span><%= t("settings.push_notifications.device_status_checking") %></span>
+        </div>
+      </div>
+    </div>
+
+    <button type="button"
+            role="switch"
+            aria-checked="false"
+            disabled
+            data-<%= controller_identifier %>-target="toggle"
+            data-action="click-><%= controller_identifier %>#toggleSubscription"
+            class="relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent bg-gray-200 dark:bg-gray-600 transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 disabled:cursor-wait disabled:opacity-50">
+      <span class="sr-only"><%= t("settings.push_notifications.subscription_title") %></span>
+      <span data-<%= controller_identifier %>-target="toggleKnob"
+            class="pointer-events-none inline-block h-5 w-5 translate-x-0 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out"></span>
+    </button>
+  </div>
+
+  <p data-<%= controller_identifier %>-target="status" class="hidden mt-3 text-sm ml-9"></p>
+</div>

@@ -4,7 +4,8 @@ class User < ApplicationRecord
   has_secure_password
   has_many :sessions, dependent: :destroy
 
-  has_many :push_subscriptions, dependent: :destroy
+  has_many :push_registrations, dependent: :destroy
+  has_many :push_notification_logs, dependent: :destroy
   has_many :user_plugins, dependent: :destroy
   has_many :push_notification_settings, dependent: :destroy
 
@@ -14,13 +15,30 @@ class User < ApplicationRecord
       return false if item_key && !push_notification_enabled?(plugin_name, item_key)
     end
 
-    sent_at_least_once = false
-    push_subscriptions.find_each do |subscription|
-      if subscription.send_notification(title: title, body: body, url: url)
-        sent_at_least_once = true
+    notification_log = push_notification_logs.create!(
+      title: title,
+      body: body,
+      url: url,
+      plugin_name: plugin_name,
+      item_key: item_key,
+      requested_at: Time.current
+    )
+    targets = push_registrations.find_each.map do |registration|
+      target = registration.notification_target_snapshot
+      sent = registration.send_notification(title: title, body: body, url: url)
+      status = if sent
+        "sent"
+      elsif registration.destroyed?
+        "invalid_registration"
+      else
+        "failed"
       end
+
+      target.merge(status: status)
     end
-    sent_at_least_once
+
+    notification_log.complete!(targets: targets)
+    notification_log.success_count.positive?
   end
 
   encrypts :email_address, deterministic: true

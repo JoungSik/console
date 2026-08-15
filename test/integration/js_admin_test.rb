@@ -20,8 +20,9 @@ class JSAdminTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_select "a[href='/admin/user']"
     assert_select "a[href='/admin/user_plugin']"
+    assert_select "a[href='/admin/push_notification_log']"
     assert_select "a[href='/admin/push_notification_setting']"
-    assert_select "a[href='/admin/push_subscription']"
+    assert_select "a[href='/admin/push_registration']"
     assert_select "a[href='/admin/todo--list']"
     assert_select "a[href='/admin/todo--item']"
     assert_select "a[href='/admin/journal--post']"
@@ -38,8 +39,9 @@ class JSAdminTest < ActionDispatch::IntegrationTest
   test "허용한 코어와 엔진 모델만 노출한다" do
     expected_model_names = [
       "Journal::Post",
+      "PushNotificationLog",
       "PushNotificationSetting",
-      "PushSubscription",
+      "PushRegistration",
       "Todo::Item",
       "Todo::List",
       "User",

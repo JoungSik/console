@@ -1,0 +1,12 @@
+<div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm mb-6"
+     aria-busy="true"
+     data-controller="web-push-subscription"
+     data-web-push-subscription-configured-value="<%= @firebase_web_configured %>"
+     data-web-push-subscription-firebase-config-value="<%= @firebase_web_config.to_json %>"
+     data-web-push-subscription-vapid-public-key-value="<%= @firebase_vapid_public_key %>"
+     data-web-push-subscription-subscribed-value="<%= @web_push_registration.present? %>"
+     data-web-push-subscription-destroy-url-value="<%= mypage_push_registration_path(@web_push_registration) if @web_push_registration %>"
+     data-web-push-subscription-registration-url-value="<%= mypage_push_registrations_path %>"
+     data-web-push-subscription-status-messages-value="<%= t("settings.push_notifications.status").to_json %>">
+  <%= render "subscription_card_content", controller_identifier: "web-push-subscription" %>
+</div>

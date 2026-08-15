@@ -39,9 +39,19 @@ class SessionsTest < ActionDispatch::IntegrationTest
 
   test "로그아웃하면 new_session_path로 리다이렉트된다" do
     sign_in_as @user
+    current_session = @user.sessions.order(:created_at).last
+    PushRegistration.create!(
+      user: @user,
+      session: current_session,
+      firebase_installation_id: "logout-installation-id",
+      platform: "web",
+      last_registered_at: Time.current
+    )
 
     assert_difference "Session.count", -1 do
-      delete session_url
+      assert_difference "PushRegistration.count", -1 do
+        delete session_url
+      end
     end
 
     assert_response :see_other

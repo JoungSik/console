@@ -4,10 +4,12 @@ class Todo::ReminderJobTest < ActiveJob::TestCase
   setup do
     @user = users(:test_user)
     @list = Todo::List.create!(title: "테스트 목록", user_id: @user.id)
-    @user.push_subscriptions.create!(
-      endpoint: "https://push.example.com/test",
-      p256dh_key: "test_p256dh_key",
-      auth_key: "test_auth_key"
+    session = @user.sessions.create!
+    @user.push_registrations.create!(
+      session: session,
+      firebase_installation_id: "test-installation-id",
+      platform: "web",
+      last_registered_at: Time.current
     )
   end
 
@@ -99,14 +101,14 @@ class Todo::ReminderJobTest < ActiveJob::TestCase
 
   def capture_push_notifications(&block)
     notifications = []
-    original = PushSubscription.instance_method(:send_notification)
-    PushSubscription.define_method(:send_notification) do |**kwargs|
+    original = PushRegistration.instance_method(:send_notification)
+    PushRegistration.define_method(:send_notification) do |**kwargs|
       notifications << kwargs
       true
     end
     block.call
     notifications
   ensure
-    PushSubscription.define_method(:send_notification, original)
+    PushRegistration.define_method(:send_notification, original)
   end
 end

@@ -1,0 +1,14 @@
+<div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm mb-6"
+     aria-busy="true"
+     data-controller="native-push-subscription bridge--push-notification"
+     data-native-push-subscription-destroy-urls-value="<%= @native_push_registrations.transform_values { |registration| mypage_push_registration_path(registration) }.to_json %>"
+     data-native-push-subscription-registration-url-value="<%= mypage_push_registrations_path %>"
+     data-native-push-subscription-status-messages-value="<%= t("settings.push_notifications.status").to_json %>"
+     data-action="native-push-subscription:subscribe->bridge--push-notification#subscribe
+                  native-push-subscription:unsubscribe->bridge--push-notification#unsubscribe
+                  bridge--push-notification:connected->native-push-subscription#nativeConnected
+                  bridge--push-notification:subscribed->native-push-subscription#nativeSubscribed
+                  bridge--push-notification:unsubscribed->native-push-subscription#nativeUnsubscribed
+                  bridge--push-notification:failed->native-push-subscription#nativeFailed">
+  <%= render "subscription_card_content", controller_identifier: "native-push-subscription" %>
+</div>
