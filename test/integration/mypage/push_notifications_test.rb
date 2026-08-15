@@ -17,6 +17,8 @@ class Mypage::PushNotificationsTest < ActionDispatch::IntegrationTest
     assert_select "[data-web-push-subscription-firebase-config-value]", count: 1
     assert_select "[data-web-push-subscription-vapid-public-key-value]", count: 1
     assert_select "meta[name^='firebase-']", count: 0
+    assert_select "[data-controller='web-push-subscription'][aria-busy='true'] [data-web-push-subscription-target='checkingIndicator'][role='status']",
+      text: I18n.t("settings.push_notifications.device_status_checking")
 
     element = css_select("[data-web-push-subscription-status-messages-value]").first
     status_messages = JSON.parse(element["data-web-push-subscription-status-messages-value"])
@@ -64,6 +66,8 @@ class Mypage::PushNotificationsTest < ActionDispatch::IntegrationTest
     assert_select "[data-controller~='native-push-subscription'][data-controller~='bridge--push-notification']", count: 1
     assert_select "[data-controller='web-push-subscription']", count: 0
     assert_select "[data-web-push-subscription-firebase-config-value]", count: 0
+    assert_select "[data-controller~='native-push-subscription'][aria-busy='true'] [data-native-push-subscription-target='checkingIndicator'][role='status']",
+      text: I18n.t("settings.push_notifications.device_status_checking")
 
     element = css_select("[data-native-push-subscription-status-messages-value]").first
     status_messages = JSON.parse(element["data-native-push-subscription-status-messages-value"])

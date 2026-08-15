@@ -364,6 +364,7 @@ ko:
       permission_granted: "권한 허용"
       permission_prompt: "권한 미결정"
       permission_denied: "권한 거부"
+      device_status_checking: "기기의 알림 권한과 구독 상태를 확인하고 있습니다."
       item_enabled: "알림이 활성화되었습니다."
       item_disabled: "알림이 비활성화되었습니다."
       item_not_found: "존재하지 않는 알림 항목입니다."
