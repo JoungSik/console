@@ -10,7 +10,28 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_08_16_000000) do
+ActiveRecord::Schema[8.1].define(version: 2026_08_16_000001) do
+  create_table "push_notification_logs", force: :cascade do |t|
+    t.text "body", null: false
+    t.datetime "completed_at"
+    t.datetime "created_at", null: false
+    t.integer "failure_count", default: 0, null: false
+    t.string "item_key"
+    t.string "plugin_name"
+    t.datetime "requested_at", null: false
+    t.string "status", default: "pending", null: false
+    t.integer "success_count", default: 0, null: false
+    t.integer "target_count", default: 0, null: false
+    t.json "targets", default: [], null: false
+    t.text "title", null: false
+    t.datetime "updated_at", null: false
+    t.text "url"
+    t.integer "user_id", null: false
+    t.index ["status"], name: "index_push_notification_logs_on_status"
+    t.index ["user_id", "requested_at"], name: "index_push_notification_logs_on_user_id_and_requested_at"
+    t.index ["user_id"], name: "index_push_notification_logs_on_user_id"
+  end
+
   create_table "push_notification_settings", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.boolean "enabled", default: true, null: false
@@ -72,6 +93,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_16_000000) do
     t.index ["email_address"], name: "index_users_on_email_address", unique: true
   end
 
+  add_foreign_key "push_notification_logs", "users"
   add_foreign_key "push_notification_settings", "users"
   add_foreign_key "push_registrations", "sessions"
   add_foreign_key "push_registrations", "users"

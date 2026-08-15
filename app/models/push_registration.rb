@@ -23,6 +23,16 @@ class PushRegistration < ApplicationRecord
     false
   end
 
+  def notification_target_snapshot
+    {
+      push_registration_id: id,
+      platform: platform,
+      device_model: device_model,
+      os_version: os_version,
+      app_version: app_version
+    }
+  end
+
   private
 
   def session_matches_user
