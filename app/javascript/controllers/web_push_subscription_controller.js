@@ -1,5 +1,9 @@
 import PushSubscriptionUI from "controllers/push_subscription_ui"
-import { removePushRegistration, savePushRegistration } from "push_registration_client"
+import {
+  removePushRegistration,
+  savePushRegistration,
+  webDeviceInformation
+} from "push_registration_client"
 
 export default class extends PushSubscriptionUI {
   static values = {
@@ -167,7 +171,13 @@ export default class extends PushSubscriptionUI {
     this.showRegistrationSuccess = false
 
     try {
-      const registration = await savePushRegistration(this.registrationUrlValue, firebaseInstallationId, "web")
+      const deviceInformation = await webDeviceInformation()
+      const registration = await savePushRegistration(
+        this.registrationUrlValue,
+        firebaseInstallationId,
+        "web",
+        deviceInformation
+      )
       if (this.disconnected) return
 
       this.firebaseInstallationId = firebaseInstallationId

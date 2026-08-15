@@ -141,7 +141,8 @@ export default class extends PushSubscriptionUI {
       const registration = await savePushRegistration(
         this.registrationUrlValue,
         detail.firebaseInstallationId,
-        detail.platform
+        detail.platform,
+        detail
       )
       if (this.disconnected) return
 

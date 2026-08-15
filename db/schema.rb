@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_08_09_224257) do
+ActiveRecord::Schema[8.1].define(version: 2026_08_16_000000) do
   create_table "push_notification_settings", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.boolean "enabled", default: true, null: false
@@ -23,9 +23,12 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_09_224257) do
   end
 
   create_table "push_registrations", force: :cascade do |t|
+    t.string "app_version"
     t.datetime "created_at", null: false
+    t.string "device_model"
     t.text "firebase_installation_id", null: false
     t.datetime "last_registered_at", null: false
+    t.string "os_version"
     t.string "platform", null: false
     t.integer "session_id", null: false
     t.datetime "updated_at", null: false

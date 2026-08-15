@@ -10,6 +10,7 @@ class PushRegistration < ApplicationRecord
   validates :platform, inclusion: { in: PLATFORMS }
   validates :platform, uniqueness: { scope: :session_id }
   validates :last_registered_at, presence: true
+  validates :device_model, :os_version, :app_version, length: { maximum: 255 }, allow_nil: true
   validate :session_matches_user
 
   def send_notification(title:, body:, url: nil, icon: nil)
