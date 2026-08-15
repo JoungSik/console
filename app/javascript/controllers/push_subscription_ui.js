@@ -4,7 +4,7 @@ const BADGE_BASE_CLASSES = "inline-flex items-center px-2.5 py-0.5 rounded-full 
 const STATUS_TIMEOUT = 5000
 
 export default class extends Controller {
-  static targets = ["permissionBadge", "status", "subscriptionBadge", "toggle", "toggleKnob"]
+  static targets = ["checkingIndicator", "permissionBadge", "status", "subscriptionBadge", "toggle", "toggleKnob"]
 
   disconnect() {
     clearTimeout(this.statusTimeout)
@@ -18,6 +18,7 @@ export default class extends Controller {
 
   showSubscribed() {
     this._subscribed = true
+    this.finishChecking()
     this.setBusy(false)
     this.toggleTarget?.setAttribute("aria-checked", "true")
     this.toggleTarget?.classList.remove("bg-gray-200", "dark:bg-gray-600")
@@ -29,6 +30,7 @@ export default class extends Controller {
 
   showUnsubscribed() {
     this._subscribed = false
+    this.finishChecking()
     this.setBusy(false)
     this.toggleTarget?.setAttribute("aria-checked", "false")
     this.toggleTarget?.classList.remove("bg-blue-600")
@@ -41,6 +43,11 @@ export default class extends Controller {
   disableSubscription() {
     this.showUnsubscribed()
     this.setBusy(true)
+  }
+
+  finishChecking() {
+    this.element.setAttribute("aria-busy", "false")
+    if (this.hasCheckingIndicatorTarget) this.checkingIndicatorTarget.classList.add("hidden")
   }
 
   updatePermissionBadge(permission = "checking") {

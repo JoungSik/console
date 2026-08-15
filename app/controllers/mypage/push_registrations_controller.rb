@@ -13,6 +13,9 @@ class Mypage::PushRegistrationsController < Mypage::ApplicationController
           user: Current.user,
           session: Current.session,
           platform: registration_params[:platform],
+          device_model: registration_params[:device_model],
+          os_version: registration_params[:os_version],
+          app_version: registration_app_version,
           last_registered_at: Time.current
         )
         push_registration.save!
@@ -39,7 +42,19 @@ class Mypage::PushRegistrationsController < Mypage::ApplicationController
 
   private
 
+  def registration_app_version
+    return Rails.application.config.x.app_version if registration_params[:platform] == "web"
+
+    registration_params[:app_version]
+  end
+
   def registration_params
-    params.require(:push_registration).permit(:firebase_installation_id, :platform)
+    params.require(:push_registration).permit(
+      :firebase_installation_id,
+      :platform,
+      :device_model,
+      :os_version,
+      :app_version
+    )
   end
 end

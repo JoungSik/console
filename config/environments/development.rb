@@ -1,6 +1,7 @@
 require "active_support/core_ext/integer/time"
 
 Rails.application.configure do
+  config.x.app_version = "1.0.0"
   # Web Push 알림 클릭 URL의 기준 주소
   config.x.web_push_base_url = "http://localhost:3000"
   # Settings specified here will take precedence over those in config/application.rb.

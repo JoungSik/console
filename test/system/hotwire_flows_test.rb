@@ -120,6 +120,7 @@ class HotwireFlowsTest < ApplicationSystemTestCase
     assert_selector "[data-web-push-subscription-target='permissionBadge']"
     assert_no_text I18n.t("settings.push_notifications.status_checking")
     assert_no_text I18n.t("settings.push_notifications.status.subscribed")
+    assert_no_text I18n.t("settings.push_notifications.device_status_checking")
 
     within("#notification_todos_due_date_reminder") { click_button }
     assert_current_path original_path

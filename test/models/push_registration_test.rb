@@ -89,6 +89,15 @@ class PushRegistrationTest < ActiveSupport::TestCase
     end
   end
 
+  test "웹 푸시 대상 스냅샷은 브라우저를 디바이스 모델로 포함한다" do
+    @registration.update!(device_model: "Safari", os_version: "26.0")
+
+    snapshot = @registration.notification_target_snapshot
+
+    assert_equal "Safari", snapshot[:device_model]
+    assert_equal "26.0", snapshot[:os_version]
+  end
+
   private
 
   def stub_notification_sender(result: nil, error: nil)

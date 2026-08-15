@@ -10,6 +10,7 @@ class PushRegistration < ApplicationRecord
   validates :platform, inclusion: { in: PLATFORMS }
   validates :platform, uniqueness: { scope: :session_id }
   validates :last_registered_at, presence: true
+  validates :device_model, :os_version, :app_version, length: { maximum: 255 }, allow_nil: true
   validate :session_matches_user
 
   def send_notification(title:, body:, url: nil, icon: nil)
@@ -20,6 +21,16 @@ class PushRegistration < ApplicationRecord
   rescue Fcm::Error => error
     Rails.logger.error("FCM notification failed: #{error.message}")
     false
+  end
+
+  def notification_target_snapshot
+    {
+      push_registration_id: id,
+      platform: platform,
+      device_model: device_model,
+      os_version: os_version,
+      app_version: app_version
+    }
   end
 
   private

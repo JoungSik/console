@@ -25,6 +25,13 @@
         <p class="text-sm text-gray-600 dark:text-gray-400 mt-2">
           <%= t("settings.push_notifications.subscription_description") %>
         </p>
+        <div role="status"
+             aria-live="polite"
+             data-<%= controller_identifier %>-target="checkingIndicator"
+             class="mt-3 flex items-center gap-2 text-sm text-blue-600 dark:text-blue-400">
+          <%= lucide_icon "loader-circle", class: "w-4 h-4 flex-shrink-0 animate-spin", aria: { hidden: true } %>
+          <span><%= t("settings.push_notifications.device_status_checking") %></span>
+        </div>
       </div>
     </div>
 

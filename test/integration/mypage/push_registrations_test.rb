@@ -7,7 +7,9 @@ class Mypage::PushRegistrationsTest < ActionDispatch::IntegrationTest
     @registration_params = {
       push_registration: {
         firebase_installation_id: "test-installation-id",
-        platform: "web"
+        platform: "web",
+        device_model: "Chrome",
+        os_version: "140.0.0.0"
       }
     }
   end
@@ -22,6 +24,29 @@ class Mypage::PushRegistrationsTest < ActionDispatch::IntegrationTest
     assert_equal mypage_push_registration_path(PushRegistration.last), response.parsed_body["destroy_url"]
     assert_equal @user, PushRegistration.last.user
     assert_equal Session.last, PushRegistration.last.session
+    assert_equal "1.0.0", PushRegistration.last.app_version
+    assert_equal "Chrome", PushRegistration.last.device_model
+    assert_equal "140.0.0.0", PushRegistration.last.os_version
+  end
+
+  test "네이티브 등록의 디바이스 정보를 저장할 수 있다" do
+    native_registration_params = {
+      push_registration: {
+        firebase_installation_id: "ios-installation-id",
+        platform: "ios",
+        device_model: "iPhone 17 Pro",
+        os_version: "iOS 20.0",
+        app_version: "1.0.0"
+      }
+    }
+
+    post mypage_push_registrations_url, params: native_registration_params, as: :json
+
+    assert_response :created
+    registration = PushRegistration.last
+    assert_equal "iPhone 17 Pro", registration.device_model
+    assert_equal "iOS 20.0", registration.os_version
+    assert_equal "1.0.0", registration.app_version
   end
 
   test "같은 firebase_installation_id를 다시 등록하면 최근 등록 시각을 갱신한다" do
@@ -35,6 +60,7 @@ class Mypage::PushRegistrationsTest < ActionDispatch::IntegrationTest
 
     assert_response :created
     assert_in_delta Time.current, registration.reload.last_registered_at, 2.seconds
+    assert_equal "1.0.0", registration.app_version
   end
 
   test "같은 세션과 플랫폼의 새 firebase_installation_id는 기존 등록을 교체한다" do
