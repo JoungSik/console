@@ -19,6 +19,7 @@ class PagesTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_select "h1", I18n.t("pages.privacy")
     assert_select ".legal-content", text: /포스트 본문/
+    assert_select "a[href='mailto:support@joungsik.com']", text: "support@joungsik.com"
   end
 
   test "인증된 사용자가 이용약관 페이지에 접근할 수 있다" do
