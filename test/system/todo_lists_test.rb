@@ -79,6 +79,52 @@ class TodoListsTest < ApplicationSystemTestCase
     assert_text "아직 할 일이 없습니다."
   end
 
+  test "모바일에서 날짜 입력은 할 일 카드 안에 표시된다" do
+    list = Todo::List.create!(title: "날짜 입력 목록", user_id: @user.id)
+    list.items.create!(
+      title: "반복 할 일",
+      due_date: Date.current,
+      recurrence: "daily",
+      recurrence_ends_on: Date.current + 1.month
+    )
+
+    use_mobile_viewport
+    visit todo.edit_list_url(list)
+
+    layout = page.evaluate_script(<<~JS)
+      (() => {
+        const card = document.querySelector(".item-fields").getBoundingClientRect();
+        const inputs = [...document.querySelectorAll(".item-fields input[type='date']")].map((input) => {
+          const bounds = input.getBoundingClientRect();
+          const inputStyle = getComputedStyle(input);
+          const wrapperStyle = getComputedStyle(input.parentElement);
+
+          return {
+            left: bounds.left,
+            right: bounds.right,
+            paddingLeft: parseFloat(inputStyle.paddingLeft),
+            paddingRight: parseFloat(inputStyle.paddingRight),
+            wrapperPaddingLeft: parseFloat(wrapperStyle.paddingLeft),
+            wrapperPaddingRight: parseFloat(wrapperStyle.paddingRight)
+          };
+        });
+
+        return { card: { left: card.left, right: card.right }, inputs };
+      })()
+    JS
+
+    assert_equal 2, layout["inputs"].size
+    layout["inputs"].each do |input|
+      assert_operator input["left"], :>=, layout["card"]["left"]
+      assert_operator input["right"], :<=, layout["card"]["right"]
+      assert_in_delta 0, input["paddingLeft"], 0.01
+      assert_in_delta 0, input["paddingRight"], 0.01
+      assert_operator input["wrapperPaddingLeft"], :>, 0
+      assert_operator input["wrapperPaddingRight"], :>, 0
+    end
+    assert_no_horizontal_overflow
+  end
+
   test "목록을 보관하고 복원할 수 있다" do
     list = Todo::List.create!(title: "보관 전환 목록", user_id: @user.id)
     visit todo.edit_list_url(list)

@@ -50,6 +50,20 @@ class Todo::ListsTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
+  test "날짜 입력 필드는 카드 너비를 넘지 않도록 제한한다" do
+    @list.items.create!(
+      title: "반복 할 일",
+      due_date: Date.current,
+      recurrence: "daily",
+      recurrence_ends_on: Date.current + 1.month
+    )
+
+    get todo.edit_list_url(@list)
+
+    assert_response :success
+    assert_select "#items .item-fields div.w-full.max-w-full.px-3 > input[type='date'].w-full.min-w-0.max-w-full.px-0", count: 2
+  end
+
   test "제목만으로 목록을 생성할 수 있다" do
     assert_difference "Todo::List.count", 1 do
       post todo.lists_url, params: { list: { title: "새 목록" } }
