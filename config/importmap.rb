@@ -13,5 +13,7 @@ pin "@hotwired/hotwire-native-bridge", to: "@hotwired--hotwire-native-bridge.js"
 pin "js_admin", to: "js_admin/application.js", preload: true
 pin "js_admin/controllers/theme_controller", to: "js_admin/controllers/theme_controller.js", preload: true
 pin "js_admin/controllers/flash_controller", to: "js_admin/controllers/flash_controller.js", preload: true
+pin "lexxy", to: "lexxy.js"
+pin "@rails/activestorage", to: "activestorage.esm.js"
 pin "firebase/app", to: "https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js" # @12.17.1
 pin "firebase/messaging", to: "https://www.gstatic.com/firebasejs/12.17.1/firebase-messaging.js" # @12.17.1

@@ -28,6 +28,32 @@
 }
 
 @layer components {
+  .lexxy-content {
+    --lexxy-color-ink: var(--color-gray-700);
+    --lexxy-color-ink-medium: var(--color-gray-600);
+    --lexxy-color-ink-lighter: var(--color-gray-300);
+    --lexxy-color-ink-lightest: var(--color-gray-100);
+    --lexxy-color-link: var(--color-blue-600);
+    font-size: 0.875rem;
+    line-height: 1.625;
+
+    @variant dark {
+      --lexxy-color-ink: var(--color-gray-200);
+      --lexxy-color-ink-medium: var(--color-gray-400);
+      --lexxy-color-ink-lighter: var(--color-gray-600);
+      --lexxy-color-ink-lightest: var(--color-gray-700);
+      --lexxy-color-link: var(--color-blue-400);
+      --lexxy-color-code-token-att: #ff7b72;
+      --lexxy-color-code-token-comment: #8b949e;
+      --lexxy-color-code-token-function: #d2a8ff;
+      --lexxy-color-code-token-operator: #ff7b72;
+      --lexxy-color-code-token-property: #79c0ff;
+      --lexxy-color-code-token-punctuation: #f0f6fc;
+      --lexxy-color-code-token-selector: #7ee787;
+      --lexxy-color-code-token-variable: #ffa657;
+    }
+  }
+
   .legal-content {
     font-size: 0.875rem;
     line-height: 1.625;
