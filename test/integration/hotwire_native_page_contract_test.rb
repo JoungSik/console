@@ -8,6 +8,7 @@ class HotwireNativePageContractTest < ActionDispatch::IntegrationTest
     @user = users(:test_user)
     @post = Journal::Post.create!(body: "Native 페이지 계약", user_id: @user.id)
     @list = Todo::List.create!(title: "Native 페이지 계약", user_id: @user.id)
+    @notice = Notice.create!(title: "Native 공지", published_on: Date.current, position: 1)
   end
 
   test "공개 페이지가 Native 제목과 상단 여백 계약을 지킨다" do
@@ -30,6 +31,7 @@ class HotwireNativePageContractTest < ActionDispatch::IntegrationTest
 
     pages = {
       root_url => "대시보드",
+      notice_url(@notice) => @notice.title,
       mypage_user_url => I18n.t("settings.mypage.title"),
       mypage_plugins_url => I18n.t("settings.plugins.title"),
       mypage_push_notifications_url => I18n.t("settings.push_notifications.page_title"),

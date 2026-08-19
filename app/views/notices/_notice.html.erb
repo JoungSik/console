@@ -1,0 +1,10 @@
+<article id="<%= dom_id(notice) %>">
+  <%= link_to notice_path(notice),
+      class: "group flex items-center gap-3 rounded-lg border border-blue-200 bg-blue-50 p-4 shadow-sm transition-colors duration-200 hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:border-blue-800 dark:bg-blue-900/20 dark:hover:bg-blue-900/30 dark:focus:ring-offset-gray-900 sm:p-5" do %>
+    <%= lucide_icon "megaphone", class: "h-5 w-5 flex-shrink-0 text-blue-600 dark:text-blue-400" %>
+    <h3 class="min-w-0 flex-1 truncate text-base font-semibold text-gray-900 dark:text-white">
+      <%= notice.title %>
+    </h3>
+    <%= lucide_icon "chevron-right", class: "h-5 w-5 flex-shrink-0 text-blue-500 transition-transform duration-200 group-hover:translate-x-0.5 dark:text-blue-400" %>
+  <% end %>
+</article>

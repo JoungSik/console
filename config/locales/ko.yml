@@ -171,6 +171,7 @@ ko:
 
   activerecord:
     models:
+      notice: "공지사항"
       user: "사용자"
       link: "링크"
       collection: "컬렉션"
@@ -178,6 +179,12 @@ ko:
       todo: "할 일"
       journal/post: "포스트"
     attributes:
+      notice:
+        title: "제목"
+        body: "내용"
+        published_on: "게시일"
+        expires_on: "만료일"
+        position: "노출 순서"
       user:
         name: "이름"
         email_address: "이메일"
@@ -204,6 +211,10 @@ ko:
         body: "내용"
     errors:
       models:
+        notice:
+          attributes:
+            expires_on:
+              before_published_on: "은 게시일보다 빠를 수 없습니다."
         user:
           attributes:
             password:
@@ -221,6 +232,11 @@ ko:
             url:
               invalid_url_format: "올바른 URL 형식이 아닙니다. http:// 또는 https://로 시작해야 합니다."
     enums:
+
+  home:
+    notices:
+      title: "공지사항"
+      back_to_dashboard: "대시보드"
 
   actions:
     show: "보기"

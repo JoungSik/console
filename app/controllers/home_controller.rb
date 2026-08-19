@@ -13,6 +13,7 @@ class HomeController < ApplicationController
   private
 
   def load_dashboard
+    @notices = Notice.visible_on.with_rich_text_body
     active_plugins = current_user.enabled_plugins & PluginRegistry.dashboard_plugins
 
     @dashboard_components = active_plugins.filter_map do |plugin|
