@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   root "home#index"
 
+  resources :notices, only: :show
   resource :session, only: %i[new create destroy]
   resource :registration, only: %i[new create] do
     get :verify_pending, on: :collection

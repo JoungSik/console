@@ -87,4 +87,22 @@ class HomeSystemTest < ApplicationSystemTestCase
 
     assert_current_path todo.root_path
   end
+
+  test "공지 제목을 선택하면 상세 내용을 볼 수 있다" do
+    notice = Notice.create!(
+      title: "시스템 테스트 공지",
+      body: "상세 공지 내용",
+      published_on: Date.current,
+      position: 1
+    )
+    sign_in_as @user
+
+    within "#dashboard-notices" do
+      click_link notice.title
+    end
+
+    assert_current_path notice_path(notice)
+    assert_selector "h1", text: notice.title
+    assert_text "상세 공지 내용"
+  end
 end

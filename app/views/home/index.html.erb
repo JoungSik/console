@@ -7,8 +7,19 @@
     <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">전체 현황을 한눈에 확인하세요.</p>
   </div>
 
+  <% if @notices.present? %>
+    <section id="dashboard-notices" class="mb-6" aria-labelledby="dashboard-notices-heading">
+      <h2 id="dashboard-notices-heading" class="text-xl font-semibold text-gray-900 dark:text-white">
+        <%= t("home.notices.title") %>
+      </h2>
+      <div class="mt-3 space-y-3">
+        <%= render @notices %>
+      </div>
+    </section>
+  <% end %>
+
   <% if @approaching_deletion_plugins.present? %>
-    <div class="mb-4 space-y-2">
+    <div id="dashboard-plugin-deletion-warnings" class="mb-4 space-y-2">
       <% @approaching_deletion_plugins.each do |item| %>
         <div class="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
           <div class="flex items-start sm:items-center">
@@ -27,7 +38,7 @@
   <% end %>
 
   <% if @dashboard_components.present? %>
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 lg:gap-6">
+    <div id="dashboard-widgets" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 lg:gap-6">
       <% @dashboard_components.each do |component| %>
         <%= render partial: component.partial_path, locals: component.locals %>
       <% end %>

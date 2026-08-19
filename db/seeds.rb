@@ -51,4 +51,40 @@ end
 
 puts "Journal: #{Journal::Post.count} posts"
 
+if Rails.env.development?
+  [
+    {
+      title: "Console 공지사항 기능 안내",
+      published_on: Date.new(2020, 1, 1),
+      expires_on: nil,
+      position: 10,
+      body: <<~HTML
+        <p><strong>Console 공지사항 기능을 확인해 보세요.</strong></p>
+        <p>공지 본문에는 <a href="https://lexxy.dev/">링크와 다양한 서식</a>을 사용할 수 있습니다.</p>
+      HTML
+    },
+    {
+      title: "개발 환경 점검 안내",
+      published_on: Date.new(2020, 1, 1),
+      expires_on: Date.new(2099, 12, 31),
+      position: 20,
+      body: <<~HTML
+        <p><strong>개발 환경 점검 안내</strong></p>
+        <ul>
+          <li>라이트 모드와 다크 모드의 콘텐츠 스타일을 확인하세요.</li>
+          <li>여러 공지가 노출 순서대로 표시되는지 확인하세요.</li>
+        </ul>
+      HTML
+    }
+  ].each do |attributes|
+    body = attributes.delete(:body)
+    notice = Notice.find_or_initialize_by(attributes.except(:title))
+    notice.title = attributes[:title]
+    notice.body = body
+    notice.save!
+  end
+
+  puts "Notice: #{Notice.count} notices"
+end
+
 puts "Seed 완료!"
