@@ -26,6 +26,27 @@ class HotwireNativeLayoutTest < ApplicationSystemTestCase
     end
   end
 
+  test "Native 마이페이지는 중복 설정 링크와 불필요한 카드 여백이 없다" do
+    use_mobile_viewport
+    sign_in_as users(:test_user)
+    original_user_agent = page.evaluate_script("navigator.userAgent")
+    set_user_agent(NATIVE_USER_AGENT)
+
+    begin
+      visit mypage_user_url
+
+      assert_no_selector "a[href='#{mypage_plugins_path}']"
+      assert_no_selector "a[href='#{mypage_push_notifications_path}']"
+      assert_selector "form[action='#{mypage_theme_path}']"
+      assert_selector "form[action='#{mypage_user_path}']"
+      assert_selector "a[href='#{session_path}'][data-turbo-method='delete']"
+      assert_in_delta 24, password_and_logout_card_gap, 1
+      assert_no_horizontal_overflow
+    ensure
+      set_user_agent(original_user_agent)
+    end
+  end
+
   private
 
   def set_user_agent(user_agent)
@@ -69,5 +90,16 @@ class HotwireNativeLayoutTest < ApplicationSystemTestCase
 
     assert_operator dimensions["documentHeight"], :<=, dimensions["viewportHeight"] + 1,
       "#{path}에 불필요한 Native 문서 스크롤이 없어야 합니다"
+  end
+
+  def password_and_logout_card_gap
+    page.evaluate_script(<<~JS)
+      (() => {
+        const passwordCard = document.querySelector("form[action='#{mypage_user_path}']").closest(".shadow-sm")
+        const logoutCard = document.querySelector("a[href='#{session_path}'][data-turbo-method='delete']").closest(".shadow-sm")
+
+        return logoutCard.getBoundingClientRect().top - passwordCard.getBoundingClientRect().bottom
+      })()
+    JS
   end
 end

@@ -1,6 +1,8 @@
 require "test_helper"
 
 class Mypage::UsersTest < ActionDispatch::IntegrationTest
+  NATIVE_HEADERS = { "User-Agent" => "Console Hotwire Native iOS" }.freeze
+
   setup do
     @user = users(:test_user)
     sign_in_as @user
@@ -14,6 +16,20 @@ class Mypage::UsersTest < ActionDispatch::IntegrationTest
     assert_select "body[data-theme-preference='system']"
     assert_select "input[name='theme[value]']", count: 3
     assert_select "form[data-action~='turbo:submit-end->theme#submitEnd']"
+    assert_select "a[href='#{mypage_plugins_path}']", count: 1
+    assert_select "a[href='#{mypage_push_notifications_path}']", count: 1
+  end
+
+  test "Native 마이페이지에는 중복 설정 링크만 표시되지 않는다" do
+    get mypage_user_url, headers: NATIVE_HEADERS
+
+    assert_response :success
+    assert_select "a[href='#{mypage_plugins_path}']", count: 0
+    assert_select "a[href='#{mypage_push_notifications_path}']", count: 0
+    assert_select "form[action='#{mypage_theme_path}']", count: 1
+    assert_select "form[action='#{mypage_user_path}']", count: 1
+    assert_select "dl", text: /#{Regexp.escape(@user.name)}/
+    assert_select "a[href='#{session_path}'][data-turbo-method='delete']", count: 1
   end
 
   test "테마를 변경할 수 있다" do
