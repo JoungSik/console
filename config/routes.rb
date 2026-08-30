@@ -29,7 +29,7 @@ Rails.application.routes.draw do
       as: :hotwire_native_path_configuration
 
   namespace :mypage do
-    resource :user, only: %i[ show update ]
+    resource :user, only: %i[ show update destroy ]
     resource :theme, only: :update
     resources :push_registrations, only: %i[create destroy]
     resources :plugins, only: %i[ index ] do

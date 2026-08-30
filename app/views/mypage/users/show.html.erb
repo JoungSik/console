@@ -221,4 +221,45 @@
           class: "inline-flex items-center justify-center px-4 py-2 text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 dark:hover:bg-red-500 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 dark:focus:ring-offset-gray-800" %>
     </div>
   </div>
+
+  <div class="bg-white dark:bg-gray-800 border border-red-200 dark:border-red-800 rounded-lg shadow-sm mt-6">
+    <div class="p-6">
+      <div class="flex items-center mb-4">
+        <%= lucide_icon "triangle-alert", class: "w-6 h-6 text-red-600 dark:text-red-400 mr-3" %>
+        <h2 class="text-lg font-semibold text-red-700 dark:text-red-300">
+          <%= t("settings.account_deletion.title") %>
+        </h2>
+      </div>
+
+      <p class="text-sm font-medium text-gray-900 dark:text-white mb-2">
+        <%= t("settings.account_deletion.description") %>
+      </p>
+      <p class="text-sm text-gray-600 dark:text-gray-400 mb-6">
+        <%= t("settings.account_deletion.warning") %>
+      </p>
+
+      <%= form_with url: mypage_user_path,
+          method: :delete,
+          scope: :user,
+          id: "account_deletion_form",
+          class: "space-y-4",
+          data: { turbo_confirm: t("settings.account_deletion.confirmation") } do |form| %>
+        <div>
+          <%= form.label :current_password, t("settings.account_deletion.current_password"),
+              for: "account_deletion_current_password",
+              class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" %>
+          <%= form.password_field :current_password,
+              id: "account_deletion_current_password",
+              required: true,
+              autocomplete: "current-password",
+              class: "w-full bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 rounded-md px-3 py-2 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent" %>
+        </div>
+
+        <div class="pt-2">
+          <%= form.submit t("settings.account_deletion.delete_button"),
+              class: "inline-flex items-center justify-center px-4 py-2 text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 dark:hover:bg-red-500 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 dark:focus:ring-offset-gray-800" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
 </div>
