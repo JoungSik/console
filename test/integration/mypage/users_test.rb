@@ -18,6 +18,12 @@ class Mypage::UsersTest < ActionDispatch::IntegrationTest
     assert_select "form[data-action~='turbo:submit-end->theme#submitEnd']"
     assert_select "a[href='#{mypage_plugins_path}']", count: 1
     assert_select "a[href='#{mypage_push_notifications_path}']", count: 1
+    assert_select "form#account_deletion_form[action='#{mypage_user_path}'][data-turbo-confirm]"
+    assert_select "form#account_deletion_form input[name='_method'][value='delete']"
+    assert_select "form#account_deletion_form[data-controller~='bridge--form']", count: 0
+    assert_select "form#account_deletion_form [data-bridge--form-target]", count: 0
+    assert_select "form[data-controller~='bridge--form'] input[name='_method'][value='patch']", count: 1
+    assert_select "#account_deletion_current_password[value]", count: 0
   end
 
   test "Native 마이페이지에는 중복 설정 링크만 표시되지 않는다" do
@@ -27,7 +33,9 @@ class Mypage::UsersTest < ActionDispatch::IntegrationTest
     assert_select "a[href='#{mypage_plugins_path}']", count: 0
     assert_select "a[href='#{mypage_push_notifications_path}']", count: 0
     assert_select "form[action='#{mypage_theme_path}']", count: 1
-    assert_select "form[action='#{mypage_user_path}']", count: 1
+    assert_select "form[action='#{mypage_user_path}']", count: 2
+    assert_select "form#account_deletion_form", count: 1
+    assert_select "form[data-controller~='bridge--form']", count: 1
     assert_select "dl", text: /#{Regexp.escape(@user.name)}/
     assert_select "a[href='#{session_path}'][data-turbo-method='delete']", count: 1
   end
@@ -95,5 +103,69 @@ class Mypage::UsersTest < ActionDispatch::IntegrationTest
     assert_response :unprocessable_entity
     assert_select "#flash", text: /비밀번호.*일치하지 않습니다/
     assert @user.reload.authenticate("password123")
+  end
+
+  test "올바른 현재 비밀번호로 회원 탈퇴할 수 있다" do
+    other_session = @user.sessions.create!(user_agent: "other", ip_address: "127.0.0.2")
+    PushRegistration.create!(
+      user: @user,
+      session: other_session,
+      firebase_installation_id: "account-deletion-installation",
+      platform: "ios",
+      last_registered_at: Time.current
+    )
+    PushNotificationSetting.create!(user: @user, plugin_name: "todos", item_key: "due_date_reminder")
+    PushNotificationLog.create!(user: @user, title: "알림", body: "본문", requested_at: Time.current)
+    UserPlugin.create!(user: @user, plugin_name: "posts", enabled: false, disabled_at: Time.current)
+    Journal::Post.create!(body: "삭제 대상", user_id: @user.id)
+    Todo::List.create!(title: "삭제 대상", user_id: @user.id).items.create!(title: "삭제 대상")
+
+    delete mypage_user_url, params: {
+      user: { id: users(:other_user).id, current_password: "password123" }
+    }
+
+    assert_response :see_other
+    assert_redirected_to root_path
+    assert_not User.exists?(@user.id)
+    assert User.exists?(users(:other_user).id)
+    assert_equal 0, Session.where(user_id: @user.id).count
+    assert_equal 0, PushRegistration.where(user_id: @user.id).count
+    assert_equal 0, PushNotificationSetting.where(user_id: @user.id).count
+    assert_equal 0, PushNotificationLog.where(user_id: @user.id).count
+    assert_equal 0, UserPlugin.where(user_id: @user.id).count
+    assert_equal 0, Journal::Post.where(user_id: @user.id).count
+    assert_equal 0, Todo::List.where(user_id: @user.id).count
+
+    follow_redirect!
+    assert_equal I18n.t("settings.account_deletion.deleted"), flash[:notice]
+
+    get mypage_user_url
+    assert_redirected_to new_session_path
+  end
+
+  test "잘못된 현재 비밀번호로 회원 탈퇴할 수 없다" do
+    Journal::Post.create!(body: "유지 대상", user_id: @user.id)
+    Todo::List.create!(title: "유지 대상", user_id: @user.id)
+
+    assert_no_difference [
+      -> { User.count },
+      -> { Journal::Post.count },
+      -> { Todo::List.count }
+    ] do
+      delete mypage_user_url, params: { user: { current_password: "wrong" } }
+    end
+
+    assert_response :unprocessable_entity
+    assert_select "#flash", text: /#{Regexp.escape(I18n.t("settings.account_deletion.current_password_incorrect"))}/
+    assert_select "#account_deletion_current_password[value]", count: 0
+  end
+
+  test "현재 비밀번호 파라미터가 없어도 회원 탈퇴할 수 없다" do
+    assert_no_difference "User.count" do
+      delete mypage_user_url
+    end
+
+    assert_response :unprocessable_entity
+    assert_select "#flash", text: /#{Regexp.escape(I18n.t("settings.account_deletion.current_password_incorrect"))}/
   end
 end

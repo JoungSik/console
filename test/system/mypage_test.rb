@@ -53,4 +53,20 @@ class MypageTest < ApplicationSystemTestCase
     assert_current_path new_session_path
     assert_text I18n.t("settings.password.updated_please_login")
   end
+
+  test "현재 비밀번호와 최종 확인을 거쳐 회원 탈퇴한다" do
+    sign_in_as @user
+    visit mypage_user_url
+
+    assert_text I18n.t("settings.account_deletion.warning")
+    fill_in I18n.t("settings.account_deletion.current_password"), with: "password123"
+
+    accept_confirm I18n.t("settings.account_deletion.confirmation") do
+      click_button I18n.t("settings.account_deletion.delete_button")
+    end
+
+    assert_current_path root_path
+    assert_text I18n.t("settings.account_deletion.deleted")
+    assert_not User.exists?(@user.id)
+  end
 end

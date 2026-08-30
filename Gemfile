@@ -23,7 +23,7 @@ gem "mission_control-jobs"
 # Generic admin UI for Active Record models
 gem "js_admin"
 # Rich text editor for Action Text
-gem "lexxy", "~> 0.9.30"
+gem "lexxy", "~> 0.9.31"
 # Use Redis adapter to run Action Cable in production
 # gem "redis", ">= 4.0.1"
 

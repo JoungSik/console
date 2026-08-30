@@ -1,10 +1,19 @@
 module Console
   module PluginDataCleaner
     def self.clean_data_for(plugin_name:, user_id:)
-      cleaner_class_for(plugin_name).call(user_id: user_id)
-      true
+      !!cleaner_class_for(plugin_name).call(user_id: user_id)
     rescue NameError => e
       Rails.logger.warn("데이터 클리너 없음 [#{plugin_name}]: #{e.message}")
+      false
+    end
+
+    def self.with_transaction(plugin_name:, &block)
+      cleaner_class_for(plugin_name).transaction(requires_new: true, &block)
+    end
+
+    def self.transaction_supported?(plugin_name:)
+      cleaner_class_for(plugin_name).respond_to?(:transaction)
+    rescue NameError
       false
     end
 
