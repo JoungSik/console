@@ -178,6 +178,8 @@ ko:
       todo_list: "할 일 목록"
       todo: "할 일"
       journal/post: "포스트"
+      inspiration/idea: "아이디어"
+      inspiration/note: "진행 기록"
     attributes:
       notice:
         title: "제목"
@@ -209,6 +211,13 @@ ko:
         url: "링크"
       journal/post:
         body: "내용"
+      inspiration/idea:
+        title: "제목"
+        body: "내용"
+        reference_url: "참고 링크"
+        status: "상태"
+      inspiration/note:
+        body: "진행 기록"
     errors:
       models:
         notice:
@@ -230,6 +239,10 @@ ko:
         todo/item:
           attributes:
             url:
+              invalid_url_format: "올바른 URL 형식이 아닙니다. http:// 또는 https://로 시작해야 합니다."
+        inspiration/idea:
+          attributes:
+            reference_url:
               invalid_url_format: "올바른 URL 형식이 아닙니다. http:// 또는 https://로 시작해야 합니다."
     enums:
 

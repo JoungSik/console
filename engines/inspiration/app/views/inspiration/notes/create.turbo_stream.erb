@@ -1,0 +1,11 @@
+<%= turbo_stream.update "note_composer" do %>
+  <%= render "inspiration/notes/form", idea: @idea, note: @note %>
+<% end %>
+
+<%= turbo_stream.update "notes" do %>
+  <%= render "inspiration/notes/note_list", idea: @idea, notes: @notes %>
+<% end %>
+
+<%= turbo_stream.replace dom_id(@idea), partial: "inspiration/ideas/idea", locals: { idea: @idea } %>
+
+<%= turbo_stream.update "flash", partial: "layouts/shared/alert" %>

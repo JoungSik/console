@@ -75,3 +75,4 @@ end
 
 gem "todo", path: "engines/todo"
 gem "journal", path: "engines/journal"
+gem "inspiration", path: "engines/inspiration"

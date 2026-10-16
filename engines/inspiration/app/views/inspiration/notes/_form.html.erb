@@ -1,0 +1,32 @@
+<%= form_with(
+      model: note,
+      scope: :note,
+      url: inspiration.idea_notes_path(idea),
+      class: "space-y-3",
+      data: { controller: "bridge--form" }
+    ) do |form| %>
+  <% if note.errors.any? %>
+    <div class="bg-red-50 dark:bg-red-900 border border-red-200 dark:border-red-700 text-red-700 dark:text-red-100 px-4 py-3 rounded-md">
+      <h2 class="font-medium mb-2"><%= note.errors.count %>개의 오류가 있습니다</h2>
+      <ul class="text-sm space-y-1">
+        <% note.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :body, "진행 기록", class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" %>
+    <%= form.text_area :body,
+                       rows: 3,
+                       placeholder: "검토하거나 진행하면서 알게 된 것",
+                       class: "w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" %>
+  </div>
+
+  <div class="flex justify-end">
+    <%= form.submit "기록 추가",
+                    data: { bridge__form_target: "submit", bridge_title: "추가" },
+                    class: "inline-flex items-center px-4 py-2 text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 dark:hover:bg-blue-500 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 dark:focus:ring-offset-gray-800" %>
+  </div>
+<% end %>

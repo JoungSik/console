@@ -20,6 +20,10 @@ development:
     <<: *default
     database: storage/development_journal.sqlite3
     migrations_paths: engines/journal/db/migrate
+  inspiration:
+    <<: *default
+    database: storage/development_inspiration.sqlite3
+    migrations_paths: engines/inspiration/db/migrate
   queue:
     <<: *default
     database: storage/development_queue.sqlite3
@@ -37,6 +41,10 @@ test:
     <<: *default
     database: storage/test_journal.sqlite3
     migrations_paths: engines/journal/db/migrate
+  inspiration:
+    <<: *default
+    database: storage/test_inspiration.sqlite3
+    migrations_paths: engines/inspiration/db/migrate
   queue:
     <<: *default
     database: storage/test_queue.sqlite3
@@ -54,6 +62,10 @@ production:
     <<: *default
     database: "/storage/production_journal.sqlite3"
     migrations_paths: engines/journal/db/migrate
+  inspiration:
+    <<: *default
+    database: "/storage/production_inspiration.sqlite3"
+    migrations_paths: engines/inspiration/db/migrate
   queue:
     <<: *default
     database: "/storage/production_queue.sqlite3"

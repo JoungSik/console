@@ -6,7 +6,9 @@ JSAdmin.configure do |config|
     "PushRegistration",
     "Todo::List",
     "Todo::Item",
-    "Journal::Post"
+    "Journal::Post",
+    "Inspiration::Idea",
+    "Inspiration::Note"
   config.display_name_methods = %i[name title email_address body id]
 end
 

@@ -1,0 +1,55 @@
+<article id="<%= dom_id idea %>" class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm">
+  <div class="p-4 sm:p-5">
+    <div class="flex items-start justify-between gap-3">
+      <div class="min-w-0">
+        <div class="flex items-center gap-2 mb-1">
+          <%= render "inspiration/ideas/status_badge", idea: idea %>
+          <span class="text-xs text-gray-500 dark:text-gray-400"><%= idea.updated_at.strftime("%Y-%m-%d %H:%M") %></span>
+          <% if idea.notes_count.positive? %>
+            <span class="inline-flex items-center gap-1 text-xs text-gray-500 dark:text-gray-400">
+              <%= lucide_icon "messages-square", class: "w-3.5 h-3.5" %>
+              진행 기록 <%= idea.notes_count %>
+            </span>
+          <% end %>
+        </div>
+        <% if local_assigns[:index] %>
+          <%= link_to idea.title, inspiration.idea_path(idea), class: "block font-semibold text-gray-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 break-words transition-colors duration-200" %>
+        <% else %>
+          <p class="text-xl font-bold text-gray-900 dark:text-white break-words"><%= idea.title %></p>
+        <% end %>
+      </div>
+
+      <div class="flex flex-shrink-0 items-center gap-2" data-controller="bridge--menu">
+        <%= link_to inspiration.edit_idea_path(idea),
+            class: "inline-flex items-center justify-center p-1.5 rounded-md text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200",
+            aria: { label: "아이디어 수정" },
+            data: { bridge__menu_target: "item", bridge_title: "수정" } do %>
+          <%= lucide_icon "pencil", class: "w-4 h-4" %>
+        <% end %>
+        <%= link_to inspiration.idea_path(idea, source: ("index" if local_assigns[:index]), status: local_assigns[:status_filter]),
+            class: "inline-flex items-center justify-center p-1.5 rounded-md text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900 transition-colors duration-200",
+            data: {
+              turbo_method: :delete,
+              turbo_confirm: "정말 삭제하시겠습니까?",
+              bridge__menu_target: "item",
+              bridge_title: "삭제",
+              bridge_destructive: "true"
+            },
+            aria: { label: "아이디어 삭제" } do %>
+          <%= lucide_icon "trash-2", class: "w-4 h-4" %>
+        <% end %>
+      </div>
+    </div>
+
+    <% if idea.body.present? %>
+      <p class="mt-3 whitespace-pre-wrap break-words text-gray-700 dark:text-gray-300 <%= 'line-clamp-3' if local_assigns[:index] %>"><%= idea.body %></p>
+    <% end %>
+
+    <% if (reference_uri = idea.reference_uri) %>
+      <%= link_to reference_uri.to_s, target: "_blank", rel: "noopener noreferrer", class: "mt-3 inline-flex max-w-full items-center gap-1 text-sm text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors duration-200" do %>
+        <%= lucide_icon "link", class: "w-4 h-4 flex-shrink-0" %>
+        <span class="truncate"><%= reference_uri.host %></span>
+      <% end %>
+    <% end %>
+  </div>
+</article>
