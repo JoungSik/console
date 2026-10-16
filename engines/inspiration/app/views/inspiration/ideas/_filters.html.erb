@@ -5,6 +5,7 @@
     <%= link_to label,
         inspiration.ideas_path(status: status),
         aria: { current: ("page" if selected) },
+        data: { turbo_action: "replace" },
         class: "flex-shrink-0 px-3 py-1.5 rounded-full text-sm font-medium transition-colors duration-200 #{selected ? 'bg-blue-600 text-white' : 'bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'}" %>
   <% end %>
 </nav>

@@ -39,6 +39,14 @@ class Inspiration::IdeasTest < ActionDispatch::IntegrationTest
     assert_select "#idea_filters a[aria-current='page']", text: "전체"
   end
 
+  test "상태 필터 링크는 Native 화면이 쌓이지 않도록 현재 방문을 교체한다" do
+    get inspiration.root_url
+
+    filter_count = Inspiration::Idea.statuses.size + 1
+    assert_select "#idea_filters a", count: filter_count
+    assert_select "#idea_filters a[data-turbo-action='replace']", count: filter_count
+  end
+
   test "아이디어 상세에 진행 기록과 기록 폼이 표시된다" do
     @idea.notes.create!(body: "Bitwarden 클라이언트 호환성 확인")
 
