@@ -1,5 +1,5 @@
 <%= turbo_stream.update "idea_composer" do %>
-  <%= render "form", idea: @idea %>
+  <%= render "form", idea: @idea, status_filter: @status_filter %>
 <% end %>
 
 <%= turbo_stream.update "idea_filters" do %>

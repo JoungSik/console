@@ -11,9 +11,9 @@ module Inspiration
             @idea.reload
             @notes = @idea.notes.chronological
             @note = @idea.notes.build
-            flash.now[:notice] = "진행 기록이 추가되었습니다."
+            flash.now[:notice] = t("inspiration.notes.flash.created")
           end
-          format.html { redirect_to inspiration.idea_path(@idea), status: :see_other, notice: "진행 기록이 추가되었습니다." }
+          format.html { redirect_to inspiration.idea_path(@idea), status: :see_other, notice: t("inspiration.notes.flash.created") }
         end
       else
         respond_to do |format|
@@ -39,9 +39,9 @@ module Inspiration
         format.turbo_stream do
           @idea.reload
           @notes = @idea.notes.chronological
-          flash.now[:notice] = "진행 기록이 삭제되었습니다."
+          flash.now[:notice] = t("inspiration.notes.flash.destroyed")
         end
-        format.html { redirect_to inspiration.idea_path(@idea), status: :see_other, notice: "진행 기록이 삭제되었습니다." }
+        format.html { redirect_to inspiration.idea_path(@idea), status: :see_other, notice: t("inspiration.notes.flash.destroyed") }
       end
     end
 

@@ -3,7 +3,7 @@
 <% else %>
   <div class="text-center py-12">
     <%= lucide_icon "lightbulb", class: "mx-auto h-12 w-12 text-gray-400 dark:text-gray-500" %>
-    <h3 class="mt-2 text-sm font-medium text-gray-900 dark:text-white">아이디어가 없습니다</h3>
-    <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">떠오른 아이디어를 바로 담아보세요.</p>
+    <h3 class="mt-2 text-sm font-medium text-gray-900 dark:text-white"><%= t("inspiration.ideas.index.empty_title") %></h3>
+    <p class="mt-1 text-sm text-gray-500 dark:text-gray-400"><%= t("inspiration.ideas.index.empty_description") %></p>
   </div>
 <% end %>

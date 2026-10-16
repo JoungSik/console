@@ -93,6 +93,32 @@ class Inspiration::IdeasTest < ActionDispatch::IntegrationTest
     assert_select "turbo-stream[target='ideas']", text: /Stream 아이디어/
   end
 
+  test "필터 화면의 빠른 입력 폼은 현재 필터를 함께 전송한다" do
+    get inspiration.root_url(status: "reviewing")
+
+    assert_select "#idea_composer input[type='hidden'][name='status'][value='reviewing']"
+  end
+
+  test "필터 화면에서 Turbo Stream으로 생성하면 URL과 같은 필터로 갱신한다" do
+    Inspiration::Idea.create!(title: "검토 중 아이디어", status: :reviewing, user_id: @user.id)
+
+    post inspiration.ideas_url,
+      params: { status: "reviewing", idea: { title: "필터 중 생성" } },
+      headers: turbo_stream_headers
+
+    assert_response :success
+    assert_select "turbo-stream[target='idea_filters'] a[aria-current='page']", text: "검토 중"
+    assert_select "turbo-stream[target='ideas']", text: /검토 중 아이디어/
+    assert_select "turbo-stream[target='ideas']", text: /필터 중 생성/, count: 0
+    assert_select "turbo-stream[target='idea_composer'] input[type='hidden'][name='status'][value='reviewing']"
+  end
+
+  test "필터 화면에서 HTML로 생성하면 같은 필터로 redirect한다" do
+    post inspiration.ideas_url, params: { status: "reviewing", idea: { title: "필터 중 생성" } }
+
+    assert_redirected_to inspiration.root_url(status: "reviewing")
+  end
+
   test "제목 없이 생성하면 422를 반환한다" do
     assert_no_difference "Inspiration::Idea.count" do
       post inspiration.ideas_url, params: { idea: { title: "" } }

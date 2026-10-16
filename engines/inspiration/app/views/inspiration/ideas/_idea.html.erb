@@ -8,7 +8,7 @@
           <% if idea.notes_count.positive? %>
             <span class="inline-flex items-center gap-1 text-xs text-gray-500 dark:text-gray-400">
               <%= lucide_icon "messages-square", class: "w-3.5 h-3.5" %>
-              진행 기록 <%= idea.notes_count %>
+              <%= t("inspiration.ideas.idea.notes_count", count: idea.notes_count) %>
             </span>
           <% end %>
         </div>
@@ -22,20 +22,20 @@
       <div class="flex flex-shrink-0 items-center gap-2" data-controller="bridge--menu">
         <%= link_to inspiration.edit_idea_path(idea),
             class: "inline-flex items-center justify-center p-1.5 rounded-md text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200",
-            aria: { label: "아이디어 수정" },
-            data: { bridge__menu_target: "item", bridge_title: "수정" } do %>
+            aria: { label: t("inspiration.ideas.idea.edit") },
+            data: { bridge__menu_target: "item", bridge_title: t("actions.edit") } do %>
           <%= lucide_icon "pencil", class: "w-4 h-4" %>
         <% end %>
         <%= link_to inspiration.idea_path(idea, source: ("index" if local_assigns[:index]), status: local_assigns[:status_filter]),
             class: "inline-flex items-center justify-center p-1.5 rounded-md text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900 transition-colors duration-200",
             data: {
               turbo_method: :delete,
-              turbo_confirm: "정말 삭제하시겠습니까?",
+              turbo_confirm: t("inspiration.ideas.idea.delete_confirm"),
               bridge__menu_target: "item",
-              bridge_title: "삭제",
+              bridge_title: t("actions.delete"),
               bridge_destructive: "true"
             },
-            aria: { label: "아이디어 삭제" } do %>
+            aria: { label: t("inspiration.ideas.idea.delete") } do %>
           <%= lucide_icon "trash-2", class: "w-4 h-4" %>
         <% end %>
       </div>

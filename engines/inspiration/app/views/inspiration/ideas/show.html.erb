@@ -5,7 +5,7 @@
        data-native-page-navigation>
     <%= link_to inspiration.root_path, class: "inline-flex items-center gap-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors duration-200" do %>
       <%= lucide_icon "arrow-left", class: "w-4 h-4" %>
-      아이디어 꾸러미
+      <%= t("inspiration.title") %>
     <% end %>
   </div>
 
@@ -15,7 +15,7 @@
     <%= render "inspiration/ideas/idea", idea: @idea %>
 
     <section aria-labelledby="notes-heading">
-      <h2 id="notes-heading" class="text-lg font-semibold text-gray-900 dark:text-white mb-3">진행 기록</h2>
+      <h2 id="notes-heading" class="text-lg font-semibold text-gray-900 dark:text-white mb-3"><%= t("inspiration.ideas.show.notes_heading") %></h2>
 
       <ol id="notes" class="space-y-3 mb-4">
         <%= render "inspiration/notes/note_list", idea: @idea, notes: @notes %>

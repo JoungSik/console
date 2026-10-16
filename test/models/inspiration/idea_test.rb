@@ -50,8 +50,10 @@ class Inspiration::IdeaTest < ActiveSupport::TestCase
     assert_not idea.valid?
   end
 
-  test "모든 상태에 라벨이 있다" do
-    assert_equal Inspiration::Idea.statuses.keys, Inspiration::Idea::STATUS_LABELS.keys
+  test "모든 상태에 번역된 라벨이 있다" do
+    Inspiration::Idea.statuses.each_key do |status|
+      assert I18n.exists?("activerecord.attributes.inspiration/idea.statuses.#{status}"), "#{status} 라벨이 없습니다"
+    end
   end
 
   test "삭제하면 진행 기록도 삭제된다" do

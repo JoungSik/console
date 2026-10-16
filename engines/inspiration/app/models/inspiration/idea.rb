@@ -1,14 +1,6 @@
 module Inspiration
   class Idea < ApplicationRecord
     MAX_TITLE_LENGTH = 200
-    STATUS_LABELS = {
-      "spark" => "떠오름",
-      "reviewing" => "검토 중",
-      "in_progress" => "진행 중",
-      "on_hold" => "보류",
-      "done" => "완료",
-      "dropped" => "폐기"
-    }.freeze
 
     enum :status, { spark: 0, reviewing: 1, in_progress: 2, on_hold: 3, done: 4, dropped: 5 }, validate: true
 
@@ -24,8 +16,12 @@ module Inspiration
     scope :by_user, ->(user_id) { where(user_id: user_id) }
     scope :recent, -> { order(updated_at: :desc, id: :desc) }
 
+    def self.human_status(status)
+      I18n.t(status, scope: [ :activerecord, :attributes, model_name.i18n_key, :statuses ])
+    end
+
     def status_label
-      STATUS_LABELS.fetch(status)
+      self.class.human_status(status)
     end
 
     def reference_uri

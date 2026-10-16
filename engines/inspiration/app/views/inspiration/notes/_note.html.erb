@@ -4,8 +4,8 @@
     <span class="text-xs text-gray-500 dark:text-gray-400"><%= note.created_at.strftime("%Y-%m-%d %H:%M") %></span>
     <%= link_to inspiration.idea_note_path(idea, note),
         class: "inline-flex flex-shrink-0 items-center justify-center p-1 rounded-md text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900 transition-colors duration-200",
-        data: { turbo_method: :delete, turbo_confirm: "진행 기록을 삭제하시겠습니까?" },
-        aria: { label: "진행 기록 삭제" } do %>
+        data: { turbo_method: :delete, turbo_confirm: t("inspiration.notes.note.delete_confirm") },
+        aria: { label: t("inspiration.notes.note.delete") } do %>
       <%= lucide_icon "trash-2", class: "w-3.5 h-3.5" %>
     <% end %>
   </div>

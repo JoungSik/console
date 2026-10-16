@@ -1,5 +1,5 @@
-<nav class="flex gap-2 overflow-x-auto pb-1" aria-label="상태 필터">
-  <% filters = [ [ nil, "전체" ] ] + Inspiration::Idea::STATUS_LABELS.to_a %>
+<nav class="flex gap-2 overflow-x-auto pb-1" aria-label="<%= t("inspiration.ideas.index.filter_label") %>">
+  <% filters = [ [ nil, t("inspiration.ideas.index.filter_all") ] ] + Inspiration::Idea.statuses.keys.map { |status| [ status, Inspiration::Idea.human_status(status) ] } %>
   <% filters.each do |status, label| %>
     <% selected = status_filter == status %>
     <%= link_to label,

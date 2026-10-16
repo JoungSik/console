@@ -1,5 +1,5 @@
 <% if notes.any? %>
   <%= render partial: "inspiration/notes/note", collection: notes, as: :note, locals: { idea: idea } %>
 <% else %>
-  <li class="text-sm text-gray-500 dark:text-gray-400">아직 진행 기록이 없습니다.</li>
+  <li class="text-sm text-gray-500 dark:text-gray-400"><%= t("inspiration.notes.note_list.empty") %></li>
 <% end %>

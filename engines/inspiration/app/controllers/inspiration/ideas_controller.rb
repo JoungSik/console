@@ -22,12 +22,12 @@ module Inspiration
       if @idea.save
         respond_to do |format|
           format.turbo_stream do
-            @status_filter = nil
+            @status_filter = status_filter_param
             @ideas = filtered_ideas
             @idea = Idea.new
-            flash.now[:notice] = "아이디어가 저장되었습니다."
+            flash.now[:notice] = t("inspiration.ideas.flash.created")
           end
-          format.html { redirect_to inspiration.root_path, status: :see_other, notice: "아이디어가 저장되었습니다." }
+          format.html { redirect_to inspiration.root_path(status: status_filter_param), status: :see_other, notice: t("inspiration.ideas.flash.created") }
         end
       else
         respond_to do |format|
@@ -35,11 +35,11 @@ module Inspiration
             render turbo_stream: turbo_stream.update(
               "idea_composer",
               partial: "inspiration/ideas/form",
-              locals: { idea: @idea }
+              locals: { idea: @idea, status_filter: status_filter_param }
             ), status: :unprocessable_entity
           end
           format.html do
-            @status_filter = nil
+            @status_filter = status_filter_param
             @ideas = filtered_ideas
             render :index, status: :unprocessable_entity
           end
@@ -49,7 +49,7 @@ module Inspiration
 
     def update
       if @idea.update(idea_params)
-        refresh_or_redirect_to inspiration.idea_path(@idea), status: :see_other, notice: "아이디어가 수정되었습니다."
+        refresh_or_redirect_to inspiration.idea_path(@idea), status: :see_other, notice: t("inspiration.ideas.flash.updated")
       else
         render :edit, status: :unprocessable_entity
       end
@@ -63,12 +63,12 @@ module Inspiration
           format.turbo_stream do
             @status_filter = status_filter_param
             @ideas = filtered_ideas
-            flash.now[:notice] = "아이디어가 삭제되었습니다."
+            flash.now[:notice] = t("inspiration.ideas.flash.destroyed")
           end
-          format.html { redirect_to inspiration.root_path, status: :see_other, notice: "아이디어가 삭제되었습니다." }
+          format.html { redirect_to inspiration.root_path, status: :see_other, notice: t("inspiration.ideas.flash.destroyed") }
         end
       else
-        recede_or_redirect_to inspiration.root_path, status: :see_other, notice: "아이디어가 삭제되었습니다."
+        recede_or_redirect_to inspiration.root_path, status: :see_other, notice: t("inspiration.ideas.flash.destroyed")
       end
     end
 

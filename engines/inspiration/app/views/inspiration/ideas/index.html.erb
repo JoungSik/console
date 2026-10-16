@@ -1,14 +1,14 @@
-<% content_for(:title) { "아이디어 꾸러미" } %>
+<% content_for(:title) { t("inspiration.title") } %>
 
 <div id="ideas-page" class="w-full">
   <div class="flex items-center justify-between gap-3 mb-6"
        data-native-page-title>
-    <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">아이디어 꾸러미</h1>
+    <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white"><%= t("inspiration.title") %></h1>
   </div>
 
   <div class="lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(0,2fr)] lg:gap-8">
     <%= turbo_frame_tag "idea_composer", class: "block bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm p-4 sm:p-5 mb-6 lg:sticky lg:top-8 lg:self-start lg:mb-0" do %>
-      <%= render "form", idea: @idea %>
+      <%= render "form", idea: @idea, status_filter: @status_filter %>
     <% end %>
 
     <div class="space-y-4">
