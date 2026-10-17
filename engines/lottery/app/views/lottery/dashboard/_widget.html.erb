@@ -1,0 +1,45 @@
+<div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200">
+  <div class="flex items-center justify-between gap-2 px-4 py-3 border-b border-gray-200 dark:border-gray-700">
+    <div class="flex items-center gap-2 min-w-0">
+      <%= lucide_icon "ticket", class: "w-5 h-5 text-blue-600 dark:text-blue-400 flex-shrink-0" %>
+      <h2 class="text-lg font-semibold text-gray-900 dark:text-white truncate"><%= component.plugin_name %></h2>
+    </div>
+    <%= link_to t("lottery.dashboard.view_all"), lottery.root_path, class: "flex-shrink-0 text-sm text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors duration-200" %>
+  </div>
+
+  <div class="px-4 py-4">
+    <% if component.account %>
+      <div class="flex items-baseline justify-between gap-2 mb-3">
+        <span class="text-sm text-gray-500 dark:text-gray-400"><%= t("lottery.overview.purchasable") %></span>
+        <span class="text-lg font-bold text-gray-900 dark:text-white"><%= t("lottery.amount", amount: number_with_delimiter(component.account.purchasable)) %></span>
+      </div>
+
+      <% if component.recent_records.any? %>
+        <ul class="space-y-2">
+          <% component.recent_records.each do |record| %>
+            <li class="flex items-center justify-between gap-2 text-sm">
+              <span class="min-w-0 truncate text-gray-900 dark:text-white">
+                <%= record.product_name %>
+                <% if record.round %><%= t("lottery.overview.round", round: record.round) %><% end %>
+              </span>
+              <span class="flex-shrink-0 <%= record.won? ? 'font-semibold text-amber-700 dark:text-amber-300' : 'text-gray-500 dark:text-gray-400' %>">
+                <%= record.won? ? t("lottery.amount", amount: number_with_delimiter(record.prize_amount)) : record.result.presence || t("lottery.overview.result_pending") %>
+              </span>
+            </li>
+          <% end %>
+        </ul>
+      <% else %>
+        <p class="text-sm text-gray-500 dark:text-gray-400 text-center py-2"><%= t("lottery.overview.history_empty") %></p>
+      <% end %>
+
+      <% if component.account.synced? %>
+        <p class="mt-3 text-xs text-gray-500 dark:text-gray-400 text-right"><%= t("lottery.overview.synced_at", time: component.account.synced_at.strftime("%Y-%m-%d %H:%M")) %></p>
+      <% end %>
+    <% else %>
+      <div class="text-center py-2">
+        <p class="text-sm text-gray-500 dark:text-gray-400 mb-2"><%= t("lottery.dashboard.no_account") %></p>
+        <%= link_to t("lottery.dashboard.connect"), lottery.new_account_path, class: "text-sm text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors duration-200" %>
+      </div>
+    <% end %>
+  </div>
+</div>

@@ -25,7 +25,8 @@ lib/
 engines/                # 플러그인 엔진
 ├── todo/               # 할 일 목록 (Todo::List, Todo::Item - title, url, completed, due_date, recurrence, recurrence_ends_on)
 ├── journal/            # 포스트 (Journal::Post - body)
-└── inspiration/        # 아이디어 꾸러미 (Inspiration::Idea - title, body, reference_url, status / Inspiration::Note - body)
+├── inspiration/        # 아이디어 꾸러미 (Inspiration::Idea - title, body, reference_url, status / Inspiration::Note - body)
+└── lottery/            # 동행복권 (Lottery::Account - 암호화된 login_id, password, 예치금 스냅샷 / Lottery::PurchaseRecord - 구매·당첨 내역, dh_lottery gem 사용)
 docs/
 └── DESIGN_SYSTEM.md    # 디자인 시스템 가이드
 lib/generators/plugin/  # 플러그인 생성 제너레이터

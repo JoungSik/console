@@ -1,0 +1,24 @@
+<% content_for(:title) { t("lottery.accounts.edit.title") } %>
+
+<div class="w-full max-w-lg">
+  <div class="mb-6"
+       data-native-page-navigation>
+    <%= link_to lottery.root_path, class: "inline-flex items-center gap-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors duration-200" do %>
+      <%= lucide_icon "arrow-left", class: "w-4 h-4" %>
+      <%= t("lottery.title") %>
+    <% end %>
+  </div>
+
+  <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm p-4 sm:p-5">
+    <h1 class="text-2xl font-bold text-gray-900 dark:text-white mb-6"
+        data-native-page-title><%= t("lottery.accounts.edit.title") %></h1>
+    <%= render "form", account: @account %>
+  </div>
+
+  <div class="mt-6 flex justify-end">
+    <%= button_to t("lottery.accounts.edit.destroy"), lottery.account_path,
+        method: :delete,
+        form: { data: { turbo_confirm: t("lottery.accounts.edit.destroy_confirm") } },
+        class: "text-sm text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300 transition-colors duration-200" %>
+  </div>
+</div>

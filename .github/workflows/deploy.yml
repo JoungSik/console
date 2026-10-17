@@ -54,6 +54,8 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           build-args: |
             RAILS_MASTER_KEY=${{ secrets.RAILS_MASTER_KEY }}
+          secrets: |
+            bundle_github_token=${{ secrets.BUNDLE_GITHUB_TOKEN }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
