@@ -24,7 +24,8 @@ lib/
     └── plugin_data_cleaner.rb   # 플러그인 데이터 삭제 인터페이스
 engines/                # 플러그인 엔진
 ├── todo/               # 할 일 목록 (Todo::List, Todo::Item - title, url, completed, due_date, recurrence, recurrence_ends_on)
-└── journal/            # 포스트 (Journal::Post - body)
+├── journal/            # 포스트 (Journal::Post - body)
+└── inspiration/        # 아이디어 꾸러미 (Inspiration::Idea - title, body, reference_url, status / Inspiration::Note - body)
 docs/
 └── DESIGN_SYSTEM.md    # 디자인 시스템 가이드
 lib/generators/plugin/  # 플러그인 생성 제너레이터

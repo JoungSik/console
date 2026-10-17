@@ -1,0 +1,17 @@
+<% content_for(:title) { t("inspiration.ideas.edit.title") } %>
+
+<div class="w-full">
+  <div class="mb-6"
+       data-native-page-navigation>
+    <%= link_to inspiration.idea_path(@idea), class: "inline-flex items-center gap-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors duration-200" do %>
+      <%= lucide_icon "arrow-left", class: "w-4 h-4" %>
+      <%= t("inspiration.ideas.edit.back") %>
+    <% end %>
+  </div>
+
+  <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm p-4 sm:p-5">
+    <h1 class="text-2xl font-bold text-gray-900 dark:text-white mb-6"
+        data-native-page-title><%= t("inspiration.ideas.edit.title") %></h1>
+    <%= render "form", idea: @idea %>
+  </div>
+</div>

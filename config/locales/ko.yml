@@ -178,6 +178,8 @@ ko:
       todo_list: "할 일 목록"
       todo: "할 일"
       journal/post: "포스트"
+      inspiration/idea: "아이디어"
+      inspiration/note: "진행 기록"
     attributes:
       notice:
         title: "제목"
@@ -209,6 +211,20 @@ ko:
         url: "링크"
       journal/post:
         body: "내용"
+      inspiration/idea:
+        title: "제목"
+        body: "내용"
+        reference_url: "참고 링크"
+        status: "상태"
+        statuses:
+          spark: "떠오름"
+          reviewing: "검토 중"
+          in_progress: "진행 중"
+          on_hold: "보류"
+          done: "완료"
+          dropped: "폐기"
+      inspiration/note:
+        body: "진행 기록"
     errors:
       models:
         notice:
@@ -230,6 +246,10 @@ ko:
         todo/item:
           attributes:
             url:
+              invalid_url_format: "올바른 URL 형식이 아닙니다. http:// 또는 https://로 시작해야 합니다."
+        inspiration/idea:
+          attributes:
+            reference_url:
               invalid_url_format: "올바른 URL 형식이 아닙니다. http:// 또는 https://로 시작해야 합니다."
     enums:
 
@@ -417,3 +437,47 @@ ko:
         device_cleanup_failed: "서버 구독은 취소했지만 기기의 푸시 알림 등록을 정리하지 못했습니다."
         native_registration_removed: "알림 권한 또는 기기 등록이 없어 기존 구독을 해제했습니다."
         native_sync_failed: "앱의 알림 권한과 구독 상태를 동기화하지 못했습니다."
+
+  inspiration:
+    title: "아이디어 꾸러미"
+    ideas:
+      index:
+        filter_label: "상태 필터"
+        filter_all: "전체"
+        empty_title: "아이디어가 없습니다"
+        empty_description: "떠오른 아이디어를 바로 담아보세요."
+      show:
+        notes_heading: "진행 기록"
+      edit:
+        title: "아이디어 수정"
+        back: "아이디어"
+      form:
+        title_placeholder: "어떤 아이디어가 떠올랐나요?"
+        body_placeholder: "떠오른 계기, 해보고 싶은 것"
+        submit_create: "아이디어 담기"
+        submit_update: "아이디어 수정"
+      idea:
+        edit: "아이디어 수정"
+        delete: "아이디어 삭제"
+        delete_confirm: "정말 삭제하시겠습니까?"
+        notes_count: "진행 기록 %{count}"
+      flash:
+        created: "아이디어가 저장되었습니다."
+        updated: "아이디어가 수정되었습니다."
+        destroyed: "아이디어가 삭제되었습니다."
+    notes:
+      form:
+        placeholder: "검토하거나 진행하면서 알게 된 것"
+        submit: "기록 추가"
+      note_list:
+        empty: "아직 진행 기록이 없습니다."
+      note:
+        delete: "진행 기록 삭제"
+        delete_confirm: "진행 기록을 삭제하시겠습니까?"
+      flash:
+        created: "진행 기록이 추가되었습니다."
+        destroyed: "진행 기록이 삭제되었습니다."
+    dashboard:
+      view_all: "전체보기"
+      recent_heading: "최근 아이디어"
+      empty: "담아둔 아이디어가 없습니다."

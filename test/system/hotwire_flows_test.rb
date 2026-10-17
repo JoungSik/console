@@ -6,6 +6,27 @@ class HotwireFlowsTest < ApplicationSystemTestCase
     sign_in_as @user
   end
 
+  test "아이디어 필터 화면에서 생성해도 새로고침 후 같은 목록을 유지한다" do
+    Inspiration::Idea.create!(title: "검토 중 아이디어", status: :reviewing, user_id: @user.id)
+    visit inspiration.root_url(status: "reviewing")
+
+    fill_in "idea[title]", with: "필터 중 생성 아이디어"
+    click_button "아이디어 담기"
+    assert_text "아이디어가 저장되었습니다."
+    assert_current_path inspiration.root_path(status: "reviewing")
+    within("#ideas") do
+      assert_text "검토 중 아이디어"
+      assert_no_text "필터 중 생성 아이디어"
+    end
+
+    visit current_url
+    within("#ideas") do
+      assert_text "검토 중 아이디어"
+      assert_no_text "필터 중 생성 아이디어"
+    end
+    assert_selector "#idea_filters a[aria-current='page']", text: "검토 중"
+  end
+
   test "Journal 생성 검증 수정 인덱스 삭제를 Turbo 흐름으로 처리한다" do
     visit posts.root_url
     original_path = current_path

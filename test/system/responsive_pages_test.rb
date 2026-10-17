@@ -6,6 +6,8 @@ class ResponsivePagesTest < ApplicationSystemTestCase
     @post = Journal::Post.create!(body: "반응형 포스트", user_id: @user.id)
     @list = Todo::List.create!(title: "반응형 목록", user_id: @user.id)
     @list.items.create!(title: "반응형 할 일", due_date: Date.current)
+    @idea = Inspiration::Idea.create!(title: "반응형 아이디어", reference_url: "https://news.example.com/articles/1", user_id: @user.id)
+    @idea.notes.create!(body: "반응형 진행 기록")
   end
 
   test "모든 공개 사용자 화면은 데스크톱과 모바일 viewport 안에서 동작한다" do
@@ -38,7 +40,10 @@ class ResponsivePagesTest < ApplicationSystemTestCase
       [ todo.lists_url, "a[href='#{todo.new_list_path}']" ],
       [ todo.new_list_url, "form" ],
       [ todo.list_url(@list), "#list_items button" ],
-      [ todo.edit_list_url(@list), "form" ]
+      [ todo.edit_list_url(@list), "form" ],
+      [ inspiration.root_url, "#idea_composer form" ],
+      [ inspiration.idea_url(@idea), "#note_composer form" ],
+      [ inspiration.edit_idea_url(@idea), "form" ]
     ]
 
     [ DESKTOP_VIEWPORT, MOBILE_VIEWPORT ].each do |viewport|

@@ -46,6 +46,7 @@ Rails.application.routes.draw do
   get "/service-worker.js", to: "service_worker#index", as: :service_worker
 
   # 플러그인 Engine 마운트
+  mount Inspiration::Engine, at: "/inspirations"
   mount Journal::Engine, at: "/posts", as: "posts"
   mount Todo::Engine, at: "/todos"
 

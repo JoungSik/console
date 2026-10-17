@@ -24,4 +24,11 @@ class PluginAccessTest < ActionDispatch::IntegrationTest
     get "/posts"
     assert_redirected_to "/"
   end
+
+  test "비활성화된 inspirations 플러그인 경로에 접근하면 홈으로 리다이렉트된다" do
+    UserPlugin.create!(user: @user, plugin_name: "inspirations", enabled: false, disabled_at: Time.current)
+
+    get "/inspirations"
+    assert_redirected_to "/"
+  end
 end

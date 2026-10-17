@@ -1,4 +1,10 @@
 PATH
+  remote: engines/inspiration
+  specs:
+    inspiration (0.1.0)
+      rails (>= 8.0)
+
+PATH
   remote: engines/journal
   specs:
     journal (0.1.0)
@@ -419,6 +425,7 @@ DEPENDENCIES
   debug
   googleauth
   importmap-rails
+  inspiration!
   journal!
   js_admin
   lexxy (~> 1.0.1)

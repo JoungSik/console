@@ -39,6 +39,8 @@ COPY engines/todo/todo.gemspec engines/todo/
 COPY engines/todo/lib/todo/version.rb engines/todo/lib/todo/
 COPY engines/journal/journal.gemspec engines/journal/
 COPY engines/journal/lib/journal/version.rb engines/journal/lib/journal/
+COPY engines/inspiration/inspiration.gemspec engines/inspiration/
+COPY engines/inspiration/lib/inspiration/version.rb engines/inspiration/lib/inspiration/
 RUN bundle install && \
     rm -rf ~/.bundle/ "${BUNDLE_PATH}"/ruby/*/cache "${BUNDLE_PATH}"/ruby/*/bundler/gems/*/.git && \
     bundle exec bootsnap precompile --gemfile

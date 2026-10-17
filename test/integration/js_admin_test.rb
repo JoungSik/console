@@ -38,6 +38,8 @@ class JSAdminTest < ActionDispatch::IntegrationTest
 
   test "허용한 코어와 엔진 모델만 노출한다" do
     expected_model_names = [
+      "Inspiration::Idea",
+      "Inspiration::Note",
       "Journal::Post",
       "PushNotificationLog",
       "PushNotificationSetting",

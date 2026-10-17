@@ -1,0 +1,25 @@
+<div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200">
+  <div class="flex items-center justify-between gap-2 px-4 py-3 border-b border-gray-200 dark:border-gray-700">
+    <div class="flex items-center gap-2 min-w-0">
+      <%= lucide_icon "lightbulb", class: "w-5 h-5 text-blue-600 dark:text-blue-400 flex-shrink-0" %>
+      <h2 class="text-lg font-semibold text-gray-900 dark:text-white truncate"><%= component.plugin_name %></h2>
+    </div>
+    <%= link_to t("inspiration.dashboard.view_all"), inspiration.root_path, class: "flex-shrink-0 text-sm text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors duration-200" %>
+  </div>
+
+  <div class="px-4 py-4">
+    <% if component.recent_ideas.any? %>
+      <h3 class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"><%= t("inspiration.dashboard.recent_heading") %></h3>
+      <ul class="space-y-2">
+        <% component.recent_ideas.each do |idea| %>
+          <li class="flex items-center gap-2 text-sm">
+            <%= render "inspiration/ideas/status_badge", idea: idea %>
+            <%= link_to idea.title, inspiration.idea_path(idea), class: "min-w-0 truncate text-gray-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200" %>
+          </li>
+        <% end %>
+      </ul>
+    <% else %>
+      <p class="text-sm text-gray-500 dark:text-gray-400 text-center py-2"><%= t("inspiration.dashboard.empty") %></p>
+    <% end %>
+  </div>
+</div>
