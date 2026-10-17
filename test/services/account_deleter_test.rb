@@ -18,6 +18,7 @@ class AccountDeleterTest < ActiveSupport::TestCase
     assert_equal 0, PushNotificationSetting.where(user_id: @user.id).count
     assert_equal 0, PushNotificationLog.where(user_id: @user.id).count
     assert_equal 0, UserPlugin.where(user_id: @user.id).count
+    assert_equal 0, PluginPermission.where(user_id: @user.id).count
     assert_equal 0, Journal::Post.where(user_id: @user.id).count
     assert_equal 0, Todo::List.where(user_id: @user.id).count
   end

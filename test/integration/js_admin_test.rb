@@ -41,6 +41,7 @@ class JSAdminTest < ActionDispatch::IntegrationTest
       "Inspiration::Idea",
       "Inspiration::Note",
       "Journal::Post",
+      "PluginPermission",
       "PushNotificationLog",
       "PushNotificationSetting",
       "PushRegistration",
