@@ -1,0 +1,11 @@
+<% content_for(:title) { t("lottery.accounts.new.title") } %>
+
+<div class="w-full max-w-lg">
+  <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm p-4 sm:p-5">
+    <div class="mb-6">
+      <h1 class="text-2xl font-bold text-gray-900 dark:text-white" data-native-page-title><%= t("lottery.accounts.new.title") %></h1>
+      <p class="mt-1 text-sm text-gray-500 dark:text-gray-400"><%= t("lottery.accounts.new.description") %></p>
+    </div>
+    <%= render "form", account: @account %>
+  </div>
+</div>

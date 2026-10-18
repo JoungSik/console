@@ -76,3 +76,5 @@ end
 gem "todo", path: "engines/todo"
 gem "journal", path: "engines/journal"
 gem "inspiration", path: "engines/inspiration"
+gem "dh_lottery", github: "JoungSik/dh_lottery", tag: "v0.1.0"
+gem "lottery", path: "engines/lottery"

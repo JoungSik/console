@@ -1,0 +1,36 @@
+<%= form_with(model: account, scope: :account, url: lottery.account_path, class: "space-y-4", data: { controller: "bridge--form" }) do |form| %>
+  <% if account.errors.any? %>
+    <div class="bg-red-50 dark:bg-red-900 border border-red-200 dark:border-red-700 text-red-700 dark:text-red-100 px-4 py-3 rounded-md">
+      <ul class="text-sm space-y-1">
+        <% account.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :login_id, class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" %>
+    <%= form.text_field :login_id,
+                        autocomplete: "username",
+                        autocapitalize: "none",
+                        class: "w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" %>
+  </div>
+
+  <div>
+    <%= form.label :password, class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" %>
+    <%= form.password_field :password,
+                            value: nil,
+                            autocomplete: "current-password",
+                            placeholder: (t("lottery.accounts.form.password_keep_placeholder") if account.persisted?),
+                            class: "w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" %>
+  </div>
+
+  <p class="text-xs text-gray-500 dark:text-gray-400"><%= t("lottery.accounts.form.security_hint") %></p>
+
+  <div class="flex justify-end">
+    <%= form.submit t("lottery.accounts.form.submit"),
+                    data: { bridge__form_target: "submit", bridge_title: t("actions.save"), turbo_submits_with: t("lottery.accounts.form.submitting") },
+                    class: "inline-flex items-center px-4 py-2 text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 dark:hover:bg-blue-500 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 dark:focus:ring-offset-gray-800" %>
+  </div>
+<% end %>

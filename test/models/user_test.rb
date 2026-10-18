@@ -45,6 +45,28 @@ class UserTest < ActiveSupport::TestCase
     assert_includes enabled_names, :posts
   end
 
+  test "제한된 플러그인은 권한이 없으면 사용할 수 없다" do
+    user = users(:other_user)
+
+    assert_not user.plugin_enabled?(:lotteries)
+    assert_not_includes user.enabled_plugins.map(&:name), :lotteries
+    assert_not_includes user.accessible_plugins.map(&:name), :lotteries
+  end
+
+  test "제한된 플러그인은 권한을 받으면 사용할 수 있다" do
+    user = users(:other_user)
+    PluginPermission.create!(user: user, plugin_name: "lotteries")
+
+    assert user.plugin_enabled?(:lotteries)
+    assert_includes user.enabled_plugins.map(&:name), :lotteries
+  end
+
+  test "권한이 있어도 사용자가 끈 제한 플러그인은 비활성이다" do
+    UserPlugin.create!(user: @user, plugin_name: "lotteries", enabled: false, disabled_at: Time.current)
+
+    assert_not @user.plugin_enabled?(:lotteries)
+  end
+
   test "approaching_deletion_plugins는 삭제 임박 플러그인을 반환한다" do
     UserPlugin.create!(user: @user, plugin_name: "todos", enabled: false, disabled_at: 25.days.ago)
 

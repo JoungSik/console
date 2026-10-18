@@ -41,7 +41,10 @@ COPY engines/journal/journal.gemspec engines/journal/
 COPY engines/journal/lib/journal/version.rb engines/journal/lib/journal/
 COPY engines/inspiration/inspiration.gemspec engines/inspiration/
 COPY engines/inspiration/lib/inspiration/version.rb engines/inspiration/lib/inspiration/
-RUN bundle install && \
+COPY engines/lottery/lottery.gemspec engines/lottery/
+COPY engines/lottery/lib/lottery/version.rb engines/lottery/lib/lottery/
+RUN --mount=type=secret,id=bundle_github_token \
+    BUNDLE_GITHUB__COM="x-access-token:$(cat /run/secrets/bundle_github_token)" bundle install && \
     rm -rf ~/.bundle/ "${BUNDLE_PATH}"/ruby/*/cache "${BUNDLE_PATH}"/ruby/*/bundler/gems/*/.git && \
     bundle exec bootsnap precompile --gemfile
 

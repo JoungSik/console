@@ -1,0 +1,35 @@
+<% content_for(:title) { t("lottery.purchases.preview.title") } %>
+
+<div class="w-full max-w-2xl">
+  <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm p-4 sm:p-5">
+    <div class="mb-6">
+      <h1 class="text-2xl font-bold text-gray-900 dark:text-white" data-native-page-title><%= t("lottery.purchases.preview.title") %></h1>
+      <p class="mt-1 text-sm text-gray-500 dark:text-gray-400"><%= t("lottery.purchases.new.round", round: @order.round, date: l(@order.draw_date, format: :short)) %></p>
+    </div>
+
+    <ul id="lottery_order_summary" class="divide-y divide-gray-200 dark:divide-gray-700 mb-4">
+      <% @order.summary.each do |line| %>
+        <li class="py-2 font-mono text-gray-900 dark:text-white"><%= line %></li>
+      <% end %>
+    </ul>
+
+    <p class="text-right text-lg font-semibold text-gray-900 dark:text-white mb-6">
+      <%= t("lottery.purchases.preview.total", amount: t("lottery.amount", amount: number_with_delimiter(@order.total_amount))) %>
+    </p>
+
+    <%= form_with(model: @order, scope: :order, url: lottery.purchases_path, class: "flex flex-wrap justify-end gap-2", data: { controller: "bridge--form" }) do |form| %>
+      <%= form.hidden_field :round %>
+      <%= form.hidden_field :request_token %>
+      <% @order.games.each_with_index do |game, index| %>
+        <%= hidden_field_tag "order[games][#{index}][selected]", game.selected ? "1" : "0", id: nil %>
+        <%= hidden_field_tag "order[games][#{index}][numbers]", game.numbers, id: nil %>
+      <% end %>
+
+      <%= link_to t("lottery.purchases.preview.back"), lottery.new_purchase_path,
+          class: "inline-flex items-center px-4 py-2 text-sm font-medium rounded-md text-gray-700 dark:text-gray-200 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors duration-200" %>
+      <%= form.submit t("lottery.purchases.preview.submit"),
+                      data: { bridge__form_target: "submit", bridge_title: t("lottery.purchases.preview.submit"), turbo_submits_with: t("lottery.purchases.preview.submitting") },
+                      class: "inline-flex items-center px-4 py-2 text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 dark:hover:bg-blue-500 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 dark:focus:ring-offset-gray-800" %>
+    <% end %>
+  </div>
+</div>

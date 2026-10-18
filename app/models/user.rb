@@ -7,6 +7,7 @@ class User < ApplicationRecord
   has_many :push_registrations, dependent: :destroy
   has_many :push_notification_logs, dependent: :destroy
   has_many :user_plugins, dependent: :destroy
+  has_many :plugin_permissions, dependent: :destroy
   has_many :push_notification_settings, dependent: :destroy
 
   def send_push_notification(title:, body:, url: nil, plugin_name: nil, item_key: nil)
@@ -67,11 +68,20 @@ class User < ApplicationRecord
   end
 
   def plugin_enabled?(plugin_name)
-    !disabled_plugin_names.include?(plugin_name.to_s)
+    plugin_accessible?(plugin_name) && !disabled_plugin_names.include?(plugin_name.to_s)
+  end
+
+  def plugin_accessible?(plugin_name)
+    plugin = PluginRegistry.find(plugin_name.to_sym)
+    !plugin&.restricted? || permitted_plugin_names.include?(plugin_name.to_s)
+  end
+
+  def accessible_plugins
+    PluginRegistry.all.select { |p| plugin_accessible?(p.name) }
   end
 
   def enabled_plugins
-    PluginRegistry.all.reject { |p| disabled_plugin_names.include?(p.name.to_s) }
+    accessible_plugins.reject { |p| disabled_plugin_names.include?(p.name.to_s) }
   end
 
   def approaching_deletion_plugins
@@ -87,5 +97,9 @@ class User < ApplicationRecord
 
   def disabled_plugin_names
     @disabled_plugin_names ||= user_plugins.disabled.pluck(:plugin_name).to_set
+  end
+
+  def permitted_plugin_names
+    @permitted_plugin_names ||= plugin_permissions.pluck(:plugin_name).to_set
   end
 end

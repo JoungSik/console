@@ -47,6 +47,28 @@ class HotwireNativeLayoutTest < ApplicationSystemTestCase
     end
   end
 
+  test "Native 동행복권 화면은 제목만 숨기고 동작 링크와 안내 문구는 유지한다" do
+    use_mobile_viewport
+    user = users(:test_user)
+    sign_in_as user
+    Lottery::Account.create!(user_id: user.id, login_id: "lotto_user", password: "lotto_pass", purchasable: 41_000)
+    original_user_agent = page.evaluate_script("navigator.userAgent")
+    set_user_agent(NATIVE_USER_AGENT)
+
+    begin
+      visit lottery.root_url
+      assert_no_selector "h1", text: I18n.t("lottery.title")
+      assert_selector "a[href='#{lottery.new_purchase_path}']"
+      assert_selector "a[href='#{lottery.edit_account_path}']"
+
+      visit lottery.new_purchase_url
+      assert_no_selector "h1", text: I18n.t("lottery.purchases.new.title")
+      assert_text "41,000원"
+    ensure
+      set_user_agent(original_user_agent)
+    end
+  end
+
   private
 
   def set_user_agent(user_agent)

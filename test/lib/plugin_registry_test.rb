@@ -12,7 +12,7 @@ class PluginRegistryTest < ActiveSupport::TestCase
       PluginRegistry.register(
         name: p.name, label: p.label, icon: p.icon,
         path: p.path, position: p.position, dashboard_component: p.dashboard_component,
-        data_cleaner: p.data_cleaner,
+        data_cleaner: p.data_cleaner, restricted: p.restricted,
         push_notification_items: p.push_notification_items.map { |i| { key: i.key, label: i.label, description: i.description } }
       )
     end
@@ -57,6 +57,25 @@ class PluginRegistryTest < ActiveSupport::TestCase
 
   test "dashboard_plugins는 등록된 것이 없으면 빈 배열을 반환한다" do
     assert_equal [], PluginRegistry.dashboard_plugins
+  end
+
+  test "restricted 없이 등록하면 모든 사용자에게 열린 플러그인이다" do
+    PluginRegistry.register(name: :test, label: "테스트", icon: "box", path: "/test")
+
+    assert_not PluginRegistry.find(:test).restricted?
+  end
+
+  test "restricted로 등록하면 권한이 있는 사용자만 쓰는 플러그인이다" do
+    PluginRegistry.register(name: :test, label: "테스트", icon: "box", path: "/test", restricted: true)
+
+    assert PluginRegistry.find(:test).restricted?
+  end
+
+  test "권한이 필요한 플러그인만 모은다" do
+    PluginRegistry.register(name: :open_plugin, label: "공개", icon: "box", path: "/open")
+    PluginRegistry.register(name: :closed_plugin, label: "제한", icon: "box", path: "/closed", restricted: true)
+
+    assert_equal [ :closed_plugin ], PluginRegistry.restricted_plugins.map(&:name)
   end
 
   test "data_cleaner 없이 등록하면 nil이 기본값" do

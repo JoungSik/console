@@ -8,6 +8,7 @@ class ResponsivePagesTest < ApplicationSystemTestCase
     @list.items.create!(title: "반응형 할 일", due_date: Date.current)
     @idea = Inspiration::Idea.create!(title: "반응형 아이디어", reference_url: "https://news.example.com/articles/1", user_id: @user.id)
     @idea.notes.create!(body: "반응형 진행 기록")
+    Lottery::Account.create!(user_id: @user.id, login_id: "lotto_user", password: "lotto_pass")
   end
 
   test "모든 공개 사용자 화면은 데스크톱과 모바일 viewport 안에서 동작한다" do
@@ -43,7 +44,10 @@ class ResponsivePagesTest < ApplicationSystemTestCase
       [ todo.edit_list_url(@list), "form" ],
       [ inspiration.root_url, "#idea_composer form" ],
       [ inspiration.idea_url(@idea), "#note_composer form" ],
-      [ inspiration.edit_idea_url(@idea), "form" ]
+      [ inspiration.edit_idea_url(@idea), "form" ],
+      [ lottery.root_url, "#lottery_balance button" ],
+      [ lottery.edit_account_url, "form" ],
+      [ lottery.new_purchase_url, "#lottery_games input" ]
     ]
 
     [ DESKTOP_VIEWPORT, MOBILE_VIEWPORT ].each do |viewport|
