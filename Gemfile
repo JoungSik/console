@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
-gem "rails", "~> 8.1.3"
+gem "rails", "~> 8.1.4"
 # The modern asset pipeline for Rails [https://github.com/rails/propshaft]
 gem "propshaft"
 # Use sqlite3 as the database for Active Record
@@ -23,7 +23,7 @@ gem "mission_control-jobs"
 # Generic admin UI for Active Record models
 gem "js_admin"
 # Rich text editor for Action Text
-gem "lexxy", "~> 0.9.32"
+gem "lexxy", "~> 1.0.1"
 # Use Redis adapter to run Action Cable in production
 # gem "redis", ">= 4.0.1"
 
@@ -75,3 +75,6 @@ end
 
 gem "todo", path: "engines/todo"
 gem "journal", path: "engines/journal"
+gem "inspiration", path: "engines/inspiration"
+gem "dh_lottery", github: "JoungSik/dh_lottery", tag: "v0.1.0"
+gem "lottery", path: "engines/lottery"

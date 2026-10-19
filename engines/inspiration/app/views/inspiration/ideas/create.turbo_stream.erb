@@ -1,0 +1,13 @@
+<%= turbo_stream.update "idea_composer" do %>
+  <%= render "form", idea: @idea, status_filter: @status_filter %>
+<% end %>
+
+<%= turbo_stream.update "idea_filters" do %>
+  <%= render "filters", status_filter: @status_filter %>
+<% end %>
+
+<%= turbo_stream.update "ideas" do %>
+  <%= render "idea_list", ideas: @ideas, status_filter: @status_filter %>
+<% end %>
+
+<%= turbo_stream.update "flash", partial: "layouts/shared/alert" %>

@@ -1,0 +1,29 @@
+<article id="<%= dom_id purchase_record %>"
+         class="bg-white dark:bg-gray-800 border rounded-lg shadow-sm p-4 <%= purchase_record.won? ? 'border-amber-400 dark:border-amber-500' : 'border-gray-200 dark:border-gray-700' %>">
+  <div class="flex items-start justify-between gap-3">
+    <div class="min-w-0">
+      <p class="font-semibold text-gray-900 dark:text-white">
+        <%= purchase_record.product_name %>
+        <% if purchase_record.round %>
+          <span class="text-sm font-normal text-gray-500 dark:text-gray-400"><%= t("lottery.overview.round", round: purchase_record.round) %></span>
+        <% end %>
+      </p>
+      <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">
+        <%= t("lottery.overview.purchased_on", date: purchase_record.purchased_on && l(purchase_record.purchased_on, format: :short)) %>
+        · <%= t("lottery.overview.quantity", count: purchase_record.quantity) %>
+        <% if purchase_record.draw_date %>
+          · <%= t("lottery.overview.draw_date", date: l(purchase_record.draw_date, format: :short)) %>
+        <% end %>
+      </p>
+    </div>
+
+    <div class="flex-shrink-0 text-right">
+      <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium <%= purchase_record.won? ? 'bg-amber-100 dark:bg-amber-900 text-amber-800 dark:text-amber-100' : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300' %>">
+        <%= purchase_record.result.presence || t("lottery.overview.result_pending") %>
+      </span>
+      <% if purchase_record.won? %>
+        <p class="mt-1 text-sm font-semibold text-amber-700 dark:text-amber-300"><%= t("lottery.amount", amount: number_with_delimiter(purchase_record.prize_amount)) %></p>
+      <% end %>
+    </div>
+  </div>
+</article>

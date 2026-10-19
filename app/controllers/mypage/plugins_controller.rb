@@ -1,13 +1,13 @@
 class Mypage::PluginsController < Mypage::ApplicationController
   def index
     user_plugins_map = current_user.user_plugins.index_by(&:plugin_name)
-    @plugins = PluginRegistry.all.map { |plugin| plugin_item(plugin, user_plugins_map[plugin.name.to_s]) }
+    @plugins = current_user.accessible_plugins.map { |plugin| plugin_item(plugin, user_plugins_map[plugin.name.to_s]) }
   end
 
   def toggle
     plugin_name = params[:id]
 
-    unless PluginRegistry.registered?(plugin_name.to_sym)
+    unless PluginRegistry.registered?(plugin_name.to_sym) && current_user.plugin_accessible?(plugin_name)
       return respond_with_error(t("settings.plugins.not_found"), redirect_url: mypage_plugins_path)
     end
 

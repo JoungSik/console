@@ -25,6 +25,7 @@ bin/rails generate plugin note 메모 --pretend
 - 대시보드 위젯은 `Console::DashboardComponent`를 상속하고 `plugin_name`, `load_data`, `partial_path`를 구현한다.
 - `Console::PluginInterface`로 코어 사용자 정보에 접근하고 `verify_plugin_enabled`로 비활성 플러그인 접근을 보호한다.
 - 사용자별 플러그인 활성화 상태는 `UserPlugin`과 `/mypage/plugins`에서 관리한다.
+- 일부 사용자만 써야 하는 플러그인은 `PluginRegistry.register`에 `restricted: true`를 지정한다. 사용 권한은 `PluginPermission`에 저장하고 관리자가 `/admin`에서 부여·회수한다.
 - 비활성화 30일 후 `Console::PluginDataCleaner`와 각 Engine의 `DataCleaner`로 데이터를 삭제한다.
 - 푸시 알림 항목은 `PluginRegistry.register`의 `push_notification_items:`에 `{ key:, label:, description: }` 해시 배열로 등록한다.
 - 알림은 `user.send_push_notification(title:, body:, plugin_name:, item_key:)`로 전송하여 플러그인 활성 여부와 사용자 알림 설정을 확인한다.

@@ -1,0 +1,52 @@
+<% content_for(:title) { t("lottery.purchases.new.title") } %>
+
+<div class="w-full max-w-2xl">
+  <div class="mb-6"
+       data-native-page-navigation>
+    <%= link_to lottery.root_path, class: "inline-flex items-center gap-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors duration-200" do %>
+      <%= lucide_icon "arrow-left", class: "w-4 h-4" %>
+      <%= t("lottery.title") %>
+    <% end %>
+  </div>
+
+  <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm p-4 sm:p-5">
+    <div class="mb-6">
+      <h1 class="text-2xl font-bold text-gray-900 dark:text-white" data-native-page-title><%= t("lottery.purchases.new.title") %></h1>
+      <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
+        <%= t("lottery.purchases.new.round", round: @order.upcoming_round, date: l(@order.draw_date, format: :short)) %>
+        · <%= t("lottery.purchases.new.purchasable", amount: t("lottery.amount", amount: number_with_delimiter(@account.purchasable))) %>
+      </p>
+    </div>
+
+    <%= form_with(model: @order, scope: :order, url: lottery.preview_purchases_path, method: :get, class: "space-y-4", data: { controller: "bridge--form" }) do |form| %>
+      <%= render "errors", order: @order %>
+      <%= form.hidden_field :round, value: @order.upcoming_round %>
+
+      <p class="text-sm text-gray-600 dark:text-gray-300"><%= t("lottery.purchases.new.numbers_hint") %></p>
+
+      <div id="lottery_games" class="space-y-3">
+        <% @order.games.each_with_index do |game, index| %>
+          <div class="flex items-center gap-3">
+            <label class="inline-flex items-center gap-2 w-20 flex-shrink-0 text-sm font-medium text-gray-700 dark:text-gray-300">
+              <%= hidden_field_tag "order[games][#{index}][selected]", "0", id: nil %>
+              <%= check_box_tag "order[games][#{index}][selected]", "1", game.selected, id: "order_games_#{index}_selected",
+                                class: "rounded border-gray-300 dark:border-gray-600 dark:bg-gray-700 text-blue-600 focus:ring-blue-500" %>
+              <%= t("lottery.purchases.new.game", letter: game.letter) %>
+            </label>
+            <%= text_field_tag "order[games][#{index}][numbers]", game.numbers,
+                               id: "order_games_#{index}_numbers",
+                               placeholder: t("lottery.purchases.new.numbers_placeholder"),
+                               aria: { label: t("lottery.purchases.new.numbers_label", letter: game.letter) },
+                               class: "min-w-0 flex-1 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" %>
+          </div>
+        <% end %>
+      </div>
+
+      <div class="flex justify-end">
+        <%= form.submit t("lottery.purchases.new.submit"), name: nil,
+                        data: { bridge__form_target: "submit", bridge_title: t("lottery.purchases.new.submit") },
+                        class: "inline-flex items-center px-4 py-2 text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 dark:hover:bg-blue-500 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 dark:focus:ring-offset-gray-800" %>
+      </div>
+    <% end %>
+  </div>
+</div>

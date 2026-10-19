@@ -21,6 +21,18 @@ class Mypage::PluginsTest < ActionDispatch::IntegrationTest
     end
   end
 
+  test "권한이 없는 제한 플러그인은 설정 목록에 표시되지 않고 토글할 수 없다" do
+    sign_in_as users(:other_user)
+
+    get mypage_plugins_url
+    assert_select "h3", { text: "동행복권", count: 0 }
+
+    assert_no_difference "UserPlugin.count" do
+      patch toggle_mypage_plugin_url("lotteries")
+    end
+    assert_redirected_to mypage_plugins_url
+  end
+
   test "플러그인을 비활성화할 수 있다" do
     assert_difference "UserPlugin.count", 1 do
       patch toggle_mypage_plugin_url("posts")

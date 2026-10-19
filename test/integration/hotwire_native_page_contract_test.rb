@@ -8,6 +8,8 @@ class HotwireNativePageContractTest < ActionDispatch::IntegrationTest
     @user = users(:test_user)
     @post = Journal::Post.create!(body: "Native 페이지 계약", user_id: @user.id)
     @list = Todo::List.create!(title: "Native 페이지 계약", user_id: @user.id)
+    @idea = Inspiration::Idea.create!(title: "Native 페이지 계약", user_id: @user.id)
+    Lottery::Account.create!(user_id: @user.id, login_id: "lotto_user", password: "lotto_pass")
     @notice = Notice.create!(title: "Native 공지", published_on: Date.current, position: 1)
   end
 
@@ -41,7 +43,13 @@ class HotwireNativePageContractTest < ActionDispatch::IntegrationTest
       todo.lists_url => "할 일 목록",
       todo.list_url(@list) => @list.title,
       todo.new_list_url => "새 할 일 목록",
-      todo.edit_list_url(@list) => "할 일 목록 수정"
+      todo.edit_list_url(@list) => "할 일 목록 수정",
+      inspiration.root_url => "아이디어 꾸러미",
+      inspiration.idea_url(@idea) => @idea.title,
+      inspiration.edit_idea_url(@idea) => "아이디어 수정",
+      lottery.root_url => "동행복권",
+      lottery.edit_account_url => "동행복권 계정 설정",
+      lottery.new_purchase_url => "로또6/45 구매"
     }
 
     pages.each { |path, title| assert_native_page_contract(path, title:) }

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_08_19_000002) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_17_231224) do
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.text "body"
     t.datetime "created_at", null: false
@@ -56,6 +56,15 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_19_000002) do
     t.date "published_on", null: false
     t.string "title", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "plugin_permissions", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.string "plugin_name", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id", "plugin_name"], name: "index_plugin_permissions_on_user_id_and_plugin_name", unique: true
+    t.index ["user_id"], name: "index_plugin_permissions_on_user_id"
   end
 
   create_table "push_notification_logs", force: :cascade do |t|
@@ -142,6 +151,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_19_000002) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "plugin_permissions", "users"
   add_foreign_key "push_notification_logs", "users"
   add_foreign_key "push_notification_settings", "users"
   add_foreign_key "push_registrations", "sessions"

@@ -1,0 +1,3 @@
+test_user_lotteries:
+  user: test_user
+  plugin_name: lotteries

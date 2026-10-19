@@ -169,6 +169,16 @@ ko:
       reset_password: "비밀번호 재설정"
       email_reset_instructions: "비밀번호 재설정 안내 이메일 보내기"
 
+  activemodel:
+    errors:
+      models:
+        lottery/ticket_order:
+          attributes:
+            base:
+              invalid_tickets: "번호를 확인해 주세요. %{detail}"
+              round_changed: "구매 회차가 바뀌었습니다. 번호를 다시 확인해 주세요."
+              sales_closed: "판매 마감 시간입니다. 토요일 20시부터 일요일 6시까지는 구매할 수 없습니다."
+
   activerecord:
     models:
       notice: "공지사항"
@@ -178,6 +188,9 @@ ko:
       todo_list: "할 일 목록"
       todo: "할 일"
       journal/post: "포스트"
+      inspiration/idea: "아이디어"
+      inspiration/note: "진행 기록"
+      lottery/account: "동행복권 계정"
     attributes:
       notice:
         title: "제목"
@@ -209,6 +222,23 @@ ko:
         url: "링크"
       journal/post:
         body: "내용"
+      inspiration/idea:
+        title: "제목"
+        body: "내용"
+        reference_url: "참고 링크"
+        status: "상태"
+        statuses:
+          spark: "떠오름"
+          reviewing: "검토 중"
+          in_progress: "진행 중"
+          on_hold: "보류"
+          done: "완료"
+          dropped: "폐기"
+      inspiration/note:
+        body: "진행 기록"
+      lottery/account:
+        login_id: "동행복권 아이디"
+        password: "동행복권 비밀번호"
     errors:
       models:
         notice:
@@ -230,6 +260,10 @@ ko:
         todo/item:
           attributes:
             url:
+              invalid_url_format: "올바른 URL 형식이 아닙니다. http:// 또는 https://로 시작해야 합니다."
+        inspiration/idea:
+          attributes:
+            reference_url:
               invalid_url_format: "올바른 URL 형식이 아닙니다. http:// 또는 https://로 시작해야 합니다."
     enums:
 
@@ -417,3 +451,121 @@ ko:
         device_cleanup_failed: "서버 구독은 취소했지만 기기의 푸시 알림 등록을 정리하지 못했습니다."
         native_registration_removed: "알림 권한 또는 기기 등록이 없어 기존 구독을 해제했습니다."
         native_sync_failed: "앱의 알림 권한과 구독 상태를 동기화하지 못했습니다."
+
+  inspiration:
+    title: "아이디어 꾸러미"
+    ideas:
+      index:
+        filter_label: "상태 필터"
+        filter_all: "전체"
+        empty_title: "아이디어가 없습니다"
+        empty_description: "떠오른 아이디어를 바로 담아보세요."
+      show:
+        notes_heading: "진행 기록"
+      edit:
+        title: "아이디어 수정"
+        back: "아이디어"
+      form:
+        title_placeholder: "어떤 아이디어가 떠올랐나요?"
+        body_placeholder: "떠오른 계기, 해보고 싶은 것"
+        submit_create: "아이디어 담기"
+        submit_update: "아이디어 수정"
+      idea:
+        edit: "아이디어 수정"
+        delete: "아이디어 삭제"
+        delete_confirm: "정말 삭제하시겠습니까?"
+        notes_count: "진행 기록 %{count}"
+      flash:
+        created: "아이디어가 저장되었습니다."
+        updated: "아이디어가 수정되었습니다."
+        destroyed: "아이디어가 삭제되었습니다."
+    notes:
+      form:
+        placeholder: "검토하거나 진행하면서 알게 된 것"
+        submit: "기록 추가"
+      note_list:
+        empty: "아직 진행 기록이 없습니다."
+      note:
+        delete: "진행 기록 삭제"
+        delete_confirm: "진행 기록을 삭제하시겠습니까?"
+      flash:
+        created: "진행 기록이 추가되었습니다."
+        destroyed: "진행 기록이 삭제되었습니다."
+    dashboard:
+      view_all: "전체보기"
+      recent_heading: "최근 아이디어"
+      empty: "담아둔 아이디어가 없습니다."
+
+  lottery:
+    title: "동행복권"
+    amount: "%{amount}원"
+    overview:
+      account_settings: "계정 설정"
+      purchase: "로또 구매"
+      purchasable: "구매 가능 금액"
+      total_deposit: "총 예치금"
+      sync: "새로고침"
+      syncing: "불러오는 중..."
+      synced_at: "%{time} 기준"
+      history_heading: "최근 %{days}일 구매/당첨 내역"
+      history_empty: "구매 내역이 없습니다."
+      round: "%{round}회"
+      purchased_on: "구입 %{date}"
+      quantity: "%{count}매"
+      draw_date: "추첨 %{date}"
+      result_pending: "미추첨"
+    accounts:
+      new:
+        title: "동행복권 계정 연결"
+        description: "동행복권 아이디와 비밀번호를 입력하면 예치금과 구매 내역을 불러옵니다."
+      edit:
+        title: "동행복권 계정 설정"
+        destroy: "계정 연결 해제"
+        destroy_confirm: "계정 정보와 저장된 구매 내역이 삭제됩니다. 계속하시겠습니까?"
+      form:
+        password_keep_placeholder: "변경할 때만 입력"
+        security_hint: "계정 정보는 암호화되어 저장되며 동행복권 로그인에만 사용됩니다."
+        submit: "저장하고 불러오기"
+        submitting: "동행복권에 로그인하는 중..."
+      flash:
+        created: "동행복권 계정이 연결되었습니다."
+        updated: "동행복권 계정이 수정되었습니다."
+        destroyed: "동행복권 계정 연결을 해제했습니다."
+    syncs:
+      flash:
+        synced: "예치금과 구매 내역을 불러왔습니다."
+    purchases:
+      new:
+        title: "로또6/45 구매"
+        round: "%{round}회 · 추첨 %{date}"
+        purchasable: "구매 가능 %{amount}"
+        numbers_hint: "구매할 게임을 선택하고 번호를 쉼표로 구분해 입력하세요. 비워두면 자동, 1~5개는 반자동, 6개는 수동입니다."
+        numbers_placeholder: "예: 1, 7, 13 (비우면 자동)"
+        numbers_label: "%{letter} 게임 번호"
+        game: "%{letter} 게임"
+        submit: "구매 내용 확인"
+      preview:
+        title: "구매 확인"
+        total: "결제 금액 %{amount}"
+        back: "다시 선택"
+        submit: "구매하기"
+        submitting: "구매하는 중..."
+      flash:
+        purchased: "%{round}회 %{count}게임을 구매했습니다. %{slots}"
+        dry_run: "모의 구매 모드라 실제로 구매하지 않았습니다. %{round}회 %{count}게임: %{slots}"
+        duplicated: "이미 처리한 구매 요청입니다. 구매 내역을 확인해 주세요."
+    errors:
+      authentication_failed: "동행복권 로그인에 실패했습니다. 아이디와 비밀번호를 확인해 주세요."
+      password_change_required: "동행복권 비밀번호 변경이 필요합니다. 동행복권 사이트에서 비밀번호를 변경한 뒤 다시 시도해 주세요."
+      maintenance: "동행복권 사이트가 점검 중입니다. 잠시 후 다시 시도해 주세요."
+      rate_limited: "동행복권 접속자가 많아 대기 중입니다. 잠시 후 다시 시도해 주세요."
+      insufficient_deposit: "예치금이 부족합니다."
+      purchase_limit: "구매 한도를 초과했습니다."
+      round_mismatch: "판매 회차가 맞지 않거나 판매가 마감되었습니다."
+      purchase_failed: "구매에 실패했습니다. 구매 내역을 새로고침해 확인해 주세요."
+      transport_failed: "동행복권 서버와 통신하지 못했습니다. 구매를 시도했다면 구매 내역을 새로고침해 확인해 주세요."
+      unknown: "동행복권 요청을 처리하지 못했습니다. 잠시 후 다시 시도해 주세요."
+    dashboard:
+      view_all: "전체보기"
+      no_account: "연결된 동행복권 계정이 없습니다."
+      connect: "계정 연결하기"

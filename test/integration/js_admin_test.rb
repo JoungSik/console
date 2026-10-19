@@ -38,7 +38,11 @@ class JSAdminTest < ActionDispatch::IntegrationTest
 
   test "허용한 코어와 엔진 모델만 노출한다" do
     expected_model_names = [
+      "Inspiration::Idea",
+      "Inspiration::Note",
       "Journal::Post",
+      "Lottery::PurchaseRecord",
+      "PluginPermission",
       "PushNotificationLog",
       "PushNotificationSetting",
       "PushRegistration",
@@ -49,6 +53,16 @@ class JSAdminTest < ActionDispatch::IntegrationTest
     ]
 
     assert_equal expected_model_names, JSAdmin.resources.map { |resource| resource.model_class.name }.sort
+  end
+
+  test "플러그인 권한은 권한이 필요한 플러그인 중에서 고른다" do
+    sign_in_as @user
+
+    get "/admin/plugin_permission/new"
+
+    assert_response :success
+    assert_select "select[name='plugin_permission[plugin_name]'] option[value='lotteries']", text: "동행복권"
+    assert_select "select[name='plugin_permission[plugin_name]'] option[value='todos']", count: 0
   end
 
   test "멀티 DB 엔진 모델 목록에 접근할 수 있다" do
